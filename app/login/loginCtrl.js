@@ -27,17 +27,17 @@
 
         function activate() {
             vm.validationData.username = {
-                fieldName  : "username",
+                fieldName: "username",
                 fieldPrefix: "your ",
-                minLength  : 3,
-                required   : true
+                minLength: 3,
+                required: true
             };
 
             vm.validationData.password = {
-                fieldName  : "password",
+                fieldName: "password",
                 fieldPrefix: "your ",
-                minLength  : 6,
-                required   : true
+                minLength: 6,
+                required: true
             };
 
             // Warn about clearing the current session.

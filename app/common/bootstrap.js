@@ -7,7 +7,7 @@
         .run(run);
 
     config.$inject = ["authSvcProvider", "dataContextSvcProvider", "langSvcProvider", "menuSvcProvider"];
-    run.$inject = ["$rootScope", "$translate", "authSvc"];
+    run.$inject = ["$rootScope", "authSvc"];
 
     function config(authSvcProvider, dataContextSvcProvider, langSvcProvider, menuSvcProvider) {
         authSvcProvider.loginUrl = "data/login.json";
@@ -21,7 +21,7 @@
         menuSvcProvider.menuUrlSuffix = ".menu.json";
     }
 
-    function run($rootScope, $translate, authSvc) {
+    function run($rootScope, authSvc) {
         $rootScope.isLoggedIn = authSvc.isLoggedIn;
 
         // For Debugging angular-translate.

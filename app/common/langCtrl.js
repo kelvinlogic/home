@@ -41,7 +41,6 @@
         function setLanguage(newLanguage) {
             $translate.use(newLanguage.code);
             vm.currentLang = newLanguage;
-            $rootScope.currentLang = vm.currentLang;
 
             // Broadcast (dispatch an event downwards through the scope hierarchy) the language changed event from the
             // $rootScope (so that all the listeners in the application know of this change).
