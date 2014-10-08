@@ -1,0 +1,14 @@
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title" data-translate="{{modalCtrl.titleKey}}"></h3>
+    </div>
+    <div class="modal-body">
+        <p data-translate="{{modalCtrl.bodyTextKey}}"></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-ng-if="modalCtrl.okKey" data-ng-click="modalCtrl.ok()"
+                data-translate="{{modalCtrl.okKey}}"></button>
+        <button class="btn btn-warning" data-ng-if="modalCtrl.cancelKey" data-ng-click="modalCtrl.cancel()"
+                data-translate="{{modalCtrl.cancelKey}}"></button>
+    </div>
+</div>

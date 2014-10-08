@@ -1,9 +1,9 @@
 (function () {
-    'use strict';
+    "use strict";
 
     angular
-        .module('fc.startup', [
-            'ui.bootstrap',
-            'fc.common'
+        .module("fc.startup", [
+            "ui.bootstrap",
+            "fc.common"
         ]);
 })();

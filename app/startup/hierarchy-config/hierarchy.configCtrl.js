@@ -5,10 +5,10 @@
         .module("fc.startup")
         .controller("HierarchyConfigCtrl", hierarchyConfigCtrl);
 
-    hierarchyConfigCtrl.$inject = ["$scope", "appConfig", "configSvc", "dataContextSvc", "lodash"];
+    hierarchyConfigCtrl.$inject = ["$modal", "$scope", "$state", "appConfig", "configSvc", "dataContextSvc", "lodash"];
 
     /* @ngInject */
-    function hierarchyConfigCtrl($scope, config, configSvc, datacontext, _) {
+    function hierarchyConfigCtrl($modal, $scope, $state, config, configSvc, dataContextSvc, _) {
         /* jshint validthis: true */
         var vm = this;
         var maxLevels = 9;
@@ -29,10 +29,36 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function activate() {
-            // Register an event listener for language changes.
-            // This event helps us know what language is in use.
-            $scope.$on(config.languageChanged, function (event, language) {
-                load(language);
+            // Check if the language configuration has been performed.
+            dataContextSvc.getConfig().then(function (data) {
+                // If it has been done, show a modal to ask whether to modify the existing configuration.
+                if (data.hierarchy.completed){
+                    var modalInstance = $modal.open({
+                        templateUrl: "common/modal.template.html",
+                        controller: "ModalTemplateCtrl as modalCtrl",
+                        resolve: {
+                            data: function () {
+                                return {
+                                    bodyTextKey: "fc.startup.config.hierarchy.configCompleteModal.COMPLETE_MODAL_CONTENT",
+                                    cancelKey: "fc.NO_TEXT",
+                                    okKey: "fc.YES_TEXT",
+                                    titleKey: "fc.startup.config.hierarchy.configCompleteModal.COMPLETE_MODAL_TITLE"
+                                };
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function () {
+                        // We want to modify...
+                        load();
+                    }, function () {
+                        // We don't want to modify...go to hierarchy configuration.
+                        // Go to the next state...
+                        $state.go("vertical-config");
+                    });
+                } else {
+                    load();
+                }
             });
         }
 
@@ -74,10 +100,16 @@
         }
 
         function load(language) {
-            datacontext.getConfig().then(function () {
+            dataContextSvc.getConfig().then(function () {
                 vm.levels = configSvc.config.hierarchy.levels;
                 // By default, open the first item.
                 vm.levels[0].open = true;
+
+                // Register an event listener for language changes.
+                // This event helps us know what language is in use.
+                $scope.$on(config.languageChanged, function (event, language) {
+                    load(language);
+                });
             });
         }
 

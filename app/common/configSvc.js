@@ -12,7 +12,8 @@
         var service = {
             config: {
                 hierarchy: {},
-                language: {}
+                language: {},
+                vertical: {}
             }
         };
 

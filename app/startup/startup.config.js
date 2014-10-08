@@ -15,6 +15,14 @@
     ]);
 
     function routeConfig($stateProvider, $urlRouterProvider) {
+        var topBarView = {
+            templateUrl: 'common/header.html'
+        };
+
+        var leftNavView = {
+            templateUrl: 'common/left-menu.html'
+        };
+
         // Remove?
         $urlRouterProvider.otherwise('/language-config');
 
@@ -24,12 +32,8 @@
                 '': {
                     templateUrl: 'startup/hierarchy-config/hierarchy.config.html'
                 },
-                'left-nav': {
-                    templateUrl: 'common/left-menu.html'
-                },
-                'top-bar': {
-                    templateUrl: 'common/header.html'
-                }
+                'left-nav': leftNavView,
+                'top-bar': topBarView
             }
         });
 
@@ -39,12 +43,19 @@
                 '': {
                     templateUrl: 'startup/language-config/language.config.html'
                 },
-                'left-nav': {
-                    templateUrl: 'common/left-menu.html'
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
+
+        $stateProvider.state('vertical-config', {
+            url: '/vertical-config',
+            views: {
+                '': {
+                    templateUrl: 'startup/vertical-config/vertical.config.html'
                 },
-                'top-bar': {
-                    templateUrl: 'common/header.html'
-                }
+                'left-nav': leftNavView,
+                'top-bar': topBarView
             }
         });
     }

@@ -7,6 +7,11 @@
         "DATA_VALID_TEXT": "Kila kitu kinaonekana sawa.",
         "DATA_INVALID_TEXT": "Kunaonekana kuwa na tatizo.",
         "ERROR_OCCURRED": "Hatua uliyojaribu kuchukua haiwezi kamilika. Tafadhali jaribu tena baadaye.",
-        "SAVE_TEXT": "Hifadhi"
+        "SAVE_TEXT": "Hifadhi",
+        "OK_TEXT": "Sawa",
+        "CANCEL_TEXT": "Ghairi",
+        "YES_TEXT": "Ndiyo",
+        "NO_TEXT": "Hapana",
+        "SAVE_AND_CONTINUE_TEXT": "Hifadhi na Kuendelea"
     }
 }

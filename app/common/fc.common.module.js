@@ -1,7 +1,8 @@
 (function () {
-    'use strict';
+    "use strict";
 
-    angular.module('fc.common', [
-        'fc'
+    angular.module("fc.common", [
+        "ui.bootstrap",
+        "fc"
     ]);
 })();

@@ -7,27 +7,43 @@
                 "PAGE_TITLE": "Hierarchy Configuration",
                 "WELCOME_TEXT": "Welcome to the FutureCoRe system. Before you begin, you need to provide us with some information about your business' organizational hierarchy.",
                 "HELP_TEXT": "Please enter the relevant information in the dotted lines to proceed. Once all of the information in a hierarchy level is entered, action buttons will appear at the bottom for adding or removing a level. The button with a PLUS icon is used to add a new level just below the current level. The button with a MINUS icon is used to remove the current level.",
+                "SUBMIT_BUTTON_TEXT": "@:fc.SAVE_AND_CONTINUE_TEXT",
 
-                "item": {
-                    "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
-                    "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
+                "configCompleteModal": {
+                    "COMPLETE_MODAL_TITLE": "Hierarchy Configuration Complete",
+                    "COMPLETE_MODAL_CONTENT": "It appears that you have previously performed the language configuration. If you choose to modify it, you will be presented with the current configuration so you can change it. Would you like to modify the existing language configuration?"
                 },
 
                 "input": {
                     "DESCRIPTION_PLACEHOLDER": "Description e.g. Region",
                     "NAME_PLACEHOLDER": "Name e.g. Europe",
                     "CODE_PLACEHOLDER": "Code e.g. EU"
+                },
+
+                "item": {
+                    "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
+                    "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
                 }
             },
+
             "language": {
                 "PAGE_TITLE": "Language Configuration",
+
+                "configCompleteModal": {
+                    "COMPLETE_MODAL_TITLE": "Language Configuration Complete",
+                    "COMPLETE_MODAL_CONTENT": "It appears that you have previously performed the language configuration. If you choose to modify it, you will be presented with the current configuration so you can change it. Would you like to modify the existing language configuration?"
+                },
 
                 "form": {
                     "NO_DEFAULT_LANGUAGE_TEXT": "There were no default languages configured for your system. This could indicate an error in your system configuration.",
                     "DEFAULT_LANGUAGE_LABEL": "Default Languages",
                     "LANGUAGES_SELECTION_LABEL": "Additional Languages.",
-                    "SUBMIT_BUTTON_TEXT": "@:fc.SAVE_TEXT"
+                    "SUBMIT_BUTTON_TEXT": "@:fc.SAVE_AND_CONTINUE_TEXT"
                 }
+            },
+
+            "vertical": {
+                "PAGE_TITLE": "Business Verticals Configuration"
             }
         }
     }

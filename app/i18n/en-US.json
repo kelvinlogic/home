@@ -7,6 +7,11 @@
         "DATA_VALID_TEXT": "Everything seems fine here.",
         "DATA_INVALID_TEXT": "There seems to be a problem.",
         "ERROR_OCCURRED": "The action you requested could not be completed. Please try again later.",
-        "SAVE_TEXT": "Save"
+        "SAVE_TEXT": "Save",
+        "OK_TEXT": "OK",
+        "CANCEL_TEXT": "Cancel",
+        "YES_TEXT": "YES",
+        "NO_TEXT": "NO",
+        "SAVE_AND_CONTINUE_TEXT": "Save and Continue"
     }
 }
