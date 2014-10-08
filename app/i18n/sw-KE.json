@@ -1,0 +1,12 @@
+{
+    "fc": {
+        "APP_NAME": "FutureCoRe",
+        "CREATE_ACCOUNT_LABEL": "Unahitaji akaunti?",
+        "CREATE_ACCOUNT_BUTTON_TEXT": "Fungua akaunti",
+        "UPDATE_BROWSER_REMINDER_TEXT": "Kivinjari wavuti chako kimepitwa na wakati. Tafadhali kisasishe kwa kwenda kwa www.microsoft.com/download",
+        "DATA_VALID_TEXT": "Kila kitu kinaonekana sawa.",
+        "DATA_INVALID_TEXT": "Kunaonekana kuwa na tatizo.",
+        "ERROR_OCCURRED": "Hatua uliyojaribu kuchukua haiwezi kamilika. Tafadhali jaribu tena baadaye.",
+        "SAVE_TEXT": "Hifadhi"
+    }
+}

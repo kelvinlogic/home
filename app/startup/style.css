@@ -1,0 +1,48 @@
+.fc-config-section .well {
+    margin-bottom: 5px;
+}
+
+.fc-config-section .fc-link-arrow {
+    margin-bottom: 5px;
+}
+
+.fc-config-section .well h1,
+.fc-config-section .well h2,
+.fc-config-section .well h3,
+.fc-config-section .well h4,
+.fc-config-section .well h5,
+.fc-config-section .well h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/*
+ *  Centering Hack BEGIN
+ *  See http://css-tricks.com/centering-in-the-unknown/
+ */
+.fc-block {
+    text-align: center;
+}
+
+.fc-block:before {
+    display: inline-block;
+    /* For visualization
+      background: #808080; width: 5px;
+      */
+
+    margin-right: -0.25em;
+    /*height: 100%;*/
+    /*vertical-align: middle;*/
+
+    content: ''; /* Adjusts for spacing */
+}
+
+.fc-centered {
+    display: inline-block;
+
+    vertical-align: middle;
+}
+
+/*
+ *  Centering Hack END
+**/

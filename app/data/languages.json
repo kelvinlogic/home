@@ -1,0 +1,8 @@
+[
+    {"code": "en-US", "default": true, "id": 0, "name": "English US"},
+    {"code": "sw-KE", "id": 1, "name": "Swahili"},
+    {"code": "ar-AE", "id": 2, "name": "Arabic"},
+    {"code": "it-IT", "id": 3, "name": "Italian"},
+    {"code": "fr-FR", "id": 4, "name": "French"},
+    {"code": "es-ES", "id": 5, "name": "Spanish"}
+]

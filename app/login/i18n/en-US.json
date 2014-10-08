@@ -1,0 +1,22 @@
+{
+    "fc.login": {
+        "HEADER_BIG_TEXT": "@:fc.APP_NAME",
+        "HERO_PARAGRAPH_TEXT": "It's Okay to be Smart. Experience the simplicity of FutureCoRe, everywhere you go!",
+        "ABOUT_1_HEADER_TEXT": "About FutureCoRe - Are you up to date?",
+        "ABOUT_1_PARAGRAPH_TEXT": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.",
+        "ABOUT_2_HEADER_TEXT": "Not just your average template!",
+        "ABOUT_2_PARAGRAPH_TEXT": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi voluptatem accusantium!",
+
+        "form": {
+            "TITLE": "Sign In",
+            "USERNAME_LABEL": "Username",
+            "PASSWORD_LABEL": "Password",
+            "INPUT_TOOLTIP_TEXT": "Please enter {{fieldPrefix}}{{fieldName}}.",
+            "REQUIRED_FIELD_VALIDATION_TEXT": "Sorry, but you can't leave the {{fieldName}} blank.",
+            "MIN_LENGTH_FIELD_VALIDATION_TEXT": "Please check that the {{fieldName}} you provided is at least {{minLength}} characters long.",
+            "PASSWORD_RECOVERY_LINK_TEXT": "Forgot password?",
+            "PERSIST_LOGIN_OPTION_LABEL": "Stay signed in",
+            "SUBMIT_BUTTON_TEXT": "Sign in"
+        }
+    }
+}

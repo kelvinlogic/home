@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "name": "Users",
+        "state": "shell.users.list"
+    },
+    {
+        "id": 2,
+        "name": "Register",
+        "state": "shell.company.register",
+        "items": [
+            {
+                "id": 4,
+                "name": "Licenses",
+                "state": "shell.company.licenses"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Licenses",
+        "state": "shell.company.licenses"
+    }
+]

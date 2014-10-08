@@ -1,0 +1,9 @@
+{
+    "fc.common": {
+        "SIGN_OUT_TEXT": "Sign Out",
+
+        "errors": {
+            "REMOTE_ACCESS_DENIED": "Access to a resource was denied. Login with different credentials or contact your system administrator."
+        }
+    }
+}

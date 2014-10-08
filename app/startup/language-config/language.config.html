@@ -1,0 +1,55 @@
+<div data-ng-controller="LanguageConfigCtrl as configCtrl">
+    <div class="row">
+        <div class="col-md-12 well no-padding">
+            <form name="loginFormCtrl" class="smart-form" data-ng-submit="configCtrl.submit()">
+                <header data-translate="{{configCtrl.titleKey}}"></header>
+                <fieldset>
+                    <section data-ng-if="configCtrl.messageKey">
+                        <div class="alert alert-danger fade in">
+                            <button class="close" data-dismiss="alert">
+                                ×
+                            </button>
+                            <span data-translate="{{configCtrl.messageKey}}"></span>
+                        </div>
+                    </section>
+                    <div class="row">
+                        <section class="col col-4">
+                            <label data-translate="fc.startup.config.language.form.DEFAULT_LANGUAGE_LABEL"></label>
+                            <div class="fc-block"
+                                 data-ng-if="!configCtrl.defaultLanguages || !configCtrl.defaultLanguages.length">
+                                <div class="fc-centered text-muted">
+                                    <p>
+                                        <i class="fa fa-warning fa-2x"></i>
+                                    </p>
+
+                                    <p data-translate="fc.startup.config.language.form.NO_DEFAULT_LANGUAGE_TEXT"></p>
+                                </div>
+                            </div>
+                            <label class="checkbox"
+                                   data-ng-repeat="language in configCtrl.defaultLanguages | orderBy: ['name']"
+                                   data-ng-class="{'state-disabled': language.default}"
+                                   data-ng-if="configCtrl.defaultLanguages && configCtrl.defaultLanguages.length">
+                                <input type="checkbox" name="checkbox" data-ng-model="language.default"
+                                       data-ng-disabled="language.default">
+                                <i></i>{{language.name}}
+                            </label>
+                        </section>
+                        <section class="col col-4"></section>
+
+                        <section class="col col-4">
+                            <label data-translate="fc.startup.config.language.form.LANGUAGES_SELECTION_LABEL"></label>
+                            <label class="checkbox" data-ng-repeat="language in configCtrl.languages | orderBy: ['name']">
+                                <input type="checkbox" name="checkbox" data-ng-model="language.selected">
+                                <i></i>{{language.name}}
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+                <footer>
+                    <button type="submit" class="btn btn-primary" data-ng-disabled="!loginFormCtrl.$valid"
+                            data-translate="fc.startup.config.language.form.SUBMIT_BUTTON_TEXT"></button>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>

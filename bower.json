@@ -1,0 +1,16 @@
+{
+  "name": "FC1",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "angular-ui-router": "~0.2.11",
+    "angular-translate": "~2.4.0",
+    "angular-translate-loader-partial": "~2.4.0",
+    "lodash": "~2.4.1",
+    "jquery-ui": "~1.11.1"
+  }
+}

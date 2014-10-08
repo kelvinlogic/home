@@ -1,0 +1,22 @@
+{
+    "fc.login": {
+        "HEADER_BIG_TEXT": "@:fc.APP_NAME",
+        "HERO_PARAGRAPH_TEXT": "Ni Sawa kuwa Mwerevu. Zoea urahisi wa FutureCoRe, kila uendako!",
+        "ABOUT_1_HEADER_TEXT": "Kuhusu FutureCoRe - Je, umepitwa na wakati?",
+        "ABOUT_1_PARAGRAPH_TEXT": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.",
+        "ABOUT_2_HEADER_TEXT": "Si tu kiolezo chako cha wastani!",
+        "ABOUT_2_PARAGRAPH_TEXT": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi voluptatem accusantium!",
+
+        "form": {
+            "TITLE": "Ingia",
+            "USERNAME_LABEL": "Jina la mtumiaji",
+            "PASSWORD_LABEL": "Neno lako la Siri",
+            "INPUT_TOOLTIP_TEXT": "Tafadhali weka {{fieldPrefix}}{{fieldName}}.",
+            "REQUIRED_FIELD_VALIDATION_TEXT": "Pole, lakini huwezi kuacha {{fieldName}} tupu.",
+            "MIN_LENGTH_FIELD_VALIDATION_TEXT": "Tafadhali angalia kwamba {{fieldName}} uliyotoa ni angalau herufi 2 katika urefu.",
+            "PASSWORD_RECOVERY_LINK_TEXT": "Je, umesahau neno lako la siri?",
+            "PERSIST_LOGIN_OPTION_LABEL": "Nikumbuke nikija tena",
+            "SUBMIT_BUTTON_TEXT": "Ingia"
+        }
+    }
+}

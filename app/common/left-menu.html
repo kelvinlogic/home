@@ -1,0 +1,23 @@
+<aside id="left-panel" data-ng-controller="LeftMenuCtrl as leftMenuCtrl">
+    <!-- User info -->
+    <div class="login-info">
+        <span> <!-- User image size is adjusted inside CSS, it should stay as is -->
+            <a href="javascript:void(0);">
+                <img data-ng-src="{{leftMenuCtrl.currentUser.imageUrl || 'theme/SmartAdmin/img/avatars/male.png'}}"
+                     alt="me" class="online"/>
+                <span data-ng-bind="leftMenuCtrl.currentUser.name || 'Guest'"></span>
+            </a>
+        </span>
+    </div>
+    <!-- end user info -->
+
+    <div data-navigation>
+        <div title="{{nav.name}}" data-nav-item data-ng-repeat="nav in leftMenuCtrl.items" data-state="nav.state"
+             data-ng-if="!nav.items"></div>
+
+        <div title="{{nav.name}}" data-nav-group data-ng-repeat="nav in leftMenuCtrl.items" data-state="nav.state"
+             data-ng-if="nav.items">
+            <div data-nav-item data-ng-repeat="subNav in nav.items" title="{{subNav.name}}"></div>
+        </div>
+    </div>
+</aside>

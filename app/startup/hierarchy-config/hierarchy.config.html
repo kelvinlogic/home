@@ -1,0 +1,78 @@
+<div data-ng-controller="HierarchyConfigCtrl as configCtrl">
+    <div class="well">
+        <h1 class="page-title" data-translate="{{configCtrl.titleKey}}"></h1>
+
+        <h4 data-translate="fc.startup.config.hierarchy.WELCOME_TEXT"></h4>
+
+        <p></p>
+
+        <p data-translate="fc.startup.config.hierarchy.HELP_TEXT"></p>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-7 center-block" style="float: none">
+            <div data-accordion data-close-others="true">
+                <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in configCtrl.levels">
+                    <div data-accordion-heading>
+                        <h4>
+                            <span data-ng-bind="level.description || 'Level ' + $index"></span>
+
+                            <!-- Produces output in the form of [a - b] or [a] or [b]. -->
+                            <small data-ng-if="level.data.name || level.data.code">[</small>
+                            <small data-ng-bind="level.data.name" data-ng-if="level.data.name"></small>
+                            <small data-ng-if="level.data.name && level.data.code">-</small>
+                            <small data-ng-bind="level.data.code" data-ng-if="level.data.code"></small>
+                            <small data-ng-if="level.data.name || level.data.code">]</small>
+
+                            <span class="text-success pull-right animated fadeInRight fast"
+                                  title="{{'fc.startup.config.hierarchy.item.DATA_VALID_TITLE' | translate}}"
+                                  data-ng-if="configCtrl.validLevel(level)">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span class="text-danger pull-right animated fadeInRight fast"
+                                  title="{{'fc.startup.config.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
+                                  data-ng-if="!configCtrl.validLevel(level)">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    <div class="fc-block">
+                        <form>
+                            <div data-ng-if="!level.pin && !level.id">
+                                <input type="text" class="fc-input-full-width fc-input-empty" autofocus
+                                       placeholder="{{'fc.startup.config.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
+                                       data-ng-model="level.description"/>
+                            </div>
+                            <div>
+                                <input type="text" class="fc-input-full-width fc-input-empty" autofocus
+                                       placeholder="{{'fc.startup.config.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
+                                       data-ng-model="level.data.name"/>
+                            </div>
+                            <div>
+                                <input type="text" class="fc-input-full-width fc-input-empty"
+                                       placeholder="{{'fc.startup.config.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
+                                       data-ng-model="level.data.code"/>
+                            </div>
+
+                            <div class="fc-centered">
+                                <button class="btn btn-circle" type="submit" style="transition: 200ms all ease-in"
+                                        data-ng-class="{'btn-primary': configCtrl.validLevel(level)}"
+                                        data-ng-if="configCtrl.canAddLevelAfter(level)"
+                                        data-ng-click="configCtrl.addLevelAfter(level)"
+                                        data-ng-disabled="!configCtrl.validLevel(level)">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                <button class="btn btn-circle" data-ng-if="configCtrl.canRemoveLevel(level)"
+                                        data-ng-click="configCtrl.removeLevel(level)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary pull-right"
+                    data-translate="fc.startup.config.language.form.SUBMIT_BUTTON_TEXT"
+                    data-ng-disabled="!configCtrl.validate()" data-ng-click="configCtrl.save()"></button>
+        </div>
+    </div>
+</div>

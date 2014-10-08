@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+        <h1 class="txt-color-red login-header-big" data-translate="fc.login.HEADER_BIG_TEXT"></h1>
+        <div class="hero">
+            <div class="pull-left login-desc-box-l">
+                <h4 class="paragraph-header" data-translate="fc.login.HERO_PARAGRAPH_TEXT"></h4>
+            </div>
+
+            <img src="theme/SmartAdmin/img/demo/iphoneview.png" class="pull-right display-image" alt=""
+                 style="width:210px">
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <h5 class="about-heading" data-translate="fc.login.ABOUT_1_HEADER_TEXT"></h5>
+                <p data-translate="fc.login.ABOUT_1_PARAGRAPH_TEXT"></p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <h5 class="about-heading" data-translate="fc.login.ABOUT_2_HEADER_TEXT"></h5>
+                <p data-translate="fc.login.ABOUT_2_PARAGRAPH_TEXT"></p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4" data-ng-controller="LoginCtrl as loginCtrl">
+        <div class="well no-padding">
+            <form name="loginFormCtrl" class="smart-form client-form" data-ng-submit="loginCtrl.submit()">
+                <header data-translate="{{loginCtrl.titleKey}}"></header>
+                <fieldset>
+                    <section data-ng-if="loginCtrl.messageKey">
+                        <div class="alert alert-danger fade in">
+                            <button class="close" data-dismiss="alert">
+                                ×
+                            </button>
+                            <span data-translate="{{loginCtrl.messageKey}}"></span>
+                        </div>
+                    </section>
+                    <section data-ng-if="loginCtrl.message">
+                        <div class="alert alert-danger fade in">
+                            <button class="close" data-dismiss="alert">
+                                ×
+                            </button>
+                            <span data-ng-bind="loginCtrl.message"></span>
+                        </div>
+                    </section>
+                    <section>
+                        <label class="label" for="username"
+                               data-translate="fc.login.form.USERNAME_LABEL"></label>
+                        <label class="input"
+                               data-ng-class="{'state-error': !loginFormCtrl.username.$valid && !loginFormCtrl.username.$pristine}">
+                            <i class="icon-append fa fa-user"></i>
+                            <input id="username" type="text" name="username"
+                                   data-ng-required="loginCtrl.validationData.username.required"
+                                   data-ng-minlength="{{loginCtrl.validationData.username.minLength}}"
+                                   data-ng-model="loginCtrl.loginModel.username">
+                            <b class="tooltip tooltip-top-right">
+                                <i class="fa fa-lock txt-color-teal"></i>
+                                <span data-translate="fc.login.form.INPUT_TOOLTIP_TEXT"
+                                      data-translate-values="{{loginCtrl.validationData.username}}"></span>
+                            </b>
+                        </label>
+                        <em class="invalid"
+                            data-ng-show="!loginFormCtrl.username.$valid && !loginFormCtrl.username.$pristine">
+                            <span data-ng-if="loginCtrl.validationData.username.required"
+                                  data-ng-show="loginFormCtrl.username.$error.required"
+                                  data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
+                                  data-translate-values="{{loginCtrl.validationData.username}}">
+                            </span>
+                            <span data-ng-if="loginCtrl.validationData.username.minLength"
+                                  data-ng-show="loginFormCtrl.username.$error.minlength"
+                                  data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
+                                  data-translate-values="{{loginCtrl.validationData.username}}">
+                            </span>
+                        </em>
+                    </section>
+
+                    <section>
+                        <label class="label" for="password"
+                               data-translate="fc.login.form.PASSWORD_LABEL"></label>
+                        <label class="input"
+                               data-ng-class="{'state-error': !loginFormCtrl.password.$valid && !loginFormCtrl.password.$pristine}">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input id="password" type="password" name="password"
+                                   data-ng-required="loginCtrl.validationData.password.required"
+                                   data-ng-minlength="{{loginCtrl.validationData.password.minLength}}"
+                                   data-ng-model="loginCtrl.loginModel.password">
+                            <b class="tooltip tooltip-top-right">
+                                <i class="fa fa-lock txt-color-teal"></i>
+                                <span data-translate="fc.login.form.INPUT_TOOLTIP_TEXT"
+                                      data-translate-values="{{loginCtrl.validationData.password}}"></span>
+                            </b>
+                        </label>
+                        <em class="invalid"
+                            data-ng-show="!loginFormCtrl.password.$valid && !loginFormCtrl.password.$pristine">
+                            <span data-ng-if="loginCtrl.validationData.password.required"
+                                  data-ng-show="loginFormCtrl.password.$error.required"
+                                  data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
+                                  data-translate-values="{{loginCtrl.validationData.password}}">
+                            </span>
+                            <span data-ng-if="loginCtrl.validationData.password.minLength"
+                                  data-ng-show="loginFormCtrl.password.$error.minlength"
+                                  data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
+                                  data-translate-values="{{loginCtrl.validationData.password}}">
+                            </span>
+                        </em>
+                        <div class="note">
+                            <a href="#" data-translate="fc.login.form.PASSWORD_RECOVERY_LINK_TEXT"></a>
+                        </div>
+                    </section>
+
+                    <section>
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" data-ng-model="loginCtrl.loginModel.remember">
+                            <i></i><span data-translate="fc.login.form.PERSIST_LOGIN_OPTION_LABEL"></span>
+                        </label>
+                    </section>
+                </fieldset>
+                <footer>
+                    <button type="submit" class="btn btn-primary" data-ng-disabled="!loginFormCtrl.$valid"
+                            data-translate="fc.login.form.SUBMIT_BUTTON_TEXT">
+                    </button>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>

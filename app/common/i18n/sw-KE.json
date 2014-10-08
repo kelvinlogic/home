@@ -1,0 +1,9 @@
+{
+    "fc.common": {
+        "SIGN_OUT_TEXT": "Toka",
+
+        "errors": {
+            "REMOTE_ACCESS_DENIED": "Upatikanaji wa rasilimali lilikataliwa. Tafadhali ingia na sifa tofauti au wasiliana na mtawala wako kwa msaada."
+        }
+    }
+}

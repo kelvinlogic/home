@@ -1,0 +1,40 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+
+/* Custom input styles */
+input.fc-input-empty {
+    background: none;
+    border: 1px dotted transparent;
+    border-bottom-color: #bbbbbb;
+    padding: 4px 7px;
+    margin-bottom: 10px;
+}
+
+input.fc-input-empty:focus {
+    border: 1px dashed #bbbbbb;
+}
+
+input.fc-input-empty[disabled] {
+    border-color: transparent;
+}
+
+input.fc-input-full-width {
+    width: 100%;
+}
