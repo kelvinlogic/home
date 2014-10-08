@@ -29,7 +29,8 @@
                 if (data.language.completed){
                     var modalInstance = $modal.open({
                         templateUrl: "common/modal.template.html",
-                        controller: "ModalTemplateCtrl as modalCtrl",
+                        controller: "ModalTemplateCtrl",
+                        controllerAs: "modalCtrl",
                         resolve: {
                             data: function () {
                                 return {
