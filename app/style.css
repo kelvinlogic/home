@@ -1,0 +1,103 @@
+.fc-config-section .well {
+    margin-bottom: 5px;
+}
+
+.fc-config-section .fc-link-arrow {
+    margin-bottom: 5px;
+}
+
+.fc-config-section .well h1,
+.fc-config-section .well h2,
+.fc-config-section .well h3,
+.fc-config-section .well h4,
+.fc-config-section .well h5,
+.fc-config-section .well h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/*
+ *  Centering Hack BEGIN
+ *  See http://css-tricks.com/centering-in-the-unknown/
+ */
+.fc-block {
+    text-align: center;
+}
+
+.fc-block:before {
+    display: inline-block;
+    /* For visualization
+      background: #808080; width: 5px;
+      */
+
+    margin-right: -0.25em;
+    /*height: 100%;*/
+    /*vertical-align: middle;*/
+
+    content: ''; /* Adjusts for spacing */
+}
+
+.fc-centered {
+    display: inline-block;
+
+    vertical-align: middle;
+}
+
+/*
+ *  Centering Hack END
+**/
+
+/*
+ *  Keyboard action button styling.
+**/
+.fc-keyboard-icon {
+    background: none;
+    padding: 4px 2px;
+    box-shadow: none;
+    float: right;
+}
+
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.btn-header.active > :first-child > a {
+    background-color: #e8e8e8;
+    background-image: -moz-linear-gradient(top,#5a5a5a 0,#686868 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#5a5a5a),color-stop(100%,#686868));
+    background-image: -webkit-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: -o-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: -ms-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5A5A5A', endColorstr='#686868', GradientType=0);
+    -webkit-box-shadow: inset 0 0 3px 1px rgba(0,0,0,.15);
+    box-shadow: inset 0 0 3px 1px rgba(0,0,0,.15);
+    color: #fff;
+    border-color: #494949;
+}
+
+.ui-keyboard-input-current {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.ui-keyboard-header {
+    min-height: 25px;
+    background: #dddddd;
+    margin: -4px -4px 0 -4px;
+    padding: 4px;
+}
+
+#extr-page #extr-page-header-space {
+    margin-right: 2em;
+}
+
+#extr-page #header {
+    overflow: visible;
+}
+
+#extr-page #header > .pull-right {
+    margin-top: 0.9em;
+}

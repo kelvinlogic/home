@@ -35,8 +35,7 @@
                 if (data.hierarchy.completed){
                     var modalInstance = $modal.open({
                         templateUrl: "common/modal.template.html",
-                        controller: "ModalTemplateCtrl",
-                        controllerAs: "modalCtrl",
+                        controller: "ModalTemplateCtrl as modalCtrl",
                         resolve: {
                             data: function () {
                                 return {

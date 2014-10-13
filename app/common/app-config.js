@@ -12,6 +12,7 @@
         conf.loginPage = "login.html";
         conf.defaultPage = "startup.html";
 
+        conf.keyboardToggledEvent = 'fc.keyboardToggled';
         conf.languageChanged = 'fc.languageChanged';
 
         return conf;

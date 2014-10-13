@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="theme/SmartAdmin/css/smartadmin-production.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="theme/SmartAdmin/css/smartadmin-skins.min.css">
 
+    <!-- Keyboard Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="bower_components/keyboard/css/keyboard.css">
+
     <!-- SmartAdmin RTL Support is under construction
          This RTL CSS will be released in version 1.5
     <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css"> -->
@@ -25,7 +28,7 @@
          specific styles this will also ensure you retrain your customization with each SmartAdmin update.
     -->
     <link rel="stylesheet" type="text/css" media="screen" href="theme/SmartAdmin/css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="startup/style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="theme/SmartAdmin/img/favicon/favicon.ico" type="image/x-icon">
@@ -77,6 +80,13 @@
     }
 </script>
 
+<!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
+<script>
+    if (!window.jQuery.ui) {
+        document.write('<script src="bower_components/jquery-ui/jquery-ui.js"><\/script>');
+    }
+</script>
+
 <!-- AngularJS -->
 <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>-->
 <script>
@@ -85,11 +95,18 @@
     }
 </script>
 
+<!-- Mottie Keyboard JS -->
+<script src="bower_components/keyboard/js/jquery.keyboard.js"></script>
+<script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
+
 <!-- Lodash JS -->
 <script src="bower_components/lodash/dist/lodash.js"></script>
 
 <!-- BOOTSTRAP JS -->
 <script src="theme/SmartAdmin/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- Angular UI Bootstrap -->
+<script src="theme/SmartAdmin/js/libs/angular/ui-bootstrap-custom-tpls-0.11.0.js"></script>
 
 <!-- Angular UI Router -->
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -113,6 +130,8 @@
 <!--<script src="common/auth-interceptor.js"></script>-->
 <script src="common/configSvc.js"></script>
 <script src="common/dataContextSvc.js"></script>
+<script src="common/keyboard/keyboard.angular.js"></script>
+<script src="common/keyboard/layouts/arabic.js"></script>
 <script src="common/langSvc.js"></script>
 <script src="common/menuSvc.js"></script>
 <script src="common/bootstrap.js"></script>
@@ -121,6 +140,7 @@
 <script src="common/langCtrl.js"></script>
 <script src="common/signOutCtrl.js"></script>
 <script src="common/headerCtrl.js"></script>
+<script src="common/keyboard.toggleCtrl.js"></script>
 
 <!-- Login app modules -->
 <!-- Module defs, Constants, Configs & Services -->

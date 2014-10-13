@@ -38,19 +38,19 @@
                     <div class="fc-block">
                         <form>
                             <div data-ng-if="!level.pin && !level.id">
-                                <input type="text" class="fc-input-full-width fc-input-empty" autofocus
+                                <input type="text" class="fc-input-full-width fc-input-empty"
                                        placeholder="{{'fc.startup.config.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
-                                       data-ng-model="level.description"/>
+                                       data-ng-model="level.description" data-vt-keyboard/>
                             </div>
                             <div>
-                                <input type="text" class="fc-input-full-width fc-input-empty" autofocus
+                                <input type="text" class="fc-input-full-width fc-input-empty"
                                        placeholder="{{'fc.startup.config.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
-                                       data-ng-model="level.data.name"/>
+                                       data-ng-model="level.data.name" data-vt-keyboard/>
                             </div>
                             <div>
                                 <input type="text" class="fc-input-full-width fc-input-empty"
                                        placeholder="{{'fc.startup.config.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
-                                       data-ng-model="level.data.code"/>
+                                       data-ng-model="level.data.code" data-vt-keyboard/>
                             </div>
 
                             <div class="fc-centered">
