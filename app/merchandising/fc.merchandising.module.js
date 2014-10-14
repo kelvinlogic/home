@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("fc.startup", [
+        .module("fc.merchandising", [
             "ui.bootstrap",
             "fc.common"
         ]);
