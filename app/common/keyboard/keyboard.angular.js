@@ -71,10 +71,10 @@
         }
     }
 
-    keyboardDirective.$inject = ["lodash", "$rootScope", "$timeout", "configSvc", "keyboardConfigSvc"];
+    keyboardDirective.$inject = ["$rootScope", "$timeout", "configSvc", "keyboardConfigSvc"];
 
-    function keyboardDirective(_, $rootScope, $timeout, configSvc, keyboardConfigSvc) {
-        var kbElems = null;
+    function keyboardDirective($rootScope, $timeout, configSvc, keyboardConfigSvc) {
+        var kbElements = null;
 
         return {
             restrict: "A",
@@ -84,7 +84,7 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function changeLanguage() {
-            if (!kbElems){
+            if (!kbElements){
                 return;
             }
 
@@ -96,7 +96,7 @@
             var layout = keyboardConfigSvc.languageLayoutMapping[config.languageCode].layout;
 
             // Check if the keyboard language is the same as the new language.
-            if (keyboardConfigSvc.config.layout === layout && $(kbElems).data('keyboard')){
+            if (keyboardConfigSvc.config.layout === layout && kbElements.data('keyboard')){
                 return;
             }
 
@@ -110,31 +110,19 @@
         }
 
         function disableKeyboards(elements) {
-            if (_.isArray(elements)) {
-                _.forEach(elements, function (element) {
-                    if ($(element).data('keyboard')){
-                        $(element).getkeyboard().destroy();
-                    }
-                });
-            } else {
-                if ($(elements).data('keyboard')){
-                    $(elements).getkeyboard().destroy();
+            elements.each(function (i, element) {
+                if ($(element).data('keyboard')){
+                    $(element).getkeyboard().destroy();
                 }
-            }
+            });
         }
 
         function enableKeyboards(elements, config) {
-            if(_.isArray(elements)){
-                _.forEach(elements, function (element) {
-                    if (!$(element).data('keyboard')){
-                        $(element).keyboard(config).addTyping();
-                    }
-                });
-            }else{
-                if (!$(kbElems).data('keyboard')){
-                    $(kbElems).keyboard(config).addTyping();
+            elements.each(function (i, element) {
+                if (!$(element).data('keyboard')){
+                    $(element).keyboard(config).addTyping();
                 }
-            }
+            });
         }
 
         function init() {
@@ -149,15 +137,15 @@
             // Use the timeout technique to ensure rendering has finished before activating the directive.
             // This enables it to be activated in directives like ng-repeat.
             $timeout(function () {
-                if (!kbElems) {
-                    kbElems = $("[data-vt-keyboard]").get();
+                if (!kbElements) {
+                    kbElements = $("[data-vt-keyboard]");
                     init();
                 }
             }, 0);
         }
 
         function toggleKeyboard() {
-            if (!kbElems){
+            if (!kbElements){
                 return;
             }
 
@@ -165,7 +153,7 @@
             var enabled = config.keyboardEnabled;
 
             // Disable any existing keyboards...
-            disableKeyboards(kbElems);
+            disableKeyboards(kbElements);
 
             // Set language.
             // Language specific config...
@@ -177,12 +165,12 @@
             // Add rtl class if the config has the rtl flag.
             var rtlClass = keyboardConfigSvc.rtlClass;
             if (targetConfig.rtl){
-                if (!$(kbElems).hasClass(rtlClass)){
-                    $(kbElems).addClass(rtlClass);
+                if (!kbElements.hasClass(rtlClass)){
+                    kbElements.addClass(rtlClass);
                 }
             } else {
-                if ($(kbElems).hasClass(rtlClass)){
-                    $(kbElems).removeClass(rtlClass);
+                if (kbElements.hasClass(rtlClass)){
+                    kbElements.removeClass(rtlClass);
                 }
             }
 
@@ -209,7 +197,7 @@
             };
 
             if (enabled) {
-                enableKeyboards(kbElems, targetConfig);
+                enableKeyboards(kbElements, targetConfig);
             }
         }
     }
