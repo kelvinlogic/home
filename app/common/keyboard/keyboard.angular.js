@@ -39,7 +39,7 @@
             my : "center top",
             at : "center bottom",
             // used when "usePreview" is false (centers the keyboard at the bottom of the input/textarea)
-            at2: "center top",
+            at2: "center bottom",
             collision: "flipfit flipfit"
         };
 
