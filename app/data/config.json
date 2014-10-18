@@ -13,7 +13,10 @@
                 "description": "Country",
                 "data": {
                     "code": "KE",
-                    "name": "Kenya"
+                    "name": "Kenya",
+                    "customFields": [
+                        {"name": "Language"}
+                    ]
                 }
             },
             {

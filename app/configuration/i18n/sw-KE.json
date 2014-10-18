@@ -1,0 +1,54 @@
+{
+    "fc.configuration": {
+        "MODULE_TITLE": "Uwashaji wa FutureCoRe",
+
+        "hierarchy": {
+            "PAGE_TITLE": "Usanidi wa Uongozi",
+            "WELCOME_TEXT": "Karibu na mfumo FutureCoRe. Kabla ya kuanza, unahitaji kutoa yetu na baadhi ya habari kuhusu biashara yako shirika uongozi.",
+            "HELP_TEXT": "Tafadhali kuingia habari muhimu katika mistari dotted na kuendelea. Mara baada ya maelezo yote katika ngazi ya uongozi wa ni aliingia, vifungo hatua itaonekana chini kwa kuongeza au kuondoa ngazi. Kifungo kwa PLUS icon ni kutumika kuongeza ngazi mpya tu chini ya kiwango cha sasa. Kifungo kwa MINUS icon ni kutumika kuondoa kiwango cha sasa.",
+            "SUBMIT_BUTTON_TEXT": "@:fc.SAVE_AND_CONTINUE_TEXT",
+            "ADD_CUSTOM_FIELD_BUTTON_TEXT": "Add Custom Field",
+
+            "configCompleteModal": {
+                "COMPLETE_MODAL_TITLE": "Usanidi wa Uongozi Umekamilika",
+                "COMPLETE_MODAL_CONTENT": "Inaonekana kwamba hapo awali walifanya Configuration uongozi. Kama wewe kuchagua kwa kurekebisha, wewe itawasilishwa na usanidi wa sasa hivyo unaweza mabadiliko hayo. Je, ungependa kurekebisha uongozi Configuration zilizopo?"
+            },
+
+            "input": {
+                "DESCRIPTION_LABEL": "Maelezo",
+                "DESCRIPTION_PLACEHOLDER": "Maelezo kwa mfano Region",
+                "NAME_LABEL": "Jina",
+                "NAME_PLACEHOLDER": "Jina mfano Ulaya",
+                "CODE_LABEL": "Kificho",
+                "CODE_PLACEHOLDER": "Kificho mfano EU",
+                "CUSTOM_FIELD_NAME_PLACEHOLDER": "Custom Field {{number}} Name",
+                "CUSTOM_FIELD_VALUE_PLACEHOLDER": "Custom Field {{number}} Value"
+            },
+
+            "item": {
+                "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
+                "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
+            }
+        },
+
+        "language": {
+            "PAGE_TITLE": "Usanidi wa Lugha",
+
+            "configCompleteModal": {
+                "COMPLETE_MODAL_TITLE": "Usanidi wa Lugha Umekamilika",
+                "COMPLETE_MODAL_CONTENT": "Inaonekana kwamba hapo awali walifanya Configuration lugha. Kama wewe kuchagua kwa kurekebisha, wewe itawasilishwa na usanidi wa sasa hivyo unaweza mabadiliko hayo. Je, ungependa kurekebisha lugha Configuration zilizopo?"
+            },
+
+            "form": {
+                "NO_DEFAULT_LANGUAGE_TEXT": "Hakukuwa na lugha default kimeundwa kwa ajili ya mfumo wako. Hii inaweza zinaonyesha kosa katika mfumo Configuration yako.",
+                "DEFAULT_LANGUAGE_LABEL": "Lugha za Msingi",
+                "LANGUAGES_SELECTION_LABEL": "Lugha za Ziada.",
+                "SUBMIT_BUTTON_TEXT": "@:fc.SAVE_AND_CONTINUE_TEXT"
+            }
+        },
+
+        "vertical": {
+            "PAGE_TITLE": "Usanidi wa Wima wa Biashara"
+        }
+    }
+}

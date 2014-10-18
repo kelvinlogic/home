@@ -16,8 +16,8 @@ module.exports = function (config) {
             'common/*.js',
             'login/fc.login.module.js',
             'login/*.js',
-            'startup/fc.startup.module.js',
-            'startup/*.js'
+            'configuration/fc.startup.module.js',
+            'configuration/*.js'
         ],
 
         exclude: [

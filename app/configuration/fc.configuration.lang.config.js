@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('fc.startup').config([
+        .module('fc.configuration').config([
             '$translatePartialLoaderProvider',
             translationConfig
         ]);
 
     function translationConfig($translatePartialLoaderProvider) {
-        $translatePartialLoaderProvider.addPart('startup');
+        $translatePartialLoaderProvider.addPart('configuration');
     }
 })();

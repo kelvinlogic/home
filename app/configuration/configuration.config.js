@@ -2,13 +2,10 @@
  * Created by Caleb on 9/25/2014.
  */
 (function () {
-    angular.module('fc.startup').config([
+    angular.module('fc.configuration').config([
         '$stateProvider',
         '$urlRouterProvider',
         routeConfig
-    ]).config([
-        '$translatePartialLoaderProvider',
-        translationConfig
     ]).config([
         "$httpProvider",
         httpConfig
@@ -30,7 +27,7 @@
             url: '/hierarchy-config',
             views: {
                 '': {
-                    templateUrl: 'startup/hierarchy-config/hierarchy.config.html'
+                    templateUrl: 'configuration/hierarchy-config/hierarchy.config.html'
                 },
                 'left-nav': leftNavView,
                 'top-bar': topBarView
@@ -41,7 +38,7 @@
             url: '/language-config',
             views: {
                 '': {
-                    templateUrl: 'startup/language-config/language.config.html'
+                    templateUrl: 'configuration/language-config/language.config.html'
                 },
                 'left-nav': leftNavView,
                 'top-bar': topBarView
@@ -52,16 +49,12 @@
             url: '/vertical-config',
             views: {
                 '': {
-                    templateUrl: 'startup/vertical-config/vertical.config.html'
+                    templateUrl: 'configuration/vertical-config/vertical.config.html'
                 },
                 'left-nav': leftNavView,
                 'top-bar': topBarView
             }
         });
-    }
-
-    function translationConfig($translatePartialLoaderProvider) {
-        $translatePartialLoaderProvider.addPart('startup');
     }
 
     function httpConfig($httpProvider) {

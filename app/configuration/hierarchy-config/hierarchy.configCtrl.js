@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("fc.startup")
+        .module("fc.configuration")
         .controller("HierarchyConfigCtrl", hierarchyConfigCtrl);
 
     hierarchyConfigCtrl.$inject = ["$modal", "$scope", "$state", "appConfig", "configSvc", "dataContextSvc", "lodash"];
@@ -15,12 +15,15 @@
         var bottomPosition = 2;
 
         vm.activate = activate;
+        vm.addCustomField = addCustomField;
         vm.addLevelAfter = addLevelAfter;
+        vm.canAddCustomField = canAddCustomField;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
         vm.levels = null;
+        vm.removeField = removeField;
         vm.removeLevel = removeLevel;
-        vm.titleKey = "fc.startup.config.hierarchy.PAGE_TITLE";
+        vm.titleKey = "fc.configuration.hierarchy.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;
 
@@ -62,13 +65,21 @@
             });
         }
 
+        function addCustomField(level) {
+            if (!canAddCustomField(level)) {
+                return;
+            }
+
+            level.data.customFields.push({});
+        }
+
         function addLevelAfter(level) {
             if (!canAddLevelAfter(level) || !validLevel(level)) {
                 return;
             }
 
             // Create the level.
-            var newLevel = {open: true, data: {}};
+            var newLevel = {open: true, data: {customFields: []}};
 
             // Find the index of the level in the array and move to the next index.
             var index = vm.levels.indexOf(level);
@@ -76,6 +87,35 @@
 
             // Remove 0 elements and add level starting from the new index.
             vm.levels.splice(index, 0, newLevel);
+        }
+
+        function canAddCustomField(level) {
+            if (!level) {
+                return false;
+            }
+
+            if (!level.data) {
+                level.data = {};
+            }
+
+            if (!level.data.customFields || !_.isArray(level.data.customFields)) {
+                level.data.customFields = [];
+                return true;
+            }
+
+            if (level.data.customFields.length && level.data.customFields.length >= 8) {
+                return false;
+            }
+
+            var isFieldInvalid = _.any(level.data.customFields, function (field) {
+                return !field.name || !field.value;
+            });
+
+            if (isFieldInvalid){
+                return false;
+            }
+
+            return true;
         }
 
         function canAddLevelAfter(level) {
@@ -111,6 +151,15 @@
                     load(language);
                 });
             });
+        }
+
+        function removeField(level, field) {
+            if (!canRemoveLevel(level)){
+                return;
+            }
+
+            var index = level.data.customFields.indexOf(field);
+            level.data.customFields.splice(index, 1);
         }
 
         function removeLevel(level) {

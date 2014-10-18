@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("fc.startup")
+        .module("fc.configuration")
         .controller("LanguageConfigCtrl", languageConfigCtrl);
 
     languageConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "configSvc", "dataContextSvc", "langSvc"];
