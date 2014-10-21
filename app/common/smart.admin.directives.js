@@ -887,7 +887,7 @@
             return {
                 restrict: 'AE',
                 link: function(scope, element, attrs) {
-                    scope.setup_widget_desktop = function() {
+                    scope.setup_widgets_desktop = function() {
                         if ($.fn.jarvisWidgets && $.enableJarvisWidgets) {
                             element.jarvisWidgets({
                                 grid : 'article',
@@ -964,18 +964,18 @@
 
                             });
                         }
-                    }
+                    };
 
-                    scope.setup_widget_mobile = function() {
+                    scope.setup_widgets_mobile = function() {
                         if ($.enableMobileWidgets && $.enableJarvisWidgets) {
                             scope.setup_widgets_desktop();
                         }
-                    }
+                    };
 
                     if ($.device === "desktop") {
-                        scope.setup_widget_desktop();
+                        scope.setup_widgets_desktop();
                     } else {
-                        scope.setup_widget_mobile();
+                        scope.setup_widgets_mobile();
                     }
 
                 }

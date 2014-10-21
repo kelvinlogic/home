@@ -1,6 +1,9 @@
 {
     "fc.common": {
+        "COPYRIGHT_TEXT": "Future CoRe © 2014",
         "SIGN_OUT_TEXT": "Sign Out",
+        "SIGN_OUT_WARNING_TITLE": "Sign out",
+        "SIGN_OUT_WARNING_MESSAGE": "Are you sure you want to sign out?",
 
         "errors": {
             "REMOTE_ACCESS_DENIED": "Access to a resource was denied. Login with different credentials or contact your system administrator."

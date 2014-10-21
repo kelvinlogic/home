@@ -15,7 +15,7 @@
                     "code": "KE",
                     "name": "Kenya",
                     "customFields": [
-                        {"name": "Language"}
+                        {"name": "Language", "value": "English"}
                     ]
                 }
             },

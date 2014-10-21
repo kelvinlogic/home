@@ -1,6 +1,9 @@
 {
     "fc.common": {
+        "COPYRIGHT_TEXT": "Future CoRe © 2014",
         "SIGN_OUT_TEXT": "Toka",
+        "SIGN_OUT_WARNING_TITLE": "Toka katika kipindi cha",
+        "SIGN_OUT_WARNING_MESSAGE": "Are you sure you want to sign out?",
 
         "errors": {
             "REMOTE_ACCESS_DENIED": "Upatikanaji wa rasilimali lilikataliwa. Tafadhali ingia na sifa tofauti au wasiliana na mtawala wako kwa msaada."

@@ -88,6 +88,7 @@
     background: #dddddd;
     margin: -4px -4px 0 -4px;
     padding: 4px;
+    cursor: move;
 }
 
 #extr-page #extr-page-header-space {
@@ -100,4 +101,45 @@
 
 #extr-page #header > .pull-right {
     margin-top: 0.9em;
+}
+
+/*
+** Put scroller in widget content.
+**/
+html.fixed-height, html.fixed-height body {
+    height: 100%;
+    overflow: hidden;
+}
+
+html.fixed-height #main {
+    min-height: inherit;
+    height: 100%;
+}
+
+html.fixed-height #content,
+html.fixed-height.has-footer #content #widget-grid,
+html.fixed-height.has-footer #content #widget-grid .row,
+html.fixed-height.has-footer #content #widget-grid *[class^="col"],
+html.fixed-height.has-footer #content #widget-grid .jarviswidget,
+html.fixed-height.has-footer #content #widget-grid .jarviswidget > div {
+    height: 100%;
+}
+
+html.fixed-height.has-footer #content #widget-grid .jarviswidget > div {
+    /* Cater for header height. */
+    padding-bottom: 32px;
+    overflow: auto;
+}
+
+html.fixed-height.has-footer #content #widget-grid .jarviswidget {
+    padding-bottom: 25px;
+}
+
+html.fixed-height.has-footer #content {
+    padding-bottom: 65px;
+}
+
+html.fixed-height.has-footer #content .widget-body {
+    height: 100%;
+    overflow: scroll;
 }

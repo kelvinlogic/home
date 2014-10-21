@@ -10,10 +10,15 @@
         var conf = {};
 
         conf.loginPage = "login.html";
-        conf.defaultPage = "startup.html";
+        conf.defaultPage = "configuration.html";
 
         conf.keyboardToggledEvent = 'fc.keyboardToggled';
         conf.languageChanged = 'fc.languageChanged';
+
+        // Override sound files path.
+        $.sound_path = "theme/SmartAdmin/sound/";
+        $.enableJarvisWidgets = true;
+        $.enableMobileWidgets = true;
 
         return conf;
     }

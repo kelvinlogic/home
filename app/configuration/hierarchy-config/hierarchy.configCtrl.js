@@ -94,6 +94,10 @@
                 return false;
             }
 
+            if (!canRemoveLevel(level)) {
+                return false;
+            }
+
             if (!level.data) {
                 level.data = {};
             }

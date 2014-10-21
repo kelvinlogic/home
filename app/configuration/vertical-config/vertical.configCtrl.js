@@ -14,7 +14,7 @@
         var vm = this;
 
         vm.activate = activate;
-        vm.titleKey = "fc.startup.config.vertical.PAGE_TITLE";
+        vm.titleKey = "fc.configuration.vertical.PAGE_TITLE";
 
         activate();
 

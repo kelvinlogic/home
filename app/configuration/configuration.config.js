@@ -20,6 +20,10 @@
             templateUrl: 'common/left-menu.html'
         };
 
+        var footerView = {
+            templateUrl: 'common/footer.html'
+        };
+
         // Remove?
         $urlRouterProvider.otherwise('/language-config');
 
@@ -29,6 +33,7 @@
                 '': {
                     templateUrl: 'configuration/hierarchy-config/hierarchy.config.html'
                 },
+                'footer': footerView,
                 'left-nav': leftNavView,
                 'top-bar': topBarView
             }
@@ -40,6 +45,7 @@
                 '': {
                     templateUrl: 'configuration/language-config/language.config.html'
                 },
+                'footer': footerView,
                 'left-nav': leftNavView,
                 'top-bar': topBarView
             }
@@ -51,6 +57,7 @@
                 '': {
                     templateUrl: 'configuration/vertical-config/vertical.config.html'
                 },
+                'footer': footerView,
                 'left-nav': leftNavView,
                 'top-bar': topBarView
             }

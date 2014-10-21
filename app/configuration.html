@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" data-ng-app="fc.configuration">
+<html lang="en-us" class="fixed-height has-footer" data-ng-app="fc.configuration">
 <head>
     <meta charset="utf-8">
     <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
@@ -67,6 +67,10 @@
 </div>
 <!-- END MAIN PANEL -->
 
+<!-- PAGE FOOTER -->
+<div data-ui-view="footer"></div>
+<!-- END FOOTER -->
+
 <!--================================================== -->
 
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)
@@ -95,6 +99,9 @@
     }
 </script>
 
+<!-- App Configuration Options -->
+<script src="theme/SmartAdmin/js/app.config.js"></script>
+
 <!-- Mottie Keyboard JS -->
 <script src="bower_components/keyboard/js/jquery.keyboard.js"></script>
 <script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
@@ -104,6 +111,9 @@
 
 <!-- BOOTSTRAP JS -->
 <script src="theme/SmartAdmin/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- CUSTOM NOTIFICATION -->
+<script src="theme/SmartAdmin/js/notification/SmartNotification.min.js"></script>
 
 <!-- JQUERY VALIDATE -->
 <script src="theme/SmartAdmin/js/plugin/jquery-validate/jquery.validate.min.js"></script>
@@ -125,7 +135,6 @@
 <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
 
 <!-- SmartAdmin Theme Modules -->
-<script src="theme/SmartAdmin/js/app.config.js"></script>
 <script src="theme/SmartAdmin/js/app.js"></script>
 
 <!-- App modules -->

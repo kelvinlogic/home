@@ -14,7 +14,7 @@
                     </section>
                     <div class="row">
                         <section class="col col-4">
-                            <label data-translate="fc.startup.config.language.form.DEFAULT_LANGUAGE_LABEL"></label>
+                            <label data-translate="fc.configuration.language.form.DEFAULT_LANGUAGE_LABEL"></label>
                             <div class="fc-block"
                                  data-ng-if="!configCtrl.defaultLanguages || !configCtrl.defaultLanguages.length">
                                 <div class="fc-centered text-muted">
@@ -22,7 +22,7 @@
                                         <i class="fa fa-warning fa-2x"></i>
                                     </p>
 
-                                    <p data-translate="fc.startup.config.language.form.NO_DEFAULT_LANGUAGE_TEXT"></p>
+                                    <p data-translate="fc.configuration.language.form.NO_DEFAULT_LANGUAGE_TEXT"></p>
                                 </div>
                             </div>
                             <label class="checkbox"
@@ -37,7 +37,7 @@
                         <section class="col col-4"></section>
 
                         <section class="col col-4">
-                            <label data-translate="fc.startup.config.language.form.LANGUAGES_SELECTION_LABEL"></label>
+                            <label data-translate="fc.configuration.language.form.LANGUAGES_SELECTION_LABEL"></label>
                             <label class="checkbox" data-ng-repeat="language in configCtrl.languages | orderBy: ['name']">
                                 <input type="checkbox" name="checkbox" data-ng-model="language.selected">
                                 <i></i>{{language.name}}
@@ -47,7 +47,7 @@
                 </fieldset>
                 <footer>
                     <button type="submit" class="btn btn-primary" data-ng-disabled="!loginFormCtrl.$valid"
-                            data-translate="fc.startup.config.language.form.SUBMIT_BUTTON_TEXT"></button>
+                            data-translate="fc.configuration.language.form.SUBMIT_BUTTON_TEXT"></button>
                 </footer>
             </form>
         </div>

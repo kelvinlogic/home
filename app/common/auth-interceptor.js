@@ -6,9 +6,9 @@
 (function () {
     angular.module("fc.common").factory("authInterceptor", authInterceptor);
 
-    authInterceptor.$inject = ['$q', '$window', '$state'];
+    authInterceptor.$inject = ['$q', '$window', '$location', 'appConfig'];
 
-    function authInterceptor($q, $window, $state) {
+    function authInterceptor($q, $window, $location, appConfig) {
         return {
             request: function (config) {
                 config.headers = config.headers || {};
@@ -21,7 +21,8 @@
                 if (response.status === 401) {
                     // handle the case where the user is not authenticated.
                     var msgKey = "fc.common.errors.REMOTE_ACCESS_DENIED";
-                    $state.go("shell.login", {messageKey: msgKey})
+                    $window.location = appConfig.loginPage;
+//                    $location.path("shell.login", {messageKey: msgKey})
                 }
                 return response || $q.when(response);
             }

@@ -16,7 +16,7 @@
         vm.activate = activate;
         vm.defaultLanguages = [];
         vm.languages = [];
-        vm.titleKey = "fc.startup.config.language.PAGE_TITLE";
+        vm.titleKey = "fc.configuration.language.PAGE_TITLE";
 
         activate();
 
@@ -33,10 +33,10 @@
                         resolve: {
                             data: function () {
                                 return {
-                                    bodyTextKey: "fc.startup.config.language.configCompleteModal.COMPLETE_MODAL_CONTENT",
+                                    bodyTextKey: "fc.configuration.language.configCompleteModal.COMPLETE_MODAL_CONTENT",
                                     cancelKey: "fc.NO_TEXT",
                                     okKey: "fc.YES_TEXT",
-                                    titleKey: "fc.startup.config.language.configCompleteModal.COMPLETE_MODAL_TITLE"
+                                    titleKey: "fc.configuration.language.configCompleteModal.COMPLETE_MODAL_TITLE"
                                 };
                             }
                         }
