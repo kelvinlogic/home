@@ -23,6 +23,7 @@
         vm.levels = null;
         vm.removeField = removeField;
         vm.removeLevel = removeLevel;
+        vm.save = save;
         vm.titleKey = "fc.configuration.hierarchy.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;

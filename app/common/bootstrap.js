@@ -6,10 +6,10 @@
         .config(config)
         .run(run);
 
-    config.$inject = ["authSvcProvider", "dataContextSvcProvider", "langSvcProvider", "menuSvcProvider"];
+    config.$inject = ["authSvcProvider", "dataContextSvcProvider", "langSvcProvider", "menuSvcProvider", "searchSvcProvider"];
     run.$inject = ["$rootScope", "authSvc"];
 
-    function config(authSvcProvider, dataContextSvcProvider, langSvcProvider, menuSvcProvider) {
+    function config(authSvcProvider, dataContextSvcProvider, langSvcProvider, menuSvcProvider, searchSvcProvider) {
         authSvcProvider.loginUrl = "data/login.json";
         authSvcProvider.signOutUrl = "data/login.json";
 
@@ -19,6 +19,8 @@
 
         menuSvcProvider.menuUrlPrefix = "data";
         menuSvcProvider.menuUrlSuffix = ".menu.json";
+
+        searchSvcProvider.searchUrl = "search"
     }
 
     function run($rootScope, authSvc) {

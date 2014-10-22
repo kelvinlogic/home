@@ -3,5 +3,6 @@
 
     angular
         .module('fc.common')
-        .constant('lodash', _);
+        .constant('lodash', _)
+        .constant('rx', Rx);
 })();
