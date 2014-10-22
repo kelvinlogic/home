@@ -7,6 +7,17 @@
 
         "errors": {
             "REMOTE_ACCESS_DENIED": "Access to a resource was denied. Login with different credentials or contact your system administrator."
+        },
+
+        "users": {
+            "master": {
+                "PAGE_TITLE": "Users"
+            }
+        },
+        "groups": {
+            "master": {
+                "PAGE_TITLE": "User Groups"
+            }
         }
     }
 }
