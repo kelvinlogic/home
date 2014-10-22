@@ -138,3 +138,10 @@ html.fixed-height.has-footer #content #widget-grid .jarviswidget {
 html.fixed-height.has-footer #content {
     padding-bottom: 65px;
 }
+
+/*
+** Give grid dimensions.
+**/
+.fc-ui-grid {
+    height: auto !important;
+}

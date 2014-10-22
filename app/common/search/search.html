@@ -21,8 +21,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="item in searchCtrl.items">
-                    <td data-ng-repeat="prop in searchCtrl.props" data-ng-click="searchCtrl.selectedItem = item">{{item[prop]}}</td>
+                <tr data-ng-click="searchCtrl.selectedItem = item" data-ng-repeat="item in searchCtrl.items">
+                    <td data-ng-repeat="prop in searchCtrl.props">{{item[prop]}}</td>
                 </tr>
                 </tbody>
             </table>
