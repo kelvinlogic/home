@@ -1,67 +1,60 @@
-<div data-ng-controller="HeaderCtrl as headerCtrl">
-    <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
-    <header id="header">
-        <!--<span id="logo"></span>-->
-        <div id="logo-group">
+<!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width--><!--<span id="logo"></span>-->
+<div id="logo-group">
             <span id="logo">
                 <img src="theme/SmartAdmin/img/logo.png" alt="FutureCoRe">
             </span>
-            <!-- END AJAX-DROPDOWN -->
-        </div>
-        <div class="pull-right">
-            <!-- logout button -->
-            <div id="logout" class="btn-header transparent pull-right" data-ng-if="isLoggedIn()"
-                 data-ng-controller="SignOutCtrl as signOutCtrl">
+    <!-- END AJAX-DROPDOWN -->
+</div>
+<div class="pull-right">
+    <!-- logout button -->
+    <div id="logout" class="btn-header transparent pull-right" data-ng-if="isLoggedIn()"
+         data-ng-controller="SignOutCtrl as signOutCtrl">
                 <span>
                     <a href="" title="{{'fc.common.SIGN_OUT_TEXT' | translate}}" data-ng-click="signOutCtrl.signOut()">
                         <i class="fa fa-sign-out"></i> </a>
                 </span>
-            </div>
-            <!-- end logout button -->
+    </div>
+    <!-- end logout button -->
 
-            <span class="transparent" data-ng-controller="KeyboardToggleCtrl as keyboardCtrl">
-                <!-- Keyboard visibility toggle -->
-                <span id="keyboard-visibility" class="btn-header pull-right" data-ng-if="keyboardCtrl.keyboardEnabled"
-                      data-ng-class="{'active': keyboardCtrl.keyboardVisible}">
-                    <span>
-                        <a href="" title="Toggle Virtual Keyboard Visibility" data-ng-click="keyboardCtrl.toggleVisibility()">
-                            <i class="fa fa-eye" data-ng-if="keyboardCtrl.keyboardVisible"></i>
-                            <i class="fa fa-eye-slash" data-ng-if="!keyboardCtrl.keyboardVisible"></i>
-                        </a>
-                    </span>
-                </span>
-                <!-- End keyboard toggle -->
-
-                <!-- Keyboard toggle -->
-                <span id="keyboard" class="btn-header pull-right"
-                     data-ng-class="{'active': keyboardCtrl.keyboardEnabled}">
-                    <span>
-                        <a href="" title="Toggle Virtual Keyboard" data-ng-click="keyboardCtrl.toggleKeyboard()">
-                            <i class="fa fa-keyboard-o"></i>
-                        </a>
-                    </span>
-                </span>
-                <!-- End keyboard toggle -->
+    <span class="transparent" data-ng-controller="KeyboardToggleCtrl as keyboardCtrl">
+        <!-- Keyboard visibility toggle -->
+        <span id="keyboard-visibility" class="btn-header pull-right" data-ng-if="keyboardCtrl.keyboardEnabled"
+              data-ng-class="{'active': keyboardCtrl.keyboardVisible}">
+            <span>
+                <a href="" title="Toggle Virtual Keyboard Visibility"
+                   data-ng-click="keyboardCtrl.toggleVisibility()"> <i class="fa fa-eye"
+                                                                       data-ng-if="keyboardCtrl.keyboardVisible"></i>
+                    <i class="fa fa-eye-slash" data-ng-if="!keyboardCtrl.keyboardVisible"></i> </a>
             </span>
+        </span>
+        <!-- End keyboard toggle -->
 
-            <ul class="header-dropdown-list hidden-xs"
-                data-ng-controller="LanguageCtrl as langCtrl">
-                <li>
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown"> <span
-                            data-ng-bind="langCtrl.currentLang.name"></span> <i class="fa fa-angle-down"></i> </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li data-ng-class="{active: lang.code == langCtrl.currentLang}"
-                            data-ng-repeat="lang in langCtrl.languages">
-                            <a href="" data-ng-click="langCtrl.setLanguage(lang)"> {{lang.name}} </a>
-                        </li>
-                    </ul>
+        <!-- Keyboard toggle -->
+        <span id="keyboard" class="btn-header pull-right"
+              data-ng-class="{'active': keyboardCtrl.keyboardEnabled}">
+            <span>
+                <a href="" title="Toggle Virtual Keyboard" data-ng-click="keyboardCtrl.toggleKeyboard()"> <i
+                        class="fa fa-keyboard-o"></i> </a>
+            </span>
+        </span>
+        <!-- End keyboard toggle -->
+    </span>
+
+    <ul class="header-dropdown-list hidden-xs" data-ng-controller="LanguageCtrl as langCtrl">
+        <li>
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"> <span
+                    data-ng-bind="langCtrl.currentLang.name"></span> <i class="fa fa-angle-down"></i> </a>
+            <ul class="dropdown-menu pull-right">
+                <li data-ng-class="{active: lang.code == langCtrl.currentLang}"
+                    data-ng-repeat="lang in langCtrl.languages">
+                    <a href="" data-ng-click="langCtrl.setLanguage(lang)"> {{lang.name}} </a>
                 </li>
             </ul>
-        </div>
-
-        <span id="extr-page-header-space" data-ng-if="!isLoggedIn()">
-            <span class="hidden-mobile" data-translate="fc.CREATE_ACCOUNT_LABEL"></span>
-            <a href="" class="btn btn-danger" data-translate="fc.CREATE_ACCOUNT_BUTTON_TEXT"></a>
-        </span>
-    </header>
+        </li>
+    </ul>
 </div>
+
+<span id="extr-page-header-space" data-ng-if="!isLoggedIn()">
+    <span class="hidden-mobile" data-translate="fc.CREATE_ACCOUNT_LABEL"></span>
+    <a href="" class="btn btn-danger" data-translate="fc.CREATE_ACCOUNT_BUTTON_TEXT"></a>
+</span>

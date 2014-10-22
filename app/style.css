@@ -138,8 +138,3 @@ html.fixed-height.has-footer #content #widget-grid .jarviswidget {
 html.fixed-height.has-footer #content {
     padding-bottom: 65px;
 }
-
-html.fixed-height.has-footer #content .widget-body {
-    height: 100%;
-    overflow: scroll;
-}

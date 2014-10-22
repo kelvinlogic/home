@@ -57,9 +57,11 @@
           media="screen and (max-device-width: 320px)">
 
 </head>
-<body>
-<div data-ui-view="top-bar"></div>
-<div data-ui-view="left-nav"></div>
+<body class="fixed-header fixed-page-footer">
+
+<header id="header" data-ui-view="top-bar"></header>
+
+<aside id="left-panel" data-ui-view="left-nav"></aside>
 
 <!-- MAIN PANEL -->
 <div id="main" role="main">
@@ -68,7 +70,7 @@
 <!-- END MAIN PANEL -->
 
 <!-- PAGE FOOTER -->
-<div data-ui-view="footer"></div>
+<div class="page-footer" data-ui-view="footer"></div>
 <!-- END FOOTER -->
 
 <!--================================================== -->
@@ -163,7 +165,6 @@
 <!-- Controllers -->
 <script src="common/langCtrl.js"></script>
 <script src="common/signOutCtrl.js"></script>
-<script src="common/headerCtrl.js"></script>
 <script src="common/leftMenuCtrl.js"></script>
 <script src="common/modal.templateCtrl.js"></script>
 <script src="common/keyboard.toggleCtrl.js"></script>

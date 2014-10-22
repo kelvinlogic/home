@@ -3,10 +3,9 @@
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
-        <article class="col-sm-12">
+        <article class="col-md-12 col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div id="hc-wid-0" data-widget data-widget-editbutton="false"
-                 data-widget-togglebutton="true" data-widget-deletebutton="false" data-widget-sortable="false">
+            <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
                     <h2 data-translate="{{configCtrl.titleKey}}"></h2>
                 </header>
@@ -14,7 +13,7 @@
                 <!-- widget div-->
                 <div data-widget-body>
                     <!-- widget content -->
-                    <div data-widget-body-content>
+                    <div data-widget-content>
                         <div class="row">
                             <div class="col-md-12">
                                 <h4 data-translate="fc.configuration.hierarchy.WELCOME_TEXT"></h4>
@@ -24,7 +23,8 @@
                                 <p data-translate="fc.configuration.hierarchy.HELP_TEXT"></p>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 20px">
+                        <hr/>
+                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 center-block">
                                 <div data-accordion data-close-others="true">
                                     <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in configCtrl.levels">
