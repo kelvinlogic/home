@@ -18,6 +18,10 @@
             "master": {
                 "PAGE_TITLE": "User Groups"
             }
+        },
+
+        "rights": {
+            "PAGE_TITLE": "User Rights"
         }
     }
 }
