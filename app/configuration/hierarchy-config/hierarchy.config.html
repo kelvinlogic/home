@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{configCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::configCtrl.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -39,16 +39,16 @@
                                                 <small data-ng-bind="level.data.code" data-ng-if="level.data.code"></small>
                                                 <small data-ng-if="level.data.name || level.data.code">]</small>
 
-                            <span class="text-success pull-right animated fadeInRight fast"
-                                  title="{{'fc.configuration.hierarchy.item.DATA_VALID_TITLE' | translate}}"
-                                  data-ng-if="configCtrl.validLevel(level)">
-                                <i class="fa fa-check"></i>
-                            </span>
-                            <span class="text-danger pull-right animated fadeInRight fast"
-                                  title="{{'fc.configuration.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
-                                  data-ng-if="!configCtrl.validLevel(level)">
-                                <i class="fa fa-times"></i>
-                            </span>
+                                                <span class="text-success pull-right animated fadeInRight fast"
+                                                      title="{{'fc.configuration.hierarchy.item.DATA_VALID_TITLE' | translate}}"
+                                                      data-ng-if="configCtrl.validLevel(level)">
+                                                    <i class="fa fa-check"></i>
+                                                </span>
+                                                <span class="text-danger pull-right animated fadeInRight fast"
+                                                      title="{{'fc.configuration.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
+                                                      data-ng-if="!configCtrl.validLevel(level)">
+                                                    <i class="fa fa-times"></i>
+                                                </span>
                                             </h4>
                                         </div>
                                         <div class="fc-block">

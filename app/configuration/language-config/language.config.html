@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12 well no-padding">
             <form name="loginFormCtrl" class="smart-form" data-ng-submit="configCtrl.submit()">
-                <header data-translate="{{configCtrl.titleKey}}"></header>
+                <header data-translate="{{::configCtrl.titleKey}}"></header>
                 <fieldset>
                     <section data-ng-if="configCtrl.messageKey">
                         <div class="alert alert-danger fade in">
