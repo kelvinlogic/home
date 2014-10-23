@@ -26,7 +26,7 @@
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4" data-ng-controller="LoginCtrl as loginCtrl">
         <div class="well no-padding">
             <form name="loginFormCtrl" class="smart-form client-form" data-ng-submit="loginCtrl.submit()">
-                <header data-translate="{{loginCtrl.titleKey}}"></header>
+                <header data-translate="{{::loginCtrl.titleKey}}"></header>
                 <fieldset>
                     <section data-ng-if="loginCtrl.messageKey">
                         <div class="alert alert-danger fade in">
@@ -51,8 +51,8 @@
                                data-ng-class="{'state-error': !loginFormCtrl.username.$valid && !loginFormCtrl.username.$pristine}">
                             <i class="icon-append fa fa-user"></i>
                             <input id="username" type="text" name="username"
-                                   data-ng-required="loginCtrl.validationData.username.required"
-                                   data-ng-minlength="{{loginCtrl.validationData.username.minLength}}"
+                                   data-ng-required="::loginCtrl.validationData.username.required"
+                                   data-ng-minlength="::loginCtrl.validationData.username.minLength"
                                    data-ng-model="loginCtrl.loginModel.username"
                                    data-vt-keyboard>
                             <b class="tooltip tooltip-top-right">
@@ -61,17 +61,17 @@
                                       data-translate-values="{{loginCtrl.validationData.username}}"></span>
                             </b>
                         </label>
-                        <em class="invalid"
+                        <em class="invalid" data-ng-messages="loginFormCtrl.username.$error"
                             data-ng-show="!loginFormCtrl.username.$valid && !loginFormCtrl.username.$pristine">
-                            <span data-ng-if="loginCtrl.validationData.username.required"
-                                  data-ng-show="loginFormCtrl.username.$error.required"
-                                  data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
-                                  data-translate-values="{{loginCtrl.validationData.username}}">
+                            <span data-ng-if="::loginCtrl.validationData.username.required"
+                                  data-ng-message="required">
+                                <span data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
+                                  data-translate-values="{{::loginCtrl.validationData.username}}"></span>
                             </span>
-                            <span data-ng-if="loginCtrl.validationData.username.minLength"
-                                  data-ng-show="loginFormCtrl.username.$error.minlength"
-                                  data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
-                                  data-translate-values="{{loginCtrl.validationData.username}}">
+                            <span data-ng-if="::loginCtrl.validationData.username.minLength"
+                                  data-ng-message="minlength">
+                                <span data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
+                                      data-translate-values="{{::loginCtrl.validationData.username}}"></span>
                             </span>
                         </em>
                     </section>
@@ -83,27 +83,27 @@
                                data-ng-class="{'state-error': !loginFormCtrl.password.$valid && !loginFormCtrl.password.$pristine}">
                             <i class="icon-append fa fa-lock"></i>
                             <input id="password" type="password" name="password"
-                                   data-ng-required="loginCtrl.validationData.password.required"
-                                   data-ng-minlength="{{loginCtrl.validationData.password.minLength}}"
+                                   data-ng-required="::loginCtrl.validationData.password.required"
+                                   data-ng-minlength="::loginCtrl.validationData.password.minLength"
                                    data-ng-model="loginCtrl.loginModel.password"
                                    data-vt-keyboard>
                             <b class="tooltip tooltip-top-right">
                                 <i class="fa fa-lock txt-color-teal"></i>
                                 <span data-translate="fc.login.form.INPUT_TOOLTIP_TEXT"
-                                      data-translate-values="{{loginCtrl.validationData.password}}"></span>
+                                      data-translate-values="{{::loginCtrl.validationData.password}}"></span>
                             </b>
                         </label>
-                        <em class="invalid"
+                        <em class="invalid" data-ng-messages="loginFormCtrl.password.$error"
                             data-ng-show="!loginFormCtrl.password.$valid && !loginFormCtrl.password.$pristine">
-                            <span data-ng-if="loginCtrl.validationData.password.required"
-                                  data-ng-show="loginFormCtrl.password.$error.required"
-                                  data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
-                                  data-translate-values="{{loginCtrl.validationData.password}}">
+                            <span data-ng-if="::loginCtrl.validationData.password.required"
+                                  data-ng-message="required">
+                                <span data-translate="fc.login.form.REQUIRED_FIELD_VALIDATION_TEXT"
+                                      data-translate-values="{{::loginCtrl.validationData.password}}"></span>
                             </span>
-                            <span data-ng-if="loginCtrl.validationData.password.minLength"
-                                  data-ng-show="loginFormCtrl.password.$error.minlength"
-                                  data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
-                                  data-translate-values="{{loginCtrl.validationData.password}}">
+                            <span data-ng-if="::loginCtrl.validationData.password.minLength"
+                                  data-ng-message="minlength">
+                                <span data-translate="fc.login.form.MIN_LENGTH_FIELD_VALIDATION_TEXT"
+                                      data-translate-values="{{::loginCtrl.validationData.password}}"></span>
                             </span>
                         </em>
                         <div class="note">

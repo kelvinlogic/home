@@ -58,13 +58,12 @@
 
 </head>
 <body id="extr-page" class="fixed-header" style="padding-top: 80px">
-<div data-ui-view="top-bar"></div>
+
+<header id="header" data-ui-view="top-bar"></header>
 
 <div id="main" role="main">
     <!-- MAIN CONTENT -->
-    <div id="content" class="container animated fadeInDown fast">
-        <div data-ui-view=""></div>
-    </div>
+    <div id="content" class="container animated fadeInDown fast" data-ui-view></div>
 </div>
 
 <!--================================================== -->
@@ -95,12 +94,21 @@
     }
 </script>
 
+<!-- AngularJS Messages Module -->
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+
 <!-- Mottie Keyboard JS -->
 <script src="bower_components/keyboard/js/jquery.keyboard.js"></script>
 <script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
 
+<!-- Grid JS -->
+<script src="vendor/ui-grid/ui-grid-stable.js"></script>
+
 <!-- Lodash JS -->
 <script src="bower_components/lodash/dist/lodash.js"></script>
+
+<!-- Rx JS -->
+<script src="bower_components/rxjs/dist/rx.lite.js"></script>
 
 <!-- BOOTSTRAP JS -->
 <script src="theme/SmartAdmin/js/bootstrap/bootstrap.min.js"></script>
@@ -132,6 +140,7 @@
 <script src="common/dataContextSvc.js"></script>
 <script src="common/keyboard/keyboard.angular.js"></script>
 <script src="common/keyboard/layouts/arabic.js"></script>
+<script src="common/search/search.js"></script>
 <script src="common/langSvc.js"></script>
 <script src="common/menuSvc.js"></script>
 <script src="common/bootstrap.js"></script>
