@@ -57,7 +57,7 @@
           media="screen and (max-device-width: 320px)">
 
 </head>
-<body id="extr-page" class="fixed-header" style="padding-top: 80px">
+<body id="extr-page">
 
 <header id="header" data-ui-view="top-bar"></header>
 
@@ -102,7 +102,11 @@
 <script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
 
 <!-- Grid JS -->
-<script src="vendor/ui-grid/ui-grid-stable.js"></script>
+<script>
+    // Emulate existence of ui-grid module. It's required by common but none of the code is used.
+    angular.module("ui.grid", []);
+    angular.module("ui.grid.autoResize", ["ui.grid"]);
+</script>
 
 <!-- Lodash JS -->
 <script src="bower_components/lodash/dist/lodash.js"></script>
@@ -140,7 +144,6 @@
 <script src="common/dataContextSvc.js"></script>
 <script src="common/keyboard/keyboard.angular.js"></script>
 <script src="common/keyboard/layouts/arabic.js"></script>
-<script src="common/search/search.js"></script>
 <script src="common/langSvc.js"></script>
 <script src="common/menuSvc.js"></script>
 <script src="common/bootstrap.js"></script>
