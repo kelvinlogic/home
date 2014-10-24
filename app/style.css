@@ -145,3 +145,9 @@ html.fixed-height.has-footer #content {
 .fc-ui-grid {
     height: auto !important;
 }
+
+.fc-ui-grid .ui-grid-pinned-container-left,
+.fc-ui-grid .ui-grid-pinned-container-left .ui-grid-render-container-left .ui-grid-viewport,
+.fc-ui-grid .ui-grid-render-container-body .ui-grid-viewport {
+    height: auto !important;
+}

@@ -20,6 +20,9 @@
     <!-- Keyboard Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="bower_components/keyboard/css/keyboard.css">
 
+    <!-- Grid Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="bower_components/angular-ui-grid/ui-grid.css">
+
     <!-- SmartAdmin RTL Support is under construction
          This RTL CSS will be released in version 1.5
     <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css"> -->
@@ -101,15 +104,30 @@
     }
 </script>
 
+<!-- AngularJS Messages Module -->
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+
+<!-- App Configuration Options -->
+<script src="theme/SmartAdmin/js/app.config.js"></script>
+
 <!-- Mottie Keyboard JS -->
 <script src="bower_components/keyboard/js/jquery.keyboard.js"></script>
 <script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
 
+<!-- Grid JS -->
+<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+
 <!-- Lodash JS -->
 <script src="bower_components/lodash/dist/lodash.js"></script>
 
+<!-- Rx JS -->
+<script src="bower_components/rxjs/dist/rx.lite.js"></script>
+
 <!-- BOOTSTRAP JS -->
 <script src="theme/SmartAdmin/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- CUSTOM NOTIFICATION -->
+<script src="theme/SmartAdmin/js/notification/SmartNotification.min.js"></script>
 
 <!-- JQUERY VALIDATE -->
 <script src="theme/SmartAdmin/js/plugin/jquery-validate/jquery.validate.min.js"></script>
@@ -131,7 +149,6 @@
 <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
 
 <!-- SmartAdmin Theme Modules -->
-<script src="theme/SmartAdmin/js/app.config.js"></script>
 <script src="theme/SmartAdmin/js/app.js"></script>
 
 <!-- App modules -->
@@ -152,6 +169,7 @@
 <script src="common/dataContextSvc.js"></script>
 <script src="common/keyboard/keyboard.angular.js"></script>
 <script src="common/keyboard/layouts/arabic.js"></script>
+<script src="common/search/search.js"></script>
 <script src="common/langSvc.js"></script>
 <script src="common/menuSvc.js"></script>
 <script src="common/smart.admin.directives.js"></script>
@@ -171,6 +189,7 @@
 <script src="merchandising/fc.merchandising.lang.config.js"></script>
 
 <!-- Controllers -->
+<script src="merchandising/org.hierarchy/entity-masterCtrl.js"></script>
 
 <!--[if IE 8]>
 <h1 data-translate="fc.UPDATE_BROWSER_REMINDER_TEXT"></h1>
