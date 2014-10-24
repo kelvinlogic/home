@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" data-ng-app="fc.merchandising">
+<html lang="en-us" class="fixed-height has-footer" data-ng-app="fc.merchandising">
 <head>
     <meta charset="utf-8">
     <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
@@ -58,14 +58,20 @@
 
 </head>
 <body>
-<div data-ui-view="top-bar"></div>
-<div data-ui-view="left-nav"></div>
+
+<header id="header" data-ui-view="top-bar"></header>
+
+<aside id="left-panel" data-ui-view="left-nav"></aside>
 
 <!-- MAIN PANEL -->
 <div id="main" role="main">
     <div id="content" class="animated fadeInDown fast" data-ui-view></div>
 </div>
 <!-- END MAIN PANEL -->
+
+<!-- PAGE FOOTER -->
+<div class="page-footer" data-ui-view="footer"></div>
+<!-- END FOOTER -->
 
 <!--================================================== -->
 
