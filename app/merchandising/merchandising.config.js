@@ -46,5 +46,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('branch-master', {
+            url: '/branch-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/org.hierarchy/branch-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

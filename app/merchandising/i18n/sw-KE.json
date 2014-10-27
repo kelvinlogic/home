@@ -18,8 +18,24 @@
 
             "input": {
                 "CODE_LABEL": "Code",
-                "DESCRIPTION_LABEL": "Description",
-                "FIELD_LABEL": "Field"
+                "FIELD_LABEL": "Field",
+                "NAME_LABEL": "Name"
+            }
+        },
+
+        "branch": {
+            "DETAIL_PAGE_TITLE": "Branch",
+            "MASTER_PAGE_TITLE": "Branches",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name",
+                "ADDRESS_LABEL": "Address",
+                "PHONE_LABEL": "Phone",
+                "FAX_LABEL": "Fax",
+                "EMAIL_LABEL": "Email",
+                "PIN_LABEL": "PIN",
+                "REGISTRATION_LABEL": "Registration"
             }
         }
     }

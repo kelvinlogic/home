@@ -152,3 +152,14 @@ html.fixed-height.has-footer #content {
 .fc-ui-grid-scrollable {
     height: 290px;
 }
+
+.fc-ui-grid .ui-grid-menu .ui-grid-menu-inner ul,
+.fc-ui-grid-scrollable .ui-grid-menu .ui-grid-menu-inner ul {
+    max-height: 200px;
+    overflow: auto;
+}
+
+.fc-ui-grid .ui-grid-menu .ui-grid-menu-inner ul > li,
+.fc-ui-grid-scrollable .ui-grid-menu .ui-grid-menu-inner ul > li {
+    padding-right: 2em;
+}
