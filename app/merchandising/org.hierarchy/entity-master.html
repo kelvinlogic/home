@@ -17,7 +17,7 @@
                         <!-- List View -->
                         <div data-ng-if="!entityCtrl.entity">
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
@@ -26,7 +26,7 @@
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
                                     <div class="btn-group">
                                         <button class="btn btn-primary">
                                             <i class="fa fa-plus"></i>
@@ -34,8 +34,14 @@
                                         </button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-disabled="!entityCtrl.selectedEntity"
-                                                data-ng-click="entityCtrl.edit()">
+                                        <button class="btn btn-primary" data-ng-click="entityCtrl.selectAll()"
+                                                data-ng-disabled="!entityCtrl.canToggleSelection()">
+                                            <i class="fa fa-check-circle" data-ng-if="entityCtrl.selectedAll"></i>
+                                            <i class="fa fa-check-circle-o" data-ng-if="!entityCtrl.selectedAll"></i>
+                                            <span class="hidden-sm" data-translate="fc.TOGGLE_SELECTION_TEXT"></span>
+                                        </button>
+                                        <button class="btn btn-primary" data-ng-click="entityCtrl.edit()"
+                                                data-ng-disabled="!entityCtrl.selectedEntity || entityCtrl.selectedEntities.length > 1">
                                             <i class="fa fa-edit"></i>
                                             <span class="hidden-sm" data-translate="fc.EDIT_TEXT"></span>
                                         </button>

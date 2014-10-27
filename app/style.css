@@ -142,10 +142,7 @@ html.fixed-height.has-footer #content {
 /*
 ** Give grid dimensions.
 **/
-.fc-ui-grid {
-    height: auto !important;
-}
-
+.fc-ui-grid,
 .fc-ui-grid .ui-grid-pinned-container-left,
 .fc-ui-grid .ui-grid-pinned-container-left .ui-grid-render-container-left .ui-grid-viewport,
 .fc-ui-grid .ui-grid-render-container-body .ui-grid-viewport {
