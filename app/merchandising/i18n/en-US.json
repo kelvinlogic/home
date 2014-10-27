@@ -37,6 +37,16 @@
                 "PIN_LABEL": "PIN",
                 "REGISTRATION_LABEL": "Registration"
             }
+        },
+
+        "subBranch": {
+            "DETAIL_PAGE_TITLE": "Sub-Branch",
+            "MASTER_PAGE_TITLE": "Sub-Branches",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
