@@ -3,12 +3,12 @@
 
     angular
         .module('fc.merchandising')
-        .controller('SubBranchMasterCtrl', subBranchMaster);
+        .controller('VatMasterCtrl', vatMaster);
 
-    subBranchMaster.$inject = ['lodash', '$scope'];
+    vatMaster.$inject = ['lodash', '$scope'];
 
     /* @ngInject */
-    function subBranchMaster(_, $scope) {
+    function vatMaster(_, $scope) {
         /* jshint validthis: true */
         var vm = this,
             _gridApi = null;
@@ -21,10 +21,10 @@
         vm.pagination = {};
         vm.saveChanges = saveChanges;
         vm.selectedAll = false;
-        vm.selectedSubBranches = [];
-        vm.selectedSubBranch = null;
-        vm.subBranch = null;
-        vm.titleKey = 'fc.merchandising.subBranch.MASTER_PAGE_TITLE';
+        vm.selectedVats = [];
+        vm.selectedVat = null;
+        vm.vat = null;
+        vm.titleKey = 'fc.merchandising.vat.MASTER_PAGE_TITLE';
 
         activate();
 
@@ -46,14 +46,14 @@
         }
 
         function cancelChanges() {
-            vm.subBranch = null;
+            vm.vat = null;
         }
 
         function edit() {
             // Use extend to prevent reference copying.
-            vm.subBranch = angular.extend({}, vm.selectedSubBranch);
-            vm.selectedSubBranches = [];
-            vm.selectedSubBranch = null;
+            vm.vat = angular.extend({}, vm.selectedVat);
+            vm.selectedVats = [];
+            vm.selectedVat = null;
         }
 
         function pageChanged() {
@@ -63,7 +63,7 @@
 
         function saveChanges() {
             // TODO: Enter save logic
-            vm.subBranch = null;
+            vm.vat = null;
         }
 
         function setupGrid() {
@@ -77,7 +77,8 @@
             vm.gridOptions.columnDefs = [
                 {name: "id", visible: false},
                 {name: "code"},
-                {name: "name"}
+                {name: "name"},
+                {name: "percentage"}
             ];
 
             vm.gridOptions.onRegisterApi = function (gridApi) {
@@ -85,24 +86,24 @@
                 
                 // Listen for row selection changed.
                 gridApi.selection.on.rowSelectionChanged($scope, function (gridRow) {
-                    var index = vm.selectedSubBranches.indexOf(gridRow.entity);
+                    var index = vm.selectedVats.indexOf(gridRow.entity);
 
                     if (gridRow.isSelected) {
-                        vm.selectedSubBranch = gridRow.entity;
+                        vm.selectedVat = gridRow.entity;
 
                         // If element isn't in the selected elements array...
                         if (index < 0) {
                             // add it.
-                            vm.selectedSubBranches.push(gridRow.entity)
+                            vm.selectedVats.push(gridRow.entity)
                         }
                     } else {
                         // If element isn't in the selected elements array...
                         if (index > -1) {
                             // remove it.
-                            vm.selectedSubBranches.splice(index, 1);
+                            vm.selectedVats.splice(index, 1);
                         }
 
-                        vm.selectedSubBranch = _.last(vm.selectedSubBranches);
+                        vm.selectedVat = _.last(vm.selectedVats);
                     }
                 });
             };

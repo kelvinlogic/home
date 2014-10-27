@@ -70,5 +70,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('vat-master', {
+            url: '/vat-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/vat-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

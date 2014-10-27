@@ -47,6 +47,17 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "vat": {
+            "DETAIL_PAGE_TITLE": "VAT",
+            "MASTER_PAGE_TITLE": "VATs",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name",
+                "PERCENTAGE_LABEL": "Percentage"
+            }
         }
     }
 }
