@@ -7,6 +7,7 @@
         "ui.grid.autoResize",
         "ui.grid.exporter",
         "ui.grid.selection",
+        "ui.grid.resizeColumns",
         "fc"
     ]);
 })();

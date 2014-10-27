@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="EntityMasterCtrl as entityCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="HierarchyMasterCtrl as hierarchyCtrl">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,8 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::entityCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{hierarchyCtrl.titleKey}}" data-ng-if="!hierarchyCtrl.title"></h2>
+                    <h2 data-ng-if="hierarchyCtrl.title">{{hierarchyCtrl.title}}</h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,14 +16,14 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!entityCtrl.entity">
+                        <div data-ng-if="!hierarchyCtrl.entity">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="entityCtrl.filter" />
+                                               data-ng-model="hierarchyCtrl.filter" />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -34,18 +35,18 @@
                                         </button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="entityCtrl.selectAll()"
-                                                data-ng-disabled="!entityCtrl.canToggleSelection()">
-                                            <i class="fa fa-check-circle" data-ng-if="entityCtrl.selectedAll"></i>
-                                            <i class="fa fa-check-circle-o" data-ng-if="!entityCtrl.selectedAll"></i>
+                                        <button class="btn btn-primary" data-ng-click="hierarchyCtrl.selectAll()"
+                                                data-ng-disabled="!hierarchyCtrl.canToggleSelection()">
+                                            <i class="fa fa-check-circle" data-ng-if="hierarchyCtrl.selectedAll"></i>
+                                            <i class="fa fa-check-circle-o" data-ng-if="!hierarchyCtrl.selectedAll"></i>
                                             <span class="hidden-sm" data-translate="fc.TOGGLE_SELECTION_TEXT"></span>
                                         </button>
-                                        <button class="btn btn-primary" data-ng-click="entityCtrl.edit()"
-                                                data-ng-disabled="!entityCtrl.selectedEntity || entityCtrl.selectedEntities.length > 1">
+                                        <button class="btn btn-primary" data-ng-click="hierarchyCtrl.edit()"
+                                                data-ng-disabled="!hierarchyCtrl.selectedEntity || hierarchyCtrl.selectedEntities.length > 1">
                                             <i class="fa fa-edit"></i>
                                             <span class="hidden-sm" data-translate="fc.EDIT_TEXT"></span>
                                         </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!entityCtrl.selectedEntity">
+                                        <button class="btn btn-danger" data-ng-disabled="!hierarchyCtrl.selectedEntity">
                                             <i class="fa fa-trash-o"></i>
                                             <span class="hidden-sm" data-translate="fc.DELETE_TEXT"></span>
                                         </button>
@@ -57,67 +58,57 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid clearfix" data-ui-grid="entityCtrl.gridOptions"
+                                    <div class="fc-ui-grid-scrollable clearfix" data-ui-grid="hierarchyCtrl.gridOptions"
                                          data-ui-grid-auto-resize data-ui-grid-selection></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="entityCtrl.pagination.page"
-                                         data-ng-change="entityCtrl.pageChanged()" data-pagination
-                                         data-total-items="entityCtrl.pagination.total"
-                                         data-max-size="entityCtrl.pagination.maxSize"></div>
+                                    <div class="pagination-sm pull-right" data-ng-model="hierarchyCtrl.pagination.page"
+                                         data-ng-change="hierarchyCtrl.pageChanged()" data-pagination
+                                         data-total-items="hierarchyCtrl.pagination.total"
+                                         data-max-size="hierarchyCtrl.pagination.maxSize"></div>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="entityCtrl.entity">
-                            <form class="form-horizontal" name="entityForm" data-ng-submit="entityCtrl.saveChanges()">
+                        <div data-ng-if="hierarchyCtrl.entity">
+                            <form class="form-horizontal" name="entityForm" data-ng-submit="hierarchyCtrl.saveChanges()">
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="code"
-                                           data-translate="fc.merchandising.entity.input.CODE_LABEL"></label>
+                                           data-translate="fc.merchandising.hierarchy.input.CODE_LABEL"></label>
                                     <div class="col-md-10">
                                         <input id="code" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.entity.input.CODE_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.code" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="name"
-                                           data-translate="fc.merchandising.entity.input.NAME_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="name" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.entity.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.name" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="location"
-                                           data-translate="fc.merchandising.entity.input.LOCATION_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="location" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.entity.input.LOCATION_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.location" data-vt-keyboard/>
+                                               placeholder="{{'fc.merchandising.hierarchy.input.CODE_LABEL' | translate}}"
+                                               data-ng-model="hierarchyCtrl.entity.code" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="description"
-                                           data-translate="fc.merchandising.entity.input.DESCRIPTION_LABEL"></label>
+                                           data-translate="fc.merchandising.hierarchy.input.DESCRIPTION_LABEL"></label>
                                     <div class="col-md-10">
-                                        <textarea id="description"
+                                        <input id="description" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.entity.input.DESCRIPTION_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.description" data-vt-keyboard>
-                                               </textarea>
+                                               placeholder="{{'fc.merchandising.hierarchy.input.DESCRIPTION_LABEL' | translate}}"
+                                               data-ng-model="hierarchyCtrl.entity.description" data-vt-keyboard/>
                                     </div>
                                 </div>
+                                <div class="form-group" data-ng-repeat="(key, value) in hierarchyCtrl.entity.fields">
+                                    <label class="control-label col-md-2" for="field_+{{$index}}"
+                                           data-ng-bind="key"></label>
+                                    <div class="col-md-10">
+                                        <input id="field_+{{$index}}" type="text"
+                                               class="fc-input-full-width form-control"
+                                               placeholder="{{key}}"
+                                               data-ng-model="value" data-vt-keyboard/>
+                                    </div>
+                                </div>
+
                                 <div class="form-actions">
                                     <button class="btn btn-success" type="submit"
                                             data-translate="fc.SAVE_TEXT"></button>
                                     <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="entityCtrl.cancelChanges()"></button>
+                                            data-ng-click="hierarchyCtrl.cancelChanges()"></button>
                                 </div>
                             </form>
                         </div>

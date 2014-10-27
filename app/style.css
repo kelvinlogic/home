@@ -148,3 +148,7 @@ html.fixed-height.has-footer #content {
 .fc-ui-grid .ui-grid-render-container-body .ui-grid-viewport {
     height: auto !important;
 }
+
+.fc-ui-grid-scrollable {
+    height: 290px;
+}

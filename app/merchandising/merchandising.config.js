@@ -34,5 +34,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('hierarchy-master', {
+            url: '/hierarchy-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/org.hierarchy/hierarchy-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

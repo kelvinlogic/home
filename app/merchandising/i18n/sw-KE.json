@@ -1,16 +1,25 @@
 {
     "fc.merchandising": {
-        "hierarchy": {
-            "entity": {
-                "DETAIL_PAGE_TITLE": "Entity",
-                "MASTER_PAGE_TITLE": "Entities",
+        "entity": {
+            "DETAIL_PAGE_TITLE": "Entity",
+            "MASTER_PAGE_TITLE": "Entities",
 
-                "input": {
-                    "CODE_LABEL": "Code",
-                    "DESCRIPTION_LABEL": "Description",
-                    "LOCATION_LABEL": "Location",
-                    "NAME_LABEL": "Name"
-                }
+            "input": {
+                "CODE_LABEL": "Code",
+                "DESCRIPTION_LABEL": "Description",
+                "LOCATION_LABEL": "Location",
+                "NAME_LABEL": "Name"
+            }
+        },
+
+        "hierarchy": {
+            "DETAIL_PAGE_TITLE": "Entity",
+            "MASTER_PAGE_TITLE": "Entities",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "DESCRIPTION_LABEL": "Description",
+                "FIELD_LABEL": "Field"
             }
         }
     }
