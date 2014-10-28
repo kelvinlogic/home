@@ -118,5 +118,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('product-attributes-master', {
+            url: '/product-attributes-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/product-attributes-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

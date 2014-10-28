@@ -96,6 +96,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "productAttribute": {
+            "DETAIL_PAGE_TITLE": "Product Attribute",
+            "MASTER_PAGE_TITLE": "Product Attributes",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
