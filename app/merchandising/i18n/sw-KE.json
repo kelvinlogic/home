@@ -106,6 +106,17 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "productHierarchy": {
+            "DETAIL_PAGE_TITLE": "Product Hierarchy",
+            "MASTER_PAGE_TITLE": "Product Hierarchy",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "EXTRA_INFO_LABEL": "Extra Information",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }

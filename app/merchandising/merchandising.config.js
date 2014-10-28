@@ -130,5 +130,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('product-hierarchy-master', {
+            url: '/product-hierarchy-master?id',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/product-hierarchy-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();
