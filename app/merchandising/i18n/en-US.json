@@ -86,6 +86,16 @@
                 "NAME_LABEL": "Name",
                 "PACKABLE_LABEL": "Packable"
             }
+        },
+
+        "servingUom": {
+            "DETAIL_PAGE_TITLE": "Serving UOM",
+            "MASTER_PAGE_TITLE": "Serving UOMs",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }

@@ -1,0 +1,108 @@
+<!-- widget grid -->
+<section id="widget-grid" data-widget-grid data-ng-controller="ServingUomMasterCtrl as servingUomCtrl">
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-md-12 col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
+                <header>
+                    <h2 data-translate="{{::servingUomCtrl.titleKey}}"></h2>
+                </header>
+
+                <!-- widget div-->
+                <div data-widget-body>
+                    <!-- widget content -->
+                    <div data-widget-content>
+                        <!-- List View -->
+                        <div data-ng-if="!servingUomCtrl.servingUom">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input type="search" class="form-control"
+                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                               data-ng-model="servingUomCtrl.filter" />
+                                    </div>
+                                    <hr class="visible-xs"/>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-plus"></i>
+                                            <span class="hidden-sm hidden-xs" data-translate="fc.NEW_TEXT"></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary" data-ng-click="servingUomCtrl.edit()"
+                                                data-ng-disabled="!servingUomCtrl.selectedServingUom || servingUomCtrl.selectedServingUoms.length > 1">
+                                            <i class="fa fa-edit"></i>
+                                            <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
+                                        </button>
+                                        <button class="btn btn-danger" data-ng-disabled="!servingUomCtrl.selectedServingUom">
+                                            <i class="fa fa-trash-o"></i>
+                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr/>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="fc-ui-grid-scrollable" data-ui-grid="servingUomCtrl.gridOptions"
+                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pagination-sm pull-right" data-ng-model="servingUomCtrl.pagination.page"
+                                         data-ng-change="servingUomCtrl.pageChanged()" data-pagination
+                                         data-total-items="servingUomCtrl.pagination.total"
+                                         data-max-size="servingUomCtrl.pagination.maxSize"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-ng-if="servingUomCtrl.servingUom">
+                            <form class="form-horizontal" name="servingUomForm" data-ng-submit="servingUomCtrl.saveChanges()">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="code"
+                                           data-translate="fc.merchandising.servingUom.input.CODE_LABEL"></label>
+                                    <div class="col-md-10">
+                                        <input id="code" type="text"
+                                               class="fc-input-full-width form-control"
+                                               placeholder="{{'fc.merchandising.servingUom.input.CODE_LABEL' | translate}}"
+                                               data-ng-model="servingUomCtrl.servingUom.code" data-vt-keyboard/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="name"
+                                           data-translate="fc.merchandising.servingUom.input.NAME_LABEL"></label>
+                                    <div class="col-md-10">
+                                        <input id="name" type="text"
+                                               class="fc-input-full-width form-control"
+                                               placeholder="{{'fc.merchandising.servingUom.input.NAME_LABEL' | translate}}"
+                                               data-ng-model="servingUomCtrl.servingUom.name" data-vt-keyboard/>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-success" type="submit"
+                                            data-translate="fc.SAVE_TEXT"></button>
+                                    <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
+                                            data-ng-click="servingUomCtrl.cancelChanges()"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>
+<!-- end widget grid -->

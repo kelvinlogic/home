@@ -106,5 +106,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('serving-uom-master', {
+            url: '/serving-uom-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/serving-uom-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();
