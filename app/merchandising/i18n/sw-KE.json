@@ -58,6 +58,23 @@
                 "NAME_LABEL": "Name",
                 "PERCENTAGE_LABEL": "Percentage"
             }
+        },
+
+        "supplier": {
+            "DETAIL_PAGE_TITLE": "Supplier",
+            "MASTER_PAGE_TITLE": "Suppliers",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name",
+                "LOCATION_LABEL": "Location",
+                "CITY_LABEL": "City",
+                "PHONE_LABEL": "Phone",
+                "FAX_LABEL": "Fax",
+                "EMAIL_LABEL": "Email",
+                "VAT_NUMBER_LABEL": "VAT Number",
+                "PIN_CODE_LABEL": "Pin Code"
+            }
         }
     }
 }

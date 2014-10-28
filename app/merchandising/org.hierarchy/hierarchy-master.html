@@ -88,10 +88,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group" data-ng-repeat="(key, value) in hierarchyCtrl.hierarchy.fields">
-                                    <label class="control-label col-md-2" for="field_+{{$index}}"
+                                    <label class="control-label col-md-2" for="field_{{$index}}"
                                            data-ng-bind="key | string:'capitalize'"></label>
                                     <div class="col-md-10">
-                                        <input id="field_+{{$index}}" type="text"
+                                        <input id="field_{{$index}}" type="text"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{key}}"
                                                data-ng-model="value" data-vt-keyboard/>

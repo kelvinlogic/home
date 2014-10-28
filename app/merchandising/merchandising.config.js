@@ -82,5 +82,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('supplier-master', {
+            url: '/supplier-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/supplier-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();
