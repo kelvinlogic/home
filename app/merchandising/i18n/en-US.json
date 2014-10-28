@@ -75,6 +75,17 @@
                 "VAT_NUMBER_LABEL": "VAT Number",
                 "PIN_CODE_LABEL": "Pin Code"
             }
+        },
+
+        "uom": {
+            "DETAIL_PAGE_TITLE": "UOM",
+            "MASTER_PAGE_TITLE": "UOMs",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name",
+                "PACKABLE_LABEL": "Packable"
+            }
         }
     }
 }

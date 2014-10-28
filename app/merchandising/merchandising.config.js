@@ -94,5 +94,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('uom-master', {
+            url: '/uom-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/uom-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();
