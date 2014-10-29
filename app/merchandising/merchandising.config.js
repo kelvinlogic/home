@@ -166,5 +166,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('reasons-master', {
+            url: '/reasons-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/reasons-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

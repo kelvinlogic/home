@@ -137,6 +137,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "reason": {
+            "DETAIL_PAGE_TITLE": "Reason",
+            "MASTER_PAGE_TITLE": "Reasons",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
