@@ -142,5 +142,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('currencies-master', {
+            url: '/currencies-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/currencies-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

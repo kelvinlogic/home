@@ -117,6 +117,16 @@
                 "EXTRA_INFO_LABEL": "Extra Information",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "currency": {
+            "DETAIL_PAGE_TITLE": "Currency",
+            "MASTER_PAGE_TITLE": "Currencies",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
