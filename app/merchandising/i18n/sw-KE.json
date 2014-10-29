@@ -127,6 +127,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "instruction": {
+            "DETAIL_PAGE_TITLE": "Instruction",
+            "MASTER_PAGE_TITLE": "Instructions",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }

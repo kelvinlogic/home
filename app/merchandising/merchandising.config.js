@@ -154,5 +154,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('instructions-master', {
+            url: '/instructions-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/instructions-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();
