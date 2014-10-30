@@ -178,5 +178,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('salesman-master', {
+            url: '/salesman-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/salesman-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

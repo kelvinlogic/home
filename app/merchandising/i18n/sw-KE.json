@@ -147,6 +147,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "salesman": {
+            "DETAIL_PAGE_TITLE": "Salesman",
+            "MASTER_PAGE_TITLE": "Salesmen",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
