@@ -190,5 +190,17 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('credit-card-master', {
+            url: '/credit-card-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/credit-card-master.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 })();

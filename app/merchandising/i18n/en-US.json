@@ -157,6 +157,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "creditCard": {
+            "DETAIL_PAGE_TITLE": "Credit Card",
+            "MASTER_PAGE_TITLE": "Credit Cards",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
