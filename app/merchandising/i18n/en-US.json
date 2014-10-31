@@ -167,6 +167,24 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "productHierarchyMapping": {
+            "PAGE_TITLE": "Product Hierarchy Mapping",
+            "WELCOME_TEXT": "Welcome to the FutureCoRe system. Before you begin, you need to provide us with some information about your business' organizational hierarchy.",
+            "HELP_TEXT": "Please enter the relevant information in the dotted lines to proceed. Once all of the information in a hierarchy level is entered, action buttons will appear at the bottom for adding or removing a level. The button with a PLUS icon is used to add a new level just below the current level. The button with a MINUS icon is used to remove the current level.",
+
+            "input": {
+                "NAME_LABEL": "Name",
+                "NAME_PLACEHOLDER": "Name e.g. Company",
+                "CODE_LABEL": "Code",
+                "CODE_PLACEHOLDER": "Code e.g. Co"
+            },
+
+            "item": {
+                "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
+                "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
+            }
         }
     }
 }

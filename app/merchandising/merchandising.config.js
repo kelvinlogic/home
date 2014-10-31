@@ -6,6 +6,9 @@
         '$stateProvider',
         '$urlRouterProvider',
         routeConfig
+    ]).config([
+        "hierarchyDataSvcProvider",
+        svcConfig
     ]);
 
     function routeConfig($stateProvider, $urlRouterProvider) {
@@ -202,5 +205,21 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('product-hierarchy-mapping', {
+            url: '/product-hierarchy-mapping?id',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/prod.hierarchy/product-hierarchy-mapping.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
+    }
+
+    function svcConfig(hierarchyDataSvcProvider) {
+        hierarchyDataSvcProvider.hierarchyMappingUrl = null;
     }
 })();

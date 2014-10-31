@@ -30,7 +30,7 @@
                                     <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in configCtrl.levels">
                                         <div data-accordion-heading>
                                             <h4>
-                                                <span data-ng-bind="level.description || 'Level ' + $index"></span>
+                                                <span data-ng-bind="level.description || 'Level ' + ($index + 1)"></span>
 
                                                 <!-- Produces output in the form of [a - b] or [a] or [b]. -->
                                                 <small data-ng-if="level.data.name || level.data.code">[</small>

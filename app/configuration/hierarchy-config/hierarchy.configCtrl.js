@@ -43,10 +43,10 @@
                         resolve: {
                             data: function () {
                                 return {
-                                    bodyTextKey: "fc.startup.config.hierarchy.configCompleteModal.COMPLETE_MODAL_CONTENT",
+                                    bodyTextKey: "fc.configuration.hierarchy.configCompleteModal.COMPLETE_MODAL_CONTENT",
                                     cancelKey: "fc.NO_TEXT",
                                     okKey: "fc.YES_TEXT",
-                                    titleKey: "fc.startup.config.hierarchy.configCompleteModal.COMPLETE_MODAL_TITLE"
+                                    titleKey: "fc.configuration.hierarchy.configCompleteModal.COMPLETE_MODAL_TITLE"
                                 };
                             }
                         }
@@ -145,17 +145,19 @@
         }
 
         function load(language) {
-            dataContextSvc.getConfig().then(function () {
-                vm.levels = configSvc.config.hierarchy.levels;
-                // By default, open the first item.
-                vm.levels[0].open = true;
+            vm.levels = configSvc.config.hierarchy.levels;
+            // By default, open the first item.
+            vm.levels[0].open = true;
 
-                // Register an event listener for language changes.
-                // This event helps us know what language is in use.
-                $scope.$on(config.languageChanged, function (event, language) {
-                    load(language);
-                });
+            // Register an event listener for language changes.
+            // This event helps us know what language is in use.
+            $scope.$on(config.languageChanged, function (event, language) {
+                load(language);
             });
+
+//            dataContextSvc.getConfig().then(function () {
+//
+//            });
         }
 
         function removeField(level, field) {
