@@ -4,7 +4,7 @@
 "use strict";
 
 (function () {
-    angular.module("fc.common").service("appConfig", config);
+    angular.module("fc.common").constant("appConfig", config());
 
     function config(){
         var conf = {};

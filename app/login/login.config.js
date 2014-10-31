@@ -15,10 +15,10 @@
             url: '/?returnUrl',
             views: {
                 '': {
-                    templateUrl: 'login/login.html'
+                    templateUrl: 'login/login.tpl.html'
                 },
                 'top-bar': {
-                    templateUrl: 'common/header.html'
+                    templateUrl: 'common/header.tpl.html'
                 }
             }
         });

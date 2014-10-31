@@ -13,15 +13,15 @@
 
     function routeConfig($stateProvider, $urlRouterProvider) {
         var topBarView = {
-            templateUrl: 'common/header.html'
+            templateUrl: 'common/header.tpl.html'
         };
 
         var leftNavView = {
-            templateUrl: 'common/left-menu.html'
+            templateUrl: 'common/left.menu.tpl.html'
         };
 
         var footerView = {
-            templateUrl: 'common/footer.html'
+            templateUrl: 'common/footer.tpl.html'
         };
 
         $urlRouterProvider.otherwise('/entity-master');
@@ -30,7 +30,7 @@
             url: '/entity-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/org.hierarchy/entity-master.html'
+                    templateUrl: 'merchandising/org.hierarchy/entity.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -42,7 +42,7 @@
             url: '/hierarchy-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/org.hierarchy/hierarchy-master.html'
+                    templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -54,7 +54,7 @@
             url: '/branch-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/org.hierarchy/branch-master.html'
+                    templateUrl: 'merchandising/org.hierarchy/branch.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -66,7 +66,7 @@
             url: '/sub-branch-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/org.hierarchy/sub-branch-master.html'
+                    templateUrl: 'merchandising/org.hierarchy/sub.branch.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -78,7 +78,7 @@
             url: '/vat-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/vat-master.html'
+                    templateUrl: 'merchandising/vat.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -90,7 +90,7 @@
             url: '/supplier-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/supplier-master.html'
+                    templateUrl: 'merchandising/supplier.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -102,7 +102,7 @@
             url: '/uom-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/uom-master.html'
+                    templateUrl: 'merchandising/uom.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -114,7 +114,7 @@
             url: '/serving-uom-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/serving-uom-master.html'
+                    templateUrl: 'merchandising/serving.uom.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -126,7 +126,7 @@
             url: '/product-attributes-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/product-attributes-master.html'
+                    templateUrl: 'merchandising/product.attributes.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -138,7 +138,7 @@
             url: '/product-hierarchy-master?id',
             views: {
                 '': {
-                    templateUrl: 'merchandising/prod.hierarchy/product-hierarchy-master.html'
+                    templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -150,7 +150,7 @@
             url: '/currencies-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/currencies-master.html'
+                    templateUrl: 'merchandising/currencies.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -162,7 +162,7 @@
             url: '/instructions-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/instructions-master.html'
+                    templateUrl: 'merchandising/instructions.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -174,7 +174,7 @@
             url: '/reasons-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/reasons-master.html'
+                    templateUrl: 'merchandising/reasons.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -186,7 +186,7 @@
             url: '/salesman-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/salesman-master.html'
+                    templateUrl: 'merchandising/salesman.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -198,7 +198,7 @@
             url: '/credit-card-master',
             views: {
                 '': {
-                    templateUrl: 'merchandising/credit-card-master.html'
+                    templateUrl: 'merchandising/credit.card.master.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -210,7 +210,7 @@
             url: '/product-hierarchy-mapping?id',
             views: {
                 '': {
-                    templateUrl: 'merchandising/prod.hierarchy/product-hierarchy-mapping.html'
+                    templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.mapping.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,

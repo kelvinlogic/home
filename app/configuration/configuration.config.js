@@ -13,15 +13,15 @@
 
     function routeConfig($stateProvider, $urlRouterProvider) {
         var topBarView = {
-            templateUrl: 'common/header.html'
+            templateUrl: 'common/header.tpl.html'
         };
 
         var leftNavView = {
-            templateUrl: 'common/left-menu.html'
+            templateUrl: 'common/left.menu.tpl.html'
         };
 
         var footerView = {
-            templateUrl: 'common/footer.html'
+            templateUrl: 'common/footer.tpl.html'
         };
 
         // Remove?
@@ -31,7 +31,7 @@
             url: '/hierarchy-config',
             views: {
                 '': {
-                    templateUrl: 'configuration/hierarchy-config/hierarchy.config.html'
+                    templateUrl: 'configuration/hierarchy-config/hierarchy.config.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -43,7 +43,7 @@
             url: '/language-config',
             views: {
                 '': {
-                    templateUrl: 'configuration/language-config/language.config.html'
+                    templateUrl: 'configuration/language-config/language.config.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
@@ -55,7 +55,7 @@
             url: '/vertical-config',
             views: {
                 '': {
-                    templateUrl: 'configuration/vertical-config/vertical.config.html'
+                    templateUrl: 'configuration/vertical-config/vertical.config.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,

@@ -122,7 +122,7 @@
                 // If it has been done, show a modal to ask whether to modify the existing configuration.
                 if (data.hierarchy.completed){
                     var modalInstance = $modal.open({
-                        templateUrl: "common/modal.template.html",
+                        templateUrl: "common/modal.tpl.html",
                         controller: "ModalTemplateCtrl as modalCtrl",
                         resolve: {
                             data: function () {
