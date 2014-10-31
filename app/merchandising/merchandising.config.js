@@ -138,7 +138,7 @@
             url: '/product-hierarchy-master?id',
             views: {
                 '': {
-                    templateUrl: 'merchandising/product-hierarchy-master.html'
+                    templateUrl: 'merchandising/prod.hierarchy/product-hierarchy-master.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
