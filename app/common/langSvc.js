@@ -13,9 +13,9 @@
 
         cfg.$get = langSvc;
 
-        langSvc.$inject = ['$http', "dataContextSvc"];
+        langSvc.$inject = ['$http', "configSvc"];
 
-        function langSvc($http, dataContextSvc) {
+        function langSvc($http, configSvc) {
             return {
                 getActiveLanguages: getActiveLanguages,
                 getLanguages: getLanguages
@@ -25,7 +25,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             function getActiveLanguages() {
-                return dataContextSvc.getConfig().then(function (result) {
+                return configSvc.getConfig().then(function (result) {
                     return result.language.languages;
                 });
             }

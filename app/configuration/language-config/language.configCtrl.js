@@ -5,10 +5,10 @@
         .module("fc.configuration")
         .controller("LanguageConfigCtrl", languageConfigCtrl);
 
-    languageConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "configSvc", "dataContextSvc", "langSvc"];
+    languageConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "configSvc", "langSvc"];
 
     /* @ngInject */
-    function languageConfigCtrl(_, $modal, $scope, $state, config, configSvc, dataContextSvc, langSvc)
+    function languageConfigCtrl(_, $modal, $scope, $state, config, configSvc, langSvc)
     {
         /* jshint validthis: true */
         var vm = this;
@@ -23,8 +23,14 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function activate() {
+            // Register an event listener on this controller for language changes.
+            // This event helps us know what language is in use.
+            $scope.$on(config.languageChanged, load);
+        }
+
+        function load() {
             // Check if the language configuration has been performed.
-            dataContextSvc.getConfig().then(function (data) {
+            configSvc.getConfig().then(function (data) {
                 // If it has been done, show a modal to ask whether to modify the existing configuration.
                 if (data.language.completed){
                     var modalInstance = $modal.open({
@@ -44,24 +50,24 @@
 
                     modalInstance.result.then(function () {
                         // We want to modify...
-                        load();
+                        populateData(data);
                     }, function () {
                         // We don't want to modify...go to hierarchy configuration.
                         $state.go("hierarchy-config");
                     });
                 } else {
-                    load();
+                    populateData(data);
                 }
             });
         }
 
-        function load(language) {
+        function populateData(data) {
             langSvc.getLanguages().then(function (languages) {
                 vm.defaultLanguages = _.filter(languages, function (language) {
                     return language.default;
                 });
 
-                var selected = configSvc.config.language.languages;
+                var selected = data.language.languages;
 
                 vm.languages = _(languages).filter(function (language) {
                     return !language.default;
@@ -72,12 +78,6 @@
 
                     return item;
                 }).value();
-
-                // Register an event listener on this controller for language changes.
-                // This event helps us know what language is in use.
-                $scope.$on(config.languageChanged, function (event, language) {
-                    load(language);
-                });
             });
         }
 

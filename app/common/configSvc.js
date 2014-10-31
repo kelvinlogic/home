@@ -3,41 +3,51 @@
 
     angular
         .module("fc.common")
-        .factory("configSvc", configSvc);
+        .provider("configSvc", configSvcProvider);
 
-    configSvc.$inject = ["$window"];
+    function configSvcProvider() {
+        // Available in config.
+        var cfg = this;
+        cfg.configUrl = null;
 
-    /* @ngInject */
-    function configSvc($window) {
-        var defaultLocalConfig = {
-            keyboardEnabled: false,
-            keyboardVisible: true,
-            languageCode: "en-US"
-        };
+        cfg.$get = configSvc;
 
-        return {
-            config: {
-                hierarchy: {},
-                language: {},
-                vertical: {}
-            },
-            getLocalConfig: getLocalConfig,
-            setLocalConfig: setLocalConfig
-        };
+        configSvc.$inject = ["$http", "$window"];
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /* @ngInject */
+        function configSvc($http, $window) {
+            var defaultLocalConfig = {
+                keyboardEnabled: false,
+                keyboardVisible: true,
+                languageCode: "en-US"
+            };
 
-        function getLocalConfig() {
-            var config = null;
-            if($window.localStorage.localConfig && typeof($window.localStorage.localConfig) === "string"){
-                config = JSON.parse($window.localStorage.localConfig);
+            return {
+                getConfig: getConfig,
+                getLocalConfig: getLocalConfig,
+                setLocalConfig: setLocalConfig
+            };
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function getConfig() {
+                return $http.get(cfg.configUrl).then(function (result) {
+                    return result.data;
+                });
             }
 
-            return config || defaultLocalConfig;
-        }
+            function getLocalConfig() {
+                var config = null;
+                if($window.localStorage.localConfig && typeof($window.localStorage.localConfig) === "string"){
+                    config = JSON.parse($window.localStorage.localConfig);
+                }
 
-        function setLocalConfig(config) {
-            $window.localStorage.localConfig = JSON.stringify(config);
+                return config || defaultLocalConfig;
+            }
+
+            function setLocalConfig(config) {
+                $window.localStorage.localConfig = JSON.stringify(config);
+            }
         }
     }
 })();
