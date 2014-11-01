@@ -217,6 +217,18 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('product-brand-master', {
+            url: '/product-brand-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/product.brand.master.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 
     function svcConfig(hierarchyDataSvcProvider) {

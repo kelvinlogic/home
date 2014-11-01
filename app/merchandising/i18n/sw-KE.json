@@ -185,6 +185,16 @@
                 "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
                 "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
             }
+        },
+
+        "productBrand": {
+            "DETAIL_PAGE_TITLE": "Product Brand",
+            "MASTER_PAGE_TITLE": "Product Brands",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }

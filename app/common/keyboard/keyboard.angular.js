@@ -19,8 +19,8 @@
                 layout: "qwerty"
             },
             "sw-KE": {
-                language: "arabic",
-                layout: "arabic-only-qwerty-1"
+                language: "swahili",
+                layout: "qwerty"
             },
             "ar-AE": {
                 language: "arabic",
@@ -43,9 +43,7 @@
             collision: "flipfit flipfit"
         };
 
-        var config = defaultCfg;
-
-        cfg.config = config;
+        cfg.config = defaultCfg;
         cfg.keyboardClass = null;
         cfg.keyboardToggledEvent = null;
         cfg.languageChangedEvent = null;

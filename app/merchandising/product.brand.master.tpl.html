@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="VatMasterCtrl as vatCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="ProductBrandMasterCtrl as productBrandCtrl">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::vatCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::productBrandCtrl.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,14 +15,14 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!vatCtrl.vat">
+                        <div data-ng-if="!productBrandCtrl.productBrand">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="vatCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="productBrandCtrl.filter" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -34,12 +34,12 @@
                                         </button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="vatCtrl.edit()"
-                                                data-ng-disabled="!vatCtrl.selectedVat || vatCtrl.selectedVats.length > 1">
+                                        <button class="btn btn-primary" data-ng-click="productBrandCtrl.edit()"
+                                                data-ng-disabled="!productBrandCtrl.selectedProductBrand || productBrandCtrl.selectedProductBrands.length > 1">
                                             <i class="fa fa-edit"></i>
                                             <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
                                         </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!vatCtrl.selectedVat">
+                                        <button class="btn btn-danger" data-ng-disabled="!productBrandCtrl.selectedProductBrand">
                                             <i class="fa fa-trash-o"></i>
                                             <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
                                         </button>
@@ -51,56 +51,46 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="vatCtrl.gridOptions"
+                                    <div class="fc-ui-grid-scrollable" data-ui-grid="productBrandCtrl.gridOptions"
                                          data-ui-grid-auto-resize data-ui-grid-selection></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="vatCtrl.pagination.page"
-                                         data-ng-change="vatCtrl.pageChanged()" data-pagination
-                                         data-total-items="vatCtrl.pagination.total"
-                                         data-max-size="vatCtrl.pagination.maxSize"></div>
+                                    <div class="pagination-sm pull-right" data-ng-model="productBrandCtrl.pagination.page"
+                                         data-ng-change="productBrandCtrl.pageChanged()" data-pagination
+                                         data-total-items="productBrandCtrl.pagination.total"
+                                         data-max-size="productBrandCtrl.pagination.maxSize"></div>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="vatCtrl.vat">
-                            <form class="form-horizontal" name="vatForm" data-ng-submit="vatCtrl.saveChanges()">
+                        <div data-ng-if="productBrandCtrl.productBrand">
+                            <form class="form-horizontal" name="productBrandForm" data-ng-submit="productBrandCtrl.saveChanges()">
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="code"
-                                           data-translate="fc.merchandising.vat.input.CODE_LABEL"></label>
+                                           data-translate="fc.merchandising.productBrand.input.CODE_LABEL"></label>
                                     <div class="col-md-10">
                                         <input id="code" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.vat.input.CODE_LABEL' | translate}}"
-                                               data-ng-model="vatCtrl.vat.code" data-vt-keyboard/>
+                                               placeholder="{{'fc.merchandising.productBrand.input.CODE_LABEL' | translate}}"
+                                               data-ng-model="productBrandCtrl.productBrand.code" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="name"
-                                           data-translate="fc.merchandising.vat.input.NAME_LABEL"></label>
+                                           data-translate="fc.merchandising.productBrand.input.NAME_LABEL"></label>
                                     <div class="col-md-10">
                                         <input id="name" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.vat.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="vatCtrl.vat.name" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="percentage"
-                                           data-translate="fc.merchandising.vat.input.PERCENTAGE_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="percentage" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.vat.input.PERCENTAGE_LABEL' | translate}}"
-                                               data-ng-model="vatCtrl.vat.percentage" data-vt-keyboard/>
+                                               placeholder="{{'fc.merchandising.productBrand.input.NAME_LABEL' | translate}}"
+                                               data-ng-model="productBrandCtrl.productBrand.name" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-actions">
                                     <button class="btn btn-success" type="submit"
                                             data-translate="fc.SAVE_TEXT"></button>
                                     <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="vatCtrl.cancelChanges()"></button>
+                                            data-ng-click="productBrandCtrl.cancelChanges()"></button>
                                 </div>
                             </form>
                         </div>
