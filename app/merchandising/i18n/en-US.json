@@ -205,6 +205,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "productPositioning": {
+            "DETAIL_PAGE_TITLE": "Product Positioning",
+            "MASTER_PAGE_TITLE": "Product Positioning",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }

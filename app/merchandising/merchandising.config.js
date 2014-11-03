@@ -241,6 +241,18 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('product-positioning-master', {
+            url: '/product-positioning-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/product.positioning.master.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 
     function svcConfig(hierarchyDataSvcProvider) {
