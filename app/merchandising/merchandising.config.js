@@ -229,6 +229,18 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('scan-code-master', {
+            url: '/scan-code-master',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/scan.code.master.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 
     function svcConfig(hierarchyDataSvcProvider) {

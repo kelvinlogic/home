@@ -106,6 +106,9 @@
     // Emulate existence of ui-grid module. It's required by common but none of the code is used.
     angular.module("ui.grid", []);
     angular.module("ui.grid.autoResize", ["ui.grid"]);
+    angular.module("ui.grid.exporter", ["ui.grid"]);
+    angular.module("ui.grid.selection", ["ui.grid"]);
+    angular.module("ui.grid.resizeColumns", ["ui.grid"]);
 </script>
 
 <!-- Lodash JS -->
@@ -143,6 +146,7 @@
 <script src="common/config.svc.js"></script>
 <script src="common/keyboard/keyboard.angular.js"></script>
 <script src="common/keyboard/layouts/arabic.js"></script>
+<script src="common/search/search.js"></script>
 <script src="common/lang.svc.js"></script>
 <script src="common/menu.svc.js"></script>
 <script src="common/bootstrap.js"></script>

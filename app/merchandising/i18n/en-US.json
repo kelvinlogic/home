@@ -195,6 +195,16 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "scanCode": {
+            "DETAIL_PAGE_TITLE": "Scan Code",
+            "MASTER_PAGE_TITLE": "Scan Codes",
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name"
+            }
         }
     }
 }
