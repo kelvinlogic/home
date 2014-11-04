@@ -127,7 +127,7 @@ html.fixed-height.has-footer #content #widget-grid .jarviswidget > div {
 
 html.fixed-height.has-footer #content #widget-grid .jarviswidget > div {
     /* Cater for header height. */
-    padding-bottom: 32px;
+    /*padding-bottom: 32px;*/
     overflow: auto;
 }
 
@@ -162,4 +162,48 @@ html.fixed-height.has-footer #content {
 .fc-ui-grid .ui-grid-menu .ui-grid-menu-inner ul > li,
 .fc-ui-grid-scrollable .ui-grid-menu .ui-grid-menu-inner ul > li {
     padding-right: 2em;
+}
+
+/*
+** Typeahead styling.
+*/
+.twitter-typeahead {
+    width: 100%;
+}
+
+.twitter-typeahead .tt-dropdown-menu {
+    background: #fff;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-top: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px #ccc;
+}
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion {
+    padding: 2px 6px 2px 6px;
+    border-bottom: 1px solid #ddd;
+}
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion > p,
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion > div {
+    margin: 3px 0 3px 0;
+}
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion .fc-compound-suggestion .fc-compound-main {
+    font-size: 1em;
+}
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion .fc-compound-suggestion .fc-compound-hint {
+    font-size: 0.8em;
+}
+.twitter-typeahead .tt-dropdown-menu .tt-suggestion.tt-cursor {
+    background: #ffe762;
+}
+
+/*
+** Table styling.
+*/
+
+.table tbody > tr.fc-selected td {
+    background-color: #9cdfd8;
 }

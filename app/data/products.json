@@ -1,0 +1,7 @@
+[
+    {"id": 1, "code": "CC", "name": "Coca Cola"},
+    {"id": 2, "code": "BB", "name": "Blue Band"},
+    {"id": 3, "code": "BICP", "name": "BIC Pen"},
+    {"id": 4, "code": "NTL", "name": "Nutella"},
+    {"id": 5, "code": "OR", "name": "Oreos"}
+]

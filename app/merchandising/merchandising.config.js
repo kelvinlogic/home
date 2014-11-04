@@ -9,7 +9,7 @@
     ]).config([
         "hierarchyDataSvcProvider",
         svcConfig
-    ]);
+    ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
     function routeConfig($stateProvider, $urlRouterProvider) {
         var topBarView = {
@@ -253,9 +253,66 @@
                 'top-bar': topBarView
             }
         });
+
+        $stateProvider.state('supplier-product-mapping', {
+            url: '/supplier-product-mapping',
+            views: {
+                '': {
+                    templateUrl: 'merchandising/mappings/supplier.product.mapping.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
     }
 
     function svcConfig(hierarchyDataSvcProvider) {
         hierarchyDataSvcProvider.hierarchyMappingUrl = null;
+    }
+
+    function buildMerchandisingConstants() {
+        return {
+            suggestions: {
+                products: {
+                    displayKey: "name",
+                    remote: {
+                        url: "data/products.json?q=%QUERY",
+                        wildcard: "%QUERY"
+                    },
+                    templates: {
+                        suggestion: function (suggestion) {
+                            var html = "<div class='fc-compound-suggestion'>";
+                            html += "<div class='fc-compound-main'>" + suggestion["name"] + "</div>";
+                            if (suggestion["code"]) {
+                                html += "<span class='fc-compound-hint text-muted'>" + suggestion["code"] + "</span>";
+                            }
+
+                            html += "</div>";
+                            return html;
+                        }
+                    }
+                },
+                suppliers: {
+                    displayKey: "name",
+                    remote: {
+                        url: "data/suppliers.json?q=%QUERY",
+                        wildcard: "%QUERY"
+                    },
+                    templates: {
+                        suggestion: function (suggestion) {
+                            var html = "<div class='fc-compound-suggestion'>";
+                            html += "<div class='fc-compound-main'>" + suggestion["name"] + "</div>";
+                            if (suggestion["code"]) {
+                                html += "<span class='fc-compound-hint text-muted'>" + suggestion["code"] + "</span>";
+                            }
+
+                            html += "</div>";
+                            return html;
+                        }
+                    }
+                }
+            }
+        }
     }
 })();

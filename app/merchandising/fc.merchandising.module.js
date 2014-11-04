@@ -4,6 +4,8 @@
     angular
         .module("fc.merchandising", [
             "ui.bootstrap",
-            "fc.common"
+            "fc.common",
+            "datatables",
+            "siyfion.sfTypeahead"
         ]);
 })();

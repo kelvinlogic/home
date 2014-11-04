@@ -1,0 +1,8 @@
+[
+    {"id": 1, "code": "LH01", "name": "Longhorn Publishers"},
+    {"id": 2, "code": "MS01", "name": "Mungiki Suppliers"},
+    {"id": 3, "code": "ML21", "name": "Morty Lynn Limited"},
+    {"id": 4, "code": "SH01", "name": "Sherlock Distributors"},
+    {"id": 5, "code": "NJ01", "name": "Naru-Jesus Limited"},
+    {"id": 6, "code": "SS20", "name": "Susanoo Limited"}
+]

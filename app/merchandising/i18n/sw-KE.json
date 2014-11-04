@@ -215,6 +215,33 @@
                 "CODE_LABEL": "Code",
                 "NAME_LABEL": "Name"
             }
+        },
+
+        "supplierProductMapping": {
+            "DETAIL_PAGE_TITLE": "Supplier Product Mapping",
+            "MASTER_PAGE_TITLE": "Supplier Product Mappings",
+
+            "table": {
+                "ID_FILTER_TEXT": "Filter Id",
+                "ID_HEADER": "Id",
+                "CODE_FILTER_TEXT": "Filter Code",
+                "CODE_HEADER": "Code",
+                "NAME_FILTER_TEXT": "Filter Name",
+                "NAME_HEADER": "Name",
+                "COL_VIS_TEXT": "Show/Hide Columns",
+                "COPY_TOOL_TEXT": "Copy",
+                "PRINT_TOOL_TEXT": "Print",
+                "SAVE_AS_TOOL_TEXT": "Save As"
+            },
+
+            "input": {
+                "CODE_LABEL": "Code",
+                "NAME_LABEL": "Name",
+                "SELECT_PRODUCT_LABEL": "Select Product",
+                "SELECT_PRODUCT_PLACEHOLDER": "Type a product's name or code...",
+                "SELECT_SUPPLIER_LABEL": "Select Supplier",
+                "SELECT_SUPPLIER_PLACEHOLDER": "Type a supplier's name or code..."
+            }
         }
     }
 }
