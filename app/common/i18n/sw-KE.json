@@ -11,17 +11,46 @@
 
         "users": {
             "master": {
-                "PAGE_TITLE": "Users"
+                "PAGE_TITLE": "Users",
+
+                "table": {
+                    "EMAIL_FILTER_TEXT": "Filter Email Address",
+                    "EMAIL_HEADER": "Email Address",
+                    "ID_FILTER_TEXT": "Filter Id",
+                    "ID_HEADER": "Id",
+                    "FULL_NAME_FILTER_TEXT": "Filter Name",
+                    "FULL_NAME_HEADER": "Name",
+                    "MOBILE_FILTER_TEXT": "Filter Mobile Number",
+                    "MOBILE_HEADER": "Mobile Number"
+                }
             }
         },
         "groups": {
             "master": {
-                "PAGE_TITLE": "User Groups"
+                "PAGE_TITLE": "User Groups",
+
+                "table": {
+                    "ID_FILTER_TEXT": "Filter Id",
+                    "ID_HEADER": "Id",
+                    "DESCRIPTION_FILTER_TEXT": "Filter Description",
+                    "DESCRIPTION_HEADER": "Description",
+                    "NAME_FILTER_TEXT": "Filter Name",
+                    "NAME_HEADER": "Name"
+                }
             }
         },
 
         "rights": {
-            "PAGE_TITLE": "User Rights"
+            "PAGE_TITLE": "User Rights",
+
+            "table": {
+                "ID_FILTER_TEXT": "Filter Id",
+                "ID_HEADER": "Id",
+                "DESCRIPTION_FILTER_TEXT": "Filter Description",
+                "DESCRIPTION_HEADER": "Description",
+                "NAME_FILTER_TEXT": "Filter Name",
+                "NAME_HEADER": "Name"
+            }
         }
     }
 }

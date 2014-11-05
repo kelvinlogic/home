@@ -5,17 +5,19 @@
         .module('fc.merchandising')
         .controller('BranchMasterCtrl', branchMaster);
 
-    branchMaster.$inject = ['lodash', '$scope'];
+    branchMaster.$inject = ['lodash', '$scope', '$translate', 'DTOptionsBuilder'];
 
     /* @ngInject */
-    function branchMaster(_, $scope) {
+    function branchMaster(_, $scope, $translate, DTOptionsBuilder) {
         /* jshint validthis: true */
-        var vm = this,
-            _gridApi = null;
+        var vm = this;
 
         vm.activate = activate;
+        vm.branch = null;
+        vm.branches = [];
         vm.cancelChanges = cancelChanges;
         vm.edit = edit;
+        vm.filters = {};
         vm.gridOptions = {};
         vm.pageChanged = pageChanged;
         vm.pagination = {};
@@ -23,8 +25,8 @@
         vm.selectedAll = false;
         vm.selectedBranches = [];
         vm.selectedBranch = null;
-        vm.branch = null;
         vm.titleKey = 'fc.merchandising.branch.MASTER_PAGE_TITLE';
+        vm.toggleSelection = toggleSelection;
 
         activate();
 
@@ -37,12 +39,7 @@
             setupPagination();
 
             // TODO: Load user data here.
-            vm.gridOptions.data = [
-                {id: 1, code: "CLL", name: "Compulynx Limited", address1: "Address", phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com"},
-                {id: 2, code: "CLL", name: "Compulynx Limited", address2: "Address 2", phone2: "33333333", fax1: "33333345"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
-            ];
+            load();
         }
 
         function cancelChanges() {
@@ -52,8 +49,52 @@
         function edit() {
             // Use extend to prevent reference copying.
             vm.branch = angular.extend({}, vm.selectedBranch);
+
+            // Clear table selection
+            delete vm.selectedBranch.isSelected;
             vm.selectedBranches = [];
             vm.selectedBranch = null;
+        }
+
+        function load() {
+            vm.branches = [
+                {id: 1, code: "CLL", name: "Compulynx Limited", address1: "Address", phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com"},
+                {id: 2, code: "CLL", name: "Compulynx Limited", address2: "Address 2", phone2: "33333333", fax1: "33333345"},
+                {id: 3, code: "CLL", name: "Compulynx Limited"},
+                {id: 4, code: "CLL", name: "Compulynx Limited"}
+            ];
+
+            $scope.$watchCollection(function () {
+                return vm.filters;
+            }, function (newCollection) {
+                if (newCollection.all) {
+                    // Search on all fields.
+                }
+
+                if (newCollection.id) {
+                    // Search on id field.
+                }
+
+                if (newCollection.code) {
+                    // Search on code field.
+                }
+
+                if (newCollection.name) {
+                    // Search on name field.
+                }
+
+                if (newCollection.email1) {
+                    // Search on email1 field.
+                }
+
+                if (newCollection.phone1) {
+                    // Search on phone1 field.
+                }
+
+                if (newCollection.address1) {
+                    // Search on address1 field.
+                }
+            });
         }
 
         function pageChanged() {
@@ -67,60 +108,51 @@
         }
 
         function setupGrid() {
-            vm.gridOptions.enableGridMenu = true;
-//            vm.gridOptions.enableRowHeaderSelection = false;
-//            vm.gridOptions.enableScrollbars = false;
-            vm.gridOptions.enableSelectAll = true;
-            vm.gridOptions.enableSelectionBatchEvent = false;
-            vm.gridOptions.multiSelect = true;
+            var sDom = "<'dt-toolbar'<'col-xs-12 col-sm-6'T><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-12 col-xs-12'i>>";
 
-            // Addresses: 4, Phones: 4, Faxes: 2, Emails: 2
-            vm.gridOptions.columnDefs = [
-                {name: "id", visible: false},
-                {name: "code"},
-                {name: "name"},
-                {name: "email1", displayName: "Email"},
-                {name: "email2", displayName: "Email 2", visible: false},
-                {name: "phone1", displayName: "Phone"},
-                {name: "phone2", displayName: "Phone 2", visible: false},
-                {name: "phone3", displayName: "Phone 3", visible: false},
-                {name: "phone4", displayName: "Phone 4", visible: false},
-                {name: "address1", displayName: "Address"},
-                {name: "address2", displayName: "Address 2", visible: false},
-                {name: "address3", displayName: "Address 3", visible: false},
-                {name: "address4", displayName: "Address 4", visible: false},
-                {name: "fax1", displayName: "Fax", visible: false},
-                {name: "fax2", displayName: "Fax 2", visible: false},
-                {name: "pin", displayName: "PIN", visible: false},
-                {name: "registration", displayName: "Registration", visible: false}
-            ];
+            // ColVis specified in sDom as 'C'. Don't need withColVis option.
+            vm.gridOptions = DTOptionsBuilder
+                .newOptions()
+                .withDOM(sDom)
+                .withBootstrap()
+                .withOption("paging", false)
+                .withOption("autoWidth", true)
+                .withOption('responsive', true);
 
-            vm.gridOptions.onRegisterApi = function (gridApi) {
-                _gridApi = gridApi;
-                
-                // Listen for row selection changed.
-                gridApi.selection.on.rowSelectionChanged($scope, function (gridRow) {
-                    var index = vm.selectedBranches.indexOf(gridRow.entity);
+            $translate([
+                "fc.table.COL_VIS_TEXT",
+                "fc.table.COPY_TOOL_TEXT",
+                "fc.table.PRINT_TOOL_TEXT",
+                "fc.table.SAVE_AS_TOOL_TEXT"
+            ]).then(function (translations) {
+                var colVisText = translations["fc.table.COL_VIS_TEXT"];
+                vm.gridOptions.withColVisOption("buttonText", colVisText);
 
-                    if (gridRow.isSelected) {
-                        vm.selectedBranch = gridRow.entity;
-
-                        // If element isn't in the selected elements array...
-                        if (index < 0) {
-                            // add it.
-                            vm.selectedBranches.push(gridRow.entity)
-                        }
-                    } else {
-                        // If element isn't in the selected elements array...
-                        if (index > -1) {
-                            // remove it.
-                            vm.selectedBranches.splice(index, 1);
-                        }
-
-                        vm.selectedBranch = _.last(vm.selectedBranches);
+                var ttBtnCfg = [
+                    {
+                        "sExtends": "copy",
+                        "sButtonText": translations["fc.table.COPY_TOOL_TEXT"]
+                    },
+                    {
+                        "sExtends": "print",
+                        "sButtonText": translations["fc.table.PRINT_TOOL_TEXT"]
+                    },
+                    {
+                        "sExtends": "collection",
+                        "sButtonText": translations["fc.table.SAVE_AS_TOOL_TEXT"],
+                        "aButtons": [
+                            "csv",
+                            "xls",
+                            "pdf"
+                        ]
                     }
-                });
-            };
+                ];
+
+                vm.gridOptions.withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf");
+                vm.gridOptions.withTableToolsButtons(ttBtnCfg);
+            });
 
             // TODO: Add external filtering and sorting.
         }
@@ -129,6 +161,29 @@
             vm.pagination.page = 1;
             vm.pagination.total = 100;
             vm.pagination.maxSize = 5;
+        }
+
+        function toggleSelection(item) {
+            var index = vm.selectedBranches.indexOf(item);
+            item.isSelected = !item.isSelected;
+
+            if (item.isSelected) {
+                vm.selectedBranch = item;
+
+                // If item isn't in the selected items array...
+                if (index < 0) {
+                    // add it.
+                    vm.selectedBranches.push(item);
+                }
+            } else {
+                // If item isn't in the selected items array...
+                if (index > -1) {
+                    // remove it.
+                    vm.selectedBranches.splice(index, 1);
+                }
+
+                vm.selectedBranch = _.last(vm.selectedBranches);
+            }
         }
     }
 })();

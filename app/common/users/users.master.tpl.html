@@ -5,7 +5,7 @@
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-search"></i></span>
             <input type="search" class="form-control" placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                   data-ng-model="usersCtrl.filter" />
+                   data-ng-model="usersCtrl.filters.all" />
         </div>
     </div>
 </div>
@@ -14,9 +14,49 @@
 
 <div class="row">
     <div class="col-md-12">
-        <!-- Use clearfix + auto height(in ui-grid css) for sizing container to fit children. This way the grid -->
-        <!-- always shows loaded items. We also add the autoResize feature to keep resizing grid even without window -->
-        <!-- resize. Without autoResize, the column widths render incorrectly. -->
-        <div class="fc-ui-grid clearfix" data-ui-grid="usersCtrl.gridOptions" data-ui-grid-auto-resize></div>
+        <table id="table" class="table table-striped table-bordered table-hover"
+               data-datatable="ng"
+               data-dt-options="usersCtrl.gridOptions">
+            <thead>
+            <tr>
+                <td class="hasinput">
+                    <input type="text" class="form-control fc-input-full-width fc-force"
+                           placeholder="{{'fc.common.users.master.table.ID_FILTER_TEXT' | translate}}"
+                           data-ng-model="usersCtrl.filters.id" />
+                </td>
+                <td class="hasinput">
+                    <input type="text" class="form-control fc-input-full-width fc-force"
+                           placeholder="{{'fc.common.users.master.table.FULL_NAME_FILTER_TEXT' | translate}}"
+                           data-ng-model="usersCtrl.filters.fullName" />
+                </td>
+                <td class="hasinput">
+                    <input type="text" class="form-control fc-input-full-width fc-force"
+                           placeholder="{{'fc.common.users.master.table.EMAIL_FILTER_TEXT' | translate}}"
+                           data-ng-model="usersCtrl.filters.email" />
+                </td>
+                <td class="hasinput">
+                    <input type="text" class="form-control fc-input-full-width fc-force"
+                           placeholder="{{'fc.common.users.master.table.MOBILE_FILTER_TEXT' | translate}}"
+                           data-ng-model="usersCtrl.filters.mobile" />
+                </td>
+            </tr>
+            <tr>
+                <th data-translate="fc.common.users.master.table.ID_HEADER"></th>
+                <th data-translate="fc.common.users.master.table.FULL_NAME_HEADER"></th>
+                <th data-translate="fc.common.users.master.table.EMAIL_HEADER"></th>
+                <th data-translate="fc.common.users.master.table.MOBILE_HEADER"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="user in usersCtrl.users"
+                data-ng-click="usersCtrl.toggleSelection(user)"
+                data-ng-class="{'fc-selected': user.isSelected}">
+                <td>{{user.id}}</td>
+                <td>{{user.fullName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.mobile}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

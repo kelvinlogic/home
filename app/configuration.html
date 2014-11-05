@@ -20,9 +20,6 @@
     <!-- Keyboard Styles -->
     <link rel="stylesheet" type="text/css" media="screen" href="bower_components/keyboard/css/keyboard.css">
 
-    <!-- Grid Styles -->
-    <link rel="stylesheet" type="text/css" media="screen" href="vendor/ui-grid/ui-grid-unstable.min.css">
-
     <!-- SmartAdmin RTL Support is under construction
          This RTL CSS will be released in version 1.5
     <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-rtl.min.css"> -->
@@ -114,8 +111,11 @@
 <script src="bower_components/keyboard/js/jquery.keyboard.js"></script>
 <script src="bower_components/keyboard/js/jquery.keyboard.extension-typing.js"></script>
 
-<!-- Grid JS -->
-<script src="vendor/ui-grid/ui-grid-unstable.js"></script>
+<!-- Tables JS -->
+<script>
+    // Emulate existence of datatables module. It's required by common but none of the code is used.
+    angular.module("datatables", []);
+</script>
 
 <!-- Lodash JS -->
 <script src="bower_components/lodash/dist/lodash.js"></script>

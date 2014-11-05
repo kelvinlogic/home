@@ -5,17 +5,17 @@
         .module('fc.merchandising')
         .controller('ProductBrandMasterCtrl', productBrandMaster);
 
-    productBrandMaster.$inject = ['lodash', '$scope'];
+    productBrandMaster.$inject = ['lodash', '$scope', '$translate', 'DTOptionsBuilder'];
 
     /* @ngInject */
-    function productBrandMaster(_, $scope) {
+    function productBrandMaster(_, $scope, $translate, DTOptionsBuilder) {
         /* jshint validthis: true */
-        var vm = this,
-            _gridApi = null;
+        var vm = this;
 
         vm.activate = activate;
         vm.cancelChanges = cancelChanges;
         vm.edit = edit;
+        vm.filters = {};
         vm.gridOptions = {};
         vm.pageChanged = pageChanged;
         vm.pagination = {};
@@ -24,7 +24,9 @@
         vm.selectedProductBrands = [];
         vm.selectedProductBrand = null;
         vm.productBrand = null;
+        vm.productBrands = [];
         vm.titleKey = 'fc.merchandising.productBrand.MASTER_PAGE_TITLE';
+        vm.toggleSelection = toggleSelection;
 
         activate();
 
@@ -37,13 +39,7 @@
             setupPagination();
 
             // TODO: Load user data here.
-            vm.gridOptions.data = [
-                {id: 1, code: "CocaCola", name: "Coca Cola"},
-                {id: 2, code: "Pepsi", name: "Pepsi"},
-                {id: 3, code: "BB", name: "Blue Band"},
-                {id: 4, code: "Bic", name: "Bic"},
-                {id: 5, code: "Nutella", name: "Nutella"}
-            ];
+            load();
         }
 
         function cancelChanges() {
@@ -53,8 +49,41 @@
         function edit() {
             // Use extend to prevent reference copying.
             vm.productBrand = angular.extend({}, vm.selectedProductBrand);
+
+            // Clear table selection
+            delete vm.selectedProductBrand.isSelected;
             vm.selectedProductBrands = [];
             vm.selectedProductBrand = null;
+        }
+
+        function load() {
+            vm.productBrands = [
+                {id: 1, code: "CocaCola", name: "Coca Cola"},
+                {id: 2, code: "Pepsi", name: "Pepsi"},
+                {id: 3, code: "BB", name: "Blue Band"},
+                {id: 4, code: "Bic", name: "Bic"},
+                {id: 5, code: "Nutella", name: "Nutella"}
+            ];
+
+            $scope.$watchCollection(function () {
+                return vm.filters;
+            }, function (newCollection) {
+                if (newCollection.all) {
+                    // Search on all fields.
+                }
+
+                if (newCollection.id) {
+                    // Search on id field.
+                }
+
+                if (newCollection.code) {
+                    // Search on code field.
+                }
+
+                if (newCollection.name) {
+                    // Search on name field.
+                }
+            });
         }
 
         function pageChanged() {
@@ -68,45 +97,51 @@
         }
 
         function setupGrid() {
-            vm.gridOptions.enableGridMenu = true;
-//            vm.gridOptions.enableRowHeaderSelection = false;
-//            vm.gridOptions.enableScrollbars = false;
-            vm.gridOptions.enableSelectAll = true;
-            vm.gridOptions.enableSelectionBatchEvent = false;
-            vm.gridOptions.multiSelect = true;
+            var sDom = "<'dt-toolbar'<'col-xs-12 col-sm-6'T><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-12 col-xs-12'i>>";
 
-            vm.gridOptions.columnDefs = [
-                {name: "id", visible: false},
-                {name: "code"},
-                {name: "name"}
-            ];
+            // ColVis specified in sDom as 'C'. Don't need withColVis option.
+            vm.gridOptions = DTOptionsBuilder
+                .newOptions()
+                .withDOM(sDom)
+                .withBootstrap()
+                .withOption("paging", false)
+                .withOption("autoWidth", true)
+                .withOption('responsive', true);
 
-            vm.gridOptions.onRegisterApi = function (gridApi) {
-                _gridApi = gridApi;
-                
-                // Listen for row selection changed.
-                gridApi.selection.on.rowSelectionChanged($scope, function (gridRow) {
-                    var index = vm.selectedProductBrands.indexOf(gridRow.entity);
+            $translate([
+                "fc.table.COL_VIS_TEXT",
+                "fc.table.COPY_TOOL_TEXT",
+                "fc.table.PRINT_TOOL_TEXT",
+                "fc.table.SAVE_AS_TOOL_TEXT"
+            ]).then(function (translations) {
+                var colVisText = translations["fc.table.COL_VIS_TEXT"];
+                vm.gridOptions.withColVisOption("buttonText", colVisText);
 
-                    if (gridRow.isSelected) {
-                        vm.selectedProductBrand = gridRow.entity;
-
-                        // If element isn't in the selected elements array...
-                        if (index < 0) {
-                            // add it.
-                            vm.selectedProductBrands.push(gridRow.entity)
-                        }
-                    } else {
-                        // If element isn't in the selected elements array...
-                        if (index > -1) {
-                            // remove it.
-                            vm.selectedProductBrands.splice(index, 1);
-                        }
-
-                        vm.selectedProductBrand = _.last(vm.selectedProductBrands);
+                var ttBtnCfg = [
+                    {
+                        "sExtends": "copy",
+                        "sButtonText": translations["fc.table.COPY_TOOL_TEXT"]
+                    },
+                    {
+                        "sExtends": "print",
+                        "sButtonText": translations["fc.table.PRINT_TOOL_TEXT"]
+                    },
+                    {
+                        "sExtends": "collection",
+                        "sButtonText": translations["fc.table.SAVE_AS_TOOL_TEXT"],
+                        "aButtons": [
+                            "csv",
+                            "xls",
+                            "pdf"
+                        ]
                     }
-                });
-            };
+                ];
+
+                vm.gridOptions.withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf");
+                vm.gridOptions.withTableToolsButtons(ttBtnCfg);
+            });
 
             // TODO: Add external filtering and sorting.
         }
@@ -115,6 +150,29 @@
             vm.pagination.page = 1;
             vm.pagination.total = 100;
             vm.pagination.maxSize = 5;
+        }
+
+        function toggleSelection(item) {
+            var index = vm.selectedProductBrands.indexOf(item);
+            item.isSelected = !item.isSelected;
+
+            if (item.isSelected) {
+                vm.selectedProductBrand = item;
+
+                // If item isn't in the selected items array...
+                if (index < 0) {
+                    // add it.
+                    vm.selectedProductBrands.push(item);
+                }
+            } else {
+                // If item isn't in the selected items array...
+                if (index > -1) {
+                    // remove it.
+                    vm.selectedProductBrands.splice(index, 1);
+                }
+
+                vm.selectedProductBrand = _.last(vm.selectedProductBrands);
+            }
         }
     }
 })();

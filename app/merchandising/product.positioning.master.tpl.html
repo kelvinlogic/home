@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="positioningCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="positioningCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -51,8 +51,43 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="positioningCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="positioningCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.productPositioning.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="positioningCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.productPositioning.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="positioningCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.productPositioning.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="positioningCtrl.filters.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.productPositioning.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.productPositioning.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.productPositioning.table.NAME_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="positioning in positioningCtrl.positionings"
+                                            data-ng-click="positioningCtrl.toggleSelection(positioning)"
+                                            data-ng-class="{'fc-selected': positioning.isSelected}">
+                                            <td>{{positioning.id}}</td>
+                                            <td>{{positioning.code}}</td>
+                                            <td>{{positioning.name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

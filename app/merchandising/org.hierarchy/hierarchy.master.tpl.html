@@ -23,7 +23,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="hierarchyCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="hierarchyCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -52,8 +52,54 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="hierarchyCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="hierarchyCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.hierarchy.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="hierarchyCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.hierarchy.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="hierarchyCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.hierarchy.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="hierarchyCtrl.filters.name" />
+                                            </td>
+                                            <td class="hasinput" data-ng-repeat="field in hierarchyCtrl.fields">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.hierarchy.table.FIELD_FILTER_TEXT' | translate}} {{field | string: 'capitalize'}}"
+                                                       data-ng-model="hierarchyCtrl.filters['fields-' + field]" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.hierarchy.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.hierarchy.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.hierarchy.table.NAME_HEADER"></th>
+                                            <th data-ng-repeat="field in hierarchyCtrl.fields">
+                                                {{field | string: 'capitalize'}}
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="hierarchy in hierarchyCtrl.hierarchies"
+                                            data-ng-click="hierarchyCtrl.toggleSelection(hierarchy)"
+                                            data-ng-class="{'fc-selected': hierarchy.isSelected}">
+                                            <td>{{hierarchy.id}}</td>
+                                            <td>{{hierarchy.code}}</td>
+                                            <td>{{hierarchy.name}}</td>
+                                            <td data-ng-repeat="field in hierarchyCtrl.fields">
+                                                {{hierarchy.fields[field]}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">
@@ -84,7 +130,7 @@
                                         <input id="description" type="text"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{'fc.merchandising.hierarchy.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="hierarchyCtrl.hierarchy.description" data-vt-keyboard/>
+                                               data-ng-model="hierarchyCtrl.hierarchy.name" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group" data-ng-repeat="(key, value) in hierarchyCtrl.hierarchy.fields">
@@ -93,7 +139,7 @@
                                     <div class="col-md-10">
                                         <input id="field_{{$index}}" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{key}}"
+                                               placeholder="{{key | string: 'capitalize'}}"
                                                data-ng-model="value" data-vt-keyboard/>
                                     </div>
                                 </div>

@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="branchCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="branchCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -51,8 +51,64 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="branchCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="branchCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.name" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.EMAIL_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.email1" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.PHONE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.phone1" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.branch.table.ADDRESS_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="branchCtrl.filters.address1" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.branch.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.branch.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.branch.table.NAME_HEADER"></th>
+                                            <th data-translate="fc.merchandising.branch.table.EMAIL_HEADER"></th>
+                                            <th data-translate="fc.merchandising.branch.table.PHONE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.branch.table.ADDRESS_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="branch in branchCtrl.branches"
+                                            data-ng-click="branchCtrl.toggleSelection(branch)"
+                                            data-ng-class="{'fc-selected': branch.isSelected}">
+                                            <td>{{branch.id}}</td>
+                                            <td>{{branch.code}}</td>
+                                            <td>{{branch.name}}</td>
+                                            <td>{{branch.email1}}</td>
+                                            <td>{{branch.phone1}}</td>
+                                            <td>{{branch.address1}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="supplierCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="supplierCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -159,12 +159,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="pinCode"
-                                           data-translate="fc.merchandising.supplier.input.PIN_CODE_LABEL"></label>
+                                           data-translate="fc.merchandising.supplier.input.PIN_LABEL"></label>
                                     <div class="col-md-10">
                                         <input id="pinCode" type="text"
                                                class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.supplier.input.PIN_CODE_LABEL' | translate}}"
-                                               data-ng-model="supplierCtrl.supplier.pinCode" data-vt-keyboard/>
+                                               placeholder="{{'fc.merchandising.supplier.input.PIN_LABEL' | translate}}"
+                                               data-ng-model="supplierCtrl.supplier.pin" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-actions">

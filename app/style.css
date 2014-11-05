@@ -207,3 +207,27 @@ html.fixed-height.has-footer #content {
 .table tbody > tr.fc-selected td {
     background-color: #9cdfd8;
 }
+
+/* Custom input styles */
+input.fc-input-empty {
+    background: none;
+    border: 1px dotted transparent;
+    border-bottom-color: #bbbbbb;
+    margin-bottom: 10px;
+}
+
+input.fc-input-empty:focus {
+    border: 1px dashed #bbbbbb;
+}
+
+input.fc-input-empty[disabled] {
+    border-color: transparent;
+}
+
+input.fc-input-full-width {
+    width: 100%;
+}
+
+input.fc-input-full-width.fc-force {
+    width: 100% !important;
+}

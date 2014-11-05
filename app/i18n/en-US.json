@@ -18,6 +18,49 @@
         "NEW_TEXT": "New",
         "EDIT_TEXT": "Edit",
         "DELETE_TEXT": "Delete",
-        "TOGGLE_SELECTION_TEXT": "Toggle Selection"
+        "TOGGLE_SELECTION_TEXT": "Toggle Selection",
+
+        "table": {
+            "ID_FILTER_TEXT": "Filter Id",
+            "CODE_FILTER_TEXT": "Filter Code",
+            "DESCRIPTION_FILTER_TEXT": "Filter Description",
+            "LOCATION_FILTER_TEXT": "Filter Location",
+            "NAME_FILTER_TEXT": "Filter Name",
+            "EMAIL_FILTER_TEXT": "Filter Email",
+            "PHONE_FILTER_TEXT": "Filter Phone",
+            "ADDRESS_FILTER_TEXT": "Filter Address",
+            "PACKABLE_FILTER_TEXT": "Filter Packable",
+            "PERCENTAGE_FILTER_TEXT": "Filter Percentage",
+            "EXTRA_INFO_FILTER_TEXT": "Filter Extra Information",
+            "CITY_FILTER_TEXT": "Filter City",
+            "FAX_FILTER_TEXT": "Filter Fax",
+            "VAT_NUMBER_FILTER_TEXT": "Filter VAT",
+            "PIN_FILTER_TEXT": "Filter PIN",
+            "FIELD_FILTER_TEXT": "Filter",
+            "COL_VIS_TEXT": "Show/Hide Columns",
+            "COPY_TOOL_TEXT": "Copy",
+            "PRINT_TOOL_TEXT": "Print",
+            "SAVE_AS_TOOL_TEXT": "Save As"
+        },
+
+        "input": {
+            "ID_LABEL": "Id",
+            "CODE_LABEL": "Code",
+            "CITY_LABEL": "City",
+            "DESCRIPTION_LABEL": "Description",
+            "LOCATION_LABEL": "Location",
+            "FIELD_LABEL": "Field",
+            "NAME_LABEL": "Name",
+            "ADDRESS_LABEL": "Address",
+            "PHONE_LABEL": "Phone",
+            "FAX_LABEL": "Fax",
+            "EMAIL_LABEL": "Email",
+            "PIN_LABEL": "PIN",
+            "REGISTRATION_LABEL": "Registration",
+            "PACKABLE_LABEL": "Packable",
+            "PERCENTAGE_LABEL": "Percentage",
+            "VAT_NUMBER_LABEL": "VAT Number",
+            "EXTRA_INFO_LABEL": "Extra Information"
+        }
     }
 }

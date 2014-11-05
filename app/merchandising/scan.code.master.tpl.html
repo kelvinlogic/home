@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="scanCodeCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="scanCodeCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -51,8 +51,43 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="scanCodeCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="scanCodeCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.scanCode.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="scanCodeCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.scanCode.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="scanCodeCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.scanCode.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="scanCodeCtrl.filters.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.scanCode.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.scanCode.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.scanCode.table.NAME_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="scanCode in scanCodeCtrl.scanCodes"
+                                            data-ng-click="scanCodeCtrl.toggleSelection(scanCode)"
+                                            data-ng-class="{'fc-selected': scanCode.isSelected}">
+                                            <td>{{scanCode.id}}</td>
+                                            <td>{{scanCode.code}}</td>
+                                            <td>{{scanCode.name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

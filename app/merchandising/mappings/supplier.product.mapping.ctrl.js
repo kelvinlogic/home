@@ -11,7 +11,6 @@
     function supplierProductMapping(_, $scope, $translate, constants, DTOptionsBuilder) {
         /* jshint validthis: true */
         var vm = this,
-            _gridApi = null,
             _productsEngine = null,
             _suppliersEngine = null;
 
@@ -101,6 +100,9 @@
         function edit() {
             // Use extend to prevent reference copying.
             vm.mapping = angular.extend({}, vm.selectedMapping);
+
+            // Clear table selection
+            delete vm.selectedMapping.isSelected;
             vm.selectedMappings = [];
             vm.selectedMapping = null;
         }
@@ -167,26 +169,26 @@
                 .withOption('responsive', true);
 
             $translate([
-                "fc.merchandising.supplierProductMapping.table.COL_VIS_TEXT",
-                "fc.merchandising.supplierProductMapping.table.COPY_TOOL_TEXT",
-                "fc.merchandising.supplierProductMapping.table.PRINT_TOOL_TEXT",
-                "fc.merchandising.supplierProductMapping.table.SAVE_AS_TOOL_TEXT"
+                "fc.table.COL_VIS_TEXT",
+                "fc.table.COPY_TOOL_TEXT",
+                "fc.table.PRINT_TOOL_TEXT",
+                "fc.table.SAVE_AS_TOOL_TEXT"
             ]).then(function (translations) {
-                var colVisText = translations["fc.merchandising.supplierProductMapping.table.COL_VIS_TEXT"];
+                var colVisText = translations["fc.table.COL_VIS_TEXT"];
                 vm.gridOptions.withColVisOption("buttonText", colVisText);
 
                 var ttBtnCfg = [
                     {
                         "sExtends": "copy",
-                        "sButtonText": translations["fc.merchandising.supplierProductMapping.table.COPY_TOOL_TEXT"]
+                        "sButtonText": translations["fc.table.COPY_TOOL_TEXT"]
                     },
                     {
                         "sExtends": "print",
-                        "sButtonText": translations["fc.merchandising.supplierProductMapping.table.PRINT_TOOL_TEXT"]
+                        "sButtonText": translations["fc.table.PRINT_TOOL_TEXT"]
                     },
                     {
                         "sExtends": "collection",
-                        "sButtonText": translations["fc.merchandising.supplierProductMapping.table.SAVE_AS_TOOL_TEXT"],
+                        "sButtonText": translations["fc.table.SAVE_AS_TOOL_TEXT"],
                         "aButtons": [
                             "csv",
                             "xls",

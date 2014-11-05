@@ -85,7 +85,7 @@
                 {name: "email"},
                 {name: "phone2", visible: false},
                 {name: "vatNo", visible: false},
-                {name: "pinCode", visible: false}
+                {name: "pin", visible: false}
             ];
 
             vm.gridOptions.onRegisterApi = function (gridApi) {

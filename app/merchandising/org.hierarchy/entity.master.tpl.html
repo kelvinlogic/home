@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="entityCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="entityCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -51,8 +51,57 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="entityCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="entityCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.entity.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="entityCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.entity.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="entityCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.entity.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="entityCtrl.filters.name" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.entity.table.DESCRIPTION_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="entityCtrl.filters.description" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.entity.table.LOCATION_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="entityCtrl.filters.location" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.entity.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.entity.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.entity.table.NAME_HEADER"></th>
+                                            <th data-translate="fc.merchandising.entity.table.DESCRIPTION_HEADER"></th>
+                                            <th data-translate="fc.merchandising.entity.table.LOCATION_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="entity in entityCtrl.entities"
+                                            data-ng-click="entityCtrl.toggleSelection(entity)"
+                                            data-ng-class="{'fc-selected': entity.isSelected}">
+                                            <td>{{entity.id}}</td>
+                                            <td>{{entity.code}}</td>
+                                            <td>{{entity.name}}</td>
+                                            <td>{{entity.description}}</td>
+                                            <td>{{entity.location}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

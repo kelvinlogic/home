@@ -22,7 +22,7 @@
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                                         <input type="search" class="form-control"
                                                placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="subBranchCtrl.filter" data-vt-keyboard />
+                                               data-ng-model="subBranchCtrl.filters.all" data-vt-keyboard />
                                     </div>
                                     <hr class="visible-xs"/>
                                 </div>
@@ -51,8 +51,43 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="subBranchCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="subBranchCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.subBranch.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="subBranchCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.subBranch.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="subBranchCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.subBranch.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="subBranchCtrl.filters.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.subBranch.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.subBranch.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.subBranch.table.NAME_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="subBranch in subBranchCtrl.subBranches"
+                                            data-ng-click="subBranchCtrl.toggleSelection(subBranch)"
+                                            data-ng-class="{'fc-selected': subBranch.isSelected}">
+                                            <td>{{subBranch.id}}</td>
+                                            <td>{{subBranch.code}}</td>
+                                            <td>{{subBranch.name}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

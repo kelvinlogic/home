@@ -5,7 +5,6 @@
         .module("fc.merchandising", [
             "ui.bootstrap",
             "fc.common",
-            "datatables",
             "siyfion.sfTypeahead"
         ]);
 })();
