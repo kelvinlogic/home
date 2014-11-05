@@ -500,10 +500,10 @@
 
     // directives for navigation
     angular.module('fc.common')
-        .directive('navigation', function() {
+        .directive('navigation', [function() {
             return {
                 restrict: 'AE',
-                controller: ['$scope', function($scope) {
+                controller: ['$scope', function($scope, $timeout) {
 
                 }],
                 transclude: true,
@@ -522,10 +522,14 @@
                         }
                     }
 
-                    // SLIMSCROLL FOR NAV
-                    if ($.fn.slimScroll) {
-                        element.slimScroll({
-                            height: '100%'
+                    // CUSTOM SCROLL BAR FOR NAV
+                    if ($.fn.mCustomScrollbar) {
+                        element.mCustomScrollbar({
+                            setHeight: true,
+                            autoHideScrollbar: true,
+                            mouseWheel: {
+                                normalizeDelta: true
+                            }
                         });
                     }
 
@@ -535,7 +539,7 @@
                 },
                 template: '<nav><ul data-ng-transclude=""></ul></nav>'
             };
-        })
+        }])
 
         .controller('NavGroupController', ['$scope', function($scope) {
             $scope.active = false;
@@ -663,7 +667,7 @@
 						<span ng-class="{\'menu-item-parent\': !isChild}" data-localize="{{ title }}"> {{ title }} </span>\
 						<span data-ng-transclude=""></span>\
 					</a>\
-					<a href="" target="{{ getItemTarget() }}" title="{{ title }}" data-ng-if="!state">\
+					<a href="{{ getItemUrl() }}" target="{{ getItemTarget() }}" title="{{ title }}" data-ng-if="!state">\
 						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
 						<span ng-class="{\'menu-item-parent\': !isChild}" data-localize="{{ title }}"> {{ title }} </span>\
 						<span data-ng-transclude=""></span>\

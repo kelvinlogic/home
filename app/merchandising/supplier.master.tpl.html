@@ -51,8 +51,64 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="fc-ui-grid-scrollable" data-ui-grid="supplierCtrl.gridOptions"
-                                         data-ui-grid-auto-resize data-ui-grid-selection></div>
+                                    <table id="table" class="table table-striped table-bordered table-hover"
+                                           data-datatable="ng"
+                                           data-dt-options="supplierCtrl.gridOptions">
+                                        <thead>
+                                        <tr>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.ID_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.id" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.CODE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.code" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.NAME_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.name" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.CITY_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.city" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.PHONE_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.phone" />
+                                            </td>
+                                            <td class="hasinput">
+                                                <input type="text" class="form-control fc-input-full-width fc-force"
+                                                       placeholder="{{'fc.merchandising.supplier.table.EMAIL_FILTER_TEXT' | translate}}"
+                                                       data-ng-model="supplierCtrl.filters.email" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th data-translate="fc.merchandising.supplier.table.ID_HEADER"></th>
+                                            <th data-translate="fc.merchandising.supplier.table.CODE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.supplier.table.NAME_HEADER"></th>
+                                            <th data-translate="fc.merchandising.supplier.table.CITY_HEADER"></th>
+                                            <th data-translate="fc.merchandising.supplier.table.PHONE_HEADER"></th>
+                                            <th data-translate="fc.merchandising.supplier.table.EMAIL_HEADER"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-ng-repeat="supplier in supplierCtrl.suppliers"
+                                            data-ng-click="supplierCtrl.toggleSelection(supplier)"
+                                            data-ng-class="{'fc-selected': supplier.isSelected}">
+                                            <td>{{supplier.id}}</td>
+                                            <td>{{supplier.code}}</td>
+                                            <td>{{supplier.name}}</td>
+                                            <td>{{supplier.city}}</td>
+                                            <td>{{supplier.phone}}</td>
+                                            <td>{{supplier.email}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

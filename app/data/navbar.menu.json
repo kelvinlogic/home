@@ -1,24 +1,103 @@
 [
     {
         "id": 1,
-        "name": "Users",
-        "state": "shell.users.list"
-    },
-    {
+        "name": "Language Configuration",
+        "href": "configuration.html#/language-config"
+    }, {
         "id": 2,
-        "name": "Register",
-        "state": "shell.company.register",
-        "items": [
-            {
-                "id": 4,
-                "name": "Licenses",
-                "state": "shell.company.licenses"
-            }
-        ]
-    },
-    {
+        "name": "Hierarchy Configuration",
+        "href": "configuration.html#/hierarchy-config"
+    }, {
         "id": 3,
-        "name": "Licenses",
-        "state": "shell.company.licenses"
+        "name": "Entity Master",
+        "href": "merchandising.html#/entity-master"
+    }, {
+        "id": 4,
+        "name": "Hierarchy",
+        "href": "merchandising.html#/hierarchy-master"
+    }, {
+        "id": 5,
+        "name": "Branch Master",
+        "href": "merchandising.html#/branch-master"
+    }, {
+        "id": 6,
+        "name": "Sub Branch Master",
+        "href": "merchandising.html#/sub-branch-master"
+    }, {
+        "id": 7,
+        "name": "Product Hierarchy Mapping",
+        "href": "merchandising.html#/product-hierarchy-mapping"
+    }, {
+        "id": 8,
+        "name": "Product Hierarchy 1",
+        "href": "merchandising.html#/product-hierarchy-master?id=1"
+    }, {
+        "id": 9,
+        "name": "Product Hierarchy 2",
+        "href": "merchandising.html#/product-hierarchy-master?id=2"
+    }, {
+        "id": 10,
+        "name": "Product Hierarchy 3",
+        "href": "merchandising.html#/product-hierarchy-master?id=3"
+    }, {
+        "id": 11,
+        "name": "Product Hierarchy 4",
+        "href": "merchandising.html#/product-hierarchy-master?id=4"
+    }, {
+        "id": 12,
+        "name": "Product Hierarchy 5",
+        "href": "merchandising.html#/product-hierarchy-master?id=5"
+    }, {
+        "id": 13,
+        "name": "VAT Master",
+        "href": "merchandising.html#/vat-master"
+    }, {
+        "id": 14,
+        "name": "Supplier Master",
+        "href": "merchandising.html#/supplier-master"
+    }, {
+        "id": 15,
+        "name": "Supplier Product Mapping",
+        "href": "merchandising.html#/supplier-product-mapping"
+    }, {
+        "id": 16,
+        "name": "UOM Master",
+        "href": "merchandising.html#/uom-master"
+    }, {
+        "id": 17,
+        "name": "Serving UOM Master",
+        "href": "merchandising.html#/serving-uom-master"
+    }, {
+        "id": 18,
+        "name": "Product Attributes Master",
+        "href": "merchandising.html#/product-attributes-master"
+    }, {
+        "id": 19,
+        "name": "Product Brand Master",
+        "href": "merchandising.html#/product-brand-master"
+    }, {
+        "id": 20,
+        "name": "Product Ordering Master",
+        "href": "merchandising.html#/product-positioning-master"
+    }, {
+        "id": 21,
+        "name": "Currency Master",
+        "href": "merchandising.html#/currency-master"
+    }, {
+        "id": 22,
+        "name": "Instructions Master",
+        "href": "merchandising.html#/instructions-master"
+    }, {
+        "id": 23,
+        "name": "Reasons Master",
+        "href": "merchandising.html#/reasons-master"
+    }, {
+        "id": 24,
+        "name": "Salesman Master",
+        "href": "merchandising.html#/salesman-master"
+    }, {
+        "id": 25,
+        "name": "Credit Card Master",
+        "href": "merchandising.html#/credit-card-master"
     }
 ]

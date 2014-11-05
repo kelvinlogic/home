@@ -110,10 +110,10 @@
         function load() {
             // TODO: Load data...
             vm.mappings = [
-                {id: 1, code: "CLL", name: "Compulynx Limited"},
-                {id: 2, code: "CLL", name: "Compulynx Limited"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+                {id: 1, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
+                {id: 2, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
+                {id: 3, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
+                {id: 4, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier}
             ];
 
             $scope.$watchCollection(function () {

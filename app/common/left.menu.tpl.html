@@ -12,12 +12,13 @@
     <!-- end user info -->
 
     <div data-navigation>
-        <div title="{{nav.name}}" data-nav-item data-ng-repeat="nav in leftMenuCtrl.items" data-state="nav.state"
+        <div title="{{nav.name}}" data-nav-item data-ng-repeat="nav in leftMenuCtrl.items" data-href="{{nav.href}}"
              data-ng-if="!nav.items"></div>
 
-        <div title="{{nav.name}}" data-nav-group data-ng-repeat="nav in leftMenuCtrl.items" data-state="nav.state"
+        <div title="{{nav.name}}" data-nav-group data-ng-repeat="nav in leftMenuCtrl.items" data-href="{{nav.href}}"
              data-ng-if="nav.items">
-            <div data-nav-item data-ng-repeat="subNav in nav.items" title="{{subNav.name}}"></div>
+            <div data-nav-item data-ng-repeat="subNav in nav.items"
+                 title="{{subNav.name}}" data-ng-href="nav.href"></div>
         </div>
     </div>
 </span>

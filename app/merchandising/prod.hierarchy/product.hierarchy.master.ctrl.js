@@ -64,14 +64,14 @@
 
             vm.hierarchyInfo = {
                 id: hierarchyId,
-                name: "Product Hierarchy 1"
+                name: "Product Hierarchy " + hierarchyId
             };
 
             vm.productHierarchies = [
-                {id: 1, code: "CLL", name: "Compulynx Limited"},
-                {id: 2, code: "CLL", name: "Compulynx Limited"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+                {id: 1, code: "01", name: "Compulynx Limited"},
+                {id: 2, code: "02", name: "Compulynx Limited"},
+                {id: 3, code: "03", name: "Compulynx Limited"},
+                {id: 4, code: "04", name: "Compulynx Limited"}
             ];
 
             $scope.$watchCollection(function () {
