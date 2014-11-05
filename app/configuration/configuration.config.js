@@ -27,40 +27,32 @@
         // Remove?
         $urlRouterProvider.otherwise('/language-config');
 
-        $stateProvider.state('hierarchy-config', {
+        $stateProvider.state('root', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'root.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
+
+        $stateProvider.state('root.hierarchy-config', {
             url: '/hierarchy-config',
-            views: {
-                '': {
-                    templateUrl: 'configuration/hierarchy-config/hierarchy.config.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'configuration/hierarchy-config/hierarchy.config.tpl.html'
         });
 
-        $stateProvider.state('language-config', {
+        $stateProvider.state('root.language-config', {
             url: '/language-config',
-            views: {
-                '': {
-                    templateUrl: 'configuration/language-config/language.config.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'configuration/language-config/language.config.tpl.html'
         });
 
-        $stateProvider.state('vertical-config', {
+        $stateProvider.state('root.vertical-config', {
             url: '/vertical-config',
-            views: {
-                '': {
-                    templateUrl: 'configuration/vertical-config/vertical.config.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'configuration/vertical-config/vertical.config.tpl.html'
         });
     }
 

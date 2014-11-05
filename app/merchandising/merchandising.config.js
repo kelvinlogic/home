@@ -26,244 +26,117 @@
 
         $urlRouterProvider.otherwise('/entity-master');
 
-        $stateProvider.state('entity-master', {
+        $stateProvider.state('root', {
+            abstract: true,
+            url: '',
+            views: {
+                '': {
+                    templateUrl: 'root.tpl.html'
+                },
+                'footer': footerView,
+                'left-nav': leftNavView,
+                'top-bar': topBarView
+            }
+        });
+
+        $stateProvider.state('root.entity-master', {
             url: '/entity-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/org.hierarchy/entity.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/org.hierarchy/entity.master.tpl.html'
         });
 
-        $stateProvider.state('hierarchy-master', {
+        $stateProvider.state('root.hierarchy-master', {
             url: '/hierarchy-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
         });
 
-        $stateProvider.state('branch-master', {
+        $stateProvider.state('root.branch-master', {
             url: '/branch-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/org.hierarchy/branch.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/org.hierarchy/branch.master.tpl.html'
         });
 
-        $stateProvider.state('sub-branch-master', {
+        $stateProvider.state('root.sub-branch-master', {
             url: '/sub-branch-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/org.hierarchy/sub.branch.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/org.hierarchy/sub.branch.master.tpl.html'
         });
 
-        $stateProvider.state('vat-master', {
+        $stateProvider.state('root.vat-master', {
             url: '/vat-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/vat.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/vat.master.tpl.html'
         });
 
-        $stateProvider.state('supplier-master', {
+        $stateProvider.state('root.supplier-master', {
             url: '/supplier-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/supplier.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/supplier.master.tpl.html'
         });
 
-        $stateProvider.state('uom-master', {
+        $stateProvider.state('root.uom-master', {
             url: '/uom-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/uom.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/uom.master.tpl.html'
         });
 
-        $stateProvider.state('serving-uom-master', {
+        $stateProvider.state('root.serving-uom-master', {
             url: '/serving-uom-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/serving.uom.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/serving.uom.master.tpl.html'
         });
 
-        $stateProvider.state('product-attributes-master', {
+        $stateProvider.state('root.product-attributes-master', {
             url: '/product-attributes-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/product.attributes.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/product.attributes.master.tpl.html'
         });
 
-        $stateProvider.state('product-hierarchy-master', {
+        $stateProvider.state('root.product-hierarchy-master', {
             url: '/product-hierarchy-master?id',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
         });
 
-        $stateProvider.state('currencies-master', {
+        $stateProvider.state('root.currencies-master', {
             url: '/currencies-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/currencies.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/currencies.master.tpl.html'
         });
 
-        $stateProvider.state('instructions-master', {
+        $stateProvider.state('root.instructions-master', {
             url: '/instructions-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/instructions.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/instructions.master.tpl.html'
         });
 
-        $stateProvider.state('reasons-master', {
+        $stateProvider.state('root.reasons-master', {
             url: '/reasons-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/reasons.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/reasons.master.tpl.html'
         });
 
-        $stateProvider.state('salesman-master', {
+        $stateProvider.state('root.salesman-master', {
             url: '/salesman-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/salesman.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/salesman.master.tpl.html'
         });
 
-        $stateProvider.state('credit-card-master', {
+        $stateProvider.state('root.credit-card-master', {
             url: '/credit-card-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/credit.card.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/credit.card.master.tpl.html'
         });
 
-        $stateProvider.state('product-hierarchy-mapping', {
+        $stateProvider.state('root.product-hierarchy-mapping', {
             url: '/product-hierarchy-mapping?id',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.mapping.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.mapping.tpl.html'
         });
 
-        $stateProvider.state('product-brand-master', {
+        $stateProvider.state('root.product-brand-master', {
             url: '/product-brand-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/product.brand.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/product.brand.master.tpl.html'
         });
 
-        $stateProvider.state('scan-code-master', {
+        $stateProvider.state('root.scan-code-master', {
             url: '/scan-code-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/scan.code.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/scan.code.master.tpl.html'
         });
 
-        $stateProvider.state('product-positioning-master', {
+        $stateProvider.state('root.product-positioning-master', {
             url: '/product-positioning-master',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/product.positioning.master.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/product.positioning.master.tpl.html'
         });
 
-        $stateProvider.state('supplier-product-mapping', {
+        $stateProvider.state('root.supplier-product-mapping', {
             url: '/supplier-product-mapping',
-            views: {
-                '': {
-                    templateUrl: 'merchandising/mappings/supplier.product.mapping.tpl.html'
-                },
-                'footer': footerView,
-                'left-nav': leftNavView,
-                'top-bar': topBarView
-            }
+            templateUrl: 'merchandising/mappings/supplier.product.mapping.tpl.html'
         });
     }
 
