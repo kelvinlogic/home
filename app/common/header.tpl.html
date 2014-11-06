@@ -6,6 +6,16 @@
     <!-- END AJAX-DROPDOWN -->
 </div>
 <div class="pull-right">
+    <!-- collapse menu button -->
+    <div id="hide-menu" class="btn-header pull-right">
+        <span>
+            <a href="javascript:void(0);" data-action="toggleMenu"
+               title="{{'fc.common.COLLAPSE_MENU_TEXT' | translate}}">
+                <i class="fa fa-reorder"></i>
+            </a>
+        </span>
+    </div>
+    <!-- end collapse menu -->
     <!-- logout button -->
     <div id="logout" class="btn-header transparent pull-right" data-ng-if="isLoggedIn()"
          data-ng-controller="SignOutCtrl as signOutCtrl">

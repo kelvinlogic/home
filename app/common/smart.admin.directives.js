@@ -671,13 +671,13 @@
 				<li data-ng-class="{active: isActive(view)}">\
 					<a data-ui-sref="{{state}}" href="" target="{{ getItemTarget() }}" title="{{ title }}"\
                         data-ng-if="state">\
-						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
-						<span ng-class="{\'menu-item-parent\': !isChild}" data-localize="{{ title }}"> {{ title }} </span>\
+						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i> \
+						<span ng-class="{\'menu-item-parent\': !isChild}"> {{ title }} </span>\
 						<span data-ng-transclude=""></span>\
 					</a>\
 					<a href="{{ getItemUrl() }}" target="{{ getItemTarget() }}" title="{{ title }}" data-ng-if="!state">\
 						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
-						<span ng-class="{\'menu-item-parent\': !isChild}" data-localize="{{ title }}"> {{ title }} </span>\
+						<span ng-class="{\'menu-item-parent\': !isChild}"> {{ title }} </span>\
 						<span data-ng-transclude=""></span>\
 					</a>\
 				</li>'

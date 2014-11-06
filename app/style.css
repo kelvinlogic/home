@@ -232,3 +232,53 @@ input.fc-input-full-width {
 input.fc-input-full-width.fc-force {
     width: 100% !important;
 }
+
+/*
+** Left Menu styling
+*/
+
+/* Second level: UL */
+nav ul > div > li > ul::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: 23px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #7A7A7A;
+}
+/* Second level: UL LI */
+nav ul > div ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8px;
+    left: 23px;
+    top: 16px;
+    border-top: 1px solid #7A7A7A;
+    z-index: 1;
+}
+/* Third level: UL LI */
+nav ul > div ul ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 18px;
+    left: 10px;
+    top: 17px;
+    border-top: 1px solid transparent;
+}
+/* Second level and onwards > */
+nav ul > div ul li a i {
+    font-size: 14px !important;
+    width: 18px !important;
+    text-align: center !important;
+    vertical-align: 0 !important;
+    line-height: 1 !important;
+}
+/* Second and Third level line color */
+nav ul > div > li:hover > ul::before,
+nav ul > div > li:hover > ul > li::before {
+    border-color: #ACACAC !important;
+}

@@ -1,15 +1,3 @@
-<script id="fc/navGrpTpl" type="text/ng-template">
-    <div data-ng-repeat="nav in nav.items" data-nav-repeat>
-        <!-- No sub items -->
-        <div data-nav-item title="{{nav.name}}" data-href="{{nav.href}}" data-ng-if="!nav.items"></div>
-
-        <!-- Sub items -->
-        <div title="{{nav.name}}" data-nav-group data-ng-if="nav.items">
-            <div data-ng-include="'fc/navGrpTpl'"></div>
-        </div>
-    </div>
-</script>
-
 <span data-ng-controller="LeftMenuCtrl as leftMenuCtrl">
     <!-- User info -->
     <div class="login-info">
@@ -26,12 +14,26 @@
     <div data-navigation>
         <div data-ng-repeat="nav in leftMenuCtrl.items" data-nav-repeat>
             <!--&lt;!&ndash; No sub items: Fine &ndash;&gt;-->
-            <div data-nav-item title="{{nav.name}}" data-href="{{nav.href}}" data-ng-if="!nav.items"></div>
+            <div data-nav-item title="{{nav.name}}" data-href="{{nav.href}}" data-icon="{{nav.iconClass}}"
+                 data-ng-if="!nav.items"></div>
 
             <!-- Sub items -->
-            <div title="{{nav.name}}" data-nav-group data-ng-if="nav.items">
+            <div title="{{nav.name}}" data-nav-group data-icon="{{nav.iconClass}}" data-ng-if="nav.items">
                 <div data-ng-include="'fc/navGrpTpl'"></div>
             </div>
         </div>
     </div>
 </span>
+
+<script id="fc/navGrpTpl" type="text/ng-template">
+    <div data-ng-repeat="nav in nav.items" data-nav-repeat>
+        <!-- No sub items -->
+        <div data-nav-item title="{{nav.name}}" data-href="{{nav.href}}" data-icon="{{nav.iconClass}}"
+             data-ng-if="!nav.items"></div>
+
+        <!-- Sub items -->
+        <div title="{{nav.name}}" data-nav-group data-icon="{{nav.iconClass}}" data-ng-if="nav.items">
+            <div data-ng-include="'fc/navGrpTpl'"></div>
+        </div>
+    </div>
+</script>
