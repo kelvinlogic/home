@@ -16,6 +16,7 @@
 
         vm.activate = activate;
         vm.cancelChanges = cancelChanges;
+        vm.canSaveChanges = canSaveChanges;
         vm.edit = edit;
         vm.filters = {};
         vm.gridOptions = null;
@@ -36,6 +37,7 @@
         vm.suppliers = [];
         vm.titleKey = "fc.merchandising.supplierProductMapping.MASTER_PAGE_TITLE";
         vm.toggleSelection = toggleSelection;
+        vm.validationData = null;
 
         activate();
 
@@ -95,6 +97,11 @@
 
         function cancelChanges() {
             vm.mapping = null;
+            vm.selectedMapping = null;
+        }
+
+        function canSaveChanges() {
+            return vm.mapping && vm.mapping.supplier && vm.mapping.product && vm.mapping.supplierCode;
         }
 
         function edit() {
@@ -104,17 +111,48 @@
             // Clear table selection
             delete vm.selectedMapping.isSelected;
             vm.selectedMappings = [];
-            vm.selectedMapping = null;
         }
 
         function load() {
             // TODO: Load data...
             vm.mappings = [
-                {id: 1, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
-                {id: 2, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
-                {id: 3, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier},
-                {id: 4, code: "CLL", name: "Compulynx Limited", supplier: vm.selectedSupplier}
+                {
+                    id: 1,
+                    supplierCode: 4321,
+                    product: {id: 1, code: 1234, name: "Rosy Toilet Paper"},
+                    supplier: {id: 1, code: "LH01", name: "Longhorn Publishers"}
+                },
+                {
+                    id: 2,
+                    supplierCode: 4321,
+                    product: {id: 1, code: 1234, name: "Rosy Toilet Paper"},
+                    supplier: {id: 1, code: "LH01", name: "Longhorn Publishers"}
+                },
+                {
+                    id: 3,
+                    supplierCode: 4321,
+                    product: {id: 1, code: 1234, name: "Rosy Toilet Paper"},
+                    supplier: {id: 1, code: "LH01", name: "Longhorn Publishers"}
+                },
+                {
+                    id: 4,
+                    product: {id: 1, code: 1234, name: "Rosy Toilet Paper"},
+                    supplier: {id: 1, code: "LH01", name: "Longhorn Publishers"},
+                    supplierCode: 4321
+                }
             ];
+
+            vm.validationData = {
+                product: {
+                    required: true
+                },
+                supplier: {
+                    required: true
+                },
+                supplierCode: {
+                    required: true
+                }
+            };
 
             $scope.$watchCollection(function () {
                 return vm.filters;
@@ -127,12 +165,20 @@
                     // Search on id field.
                 }
 
-                if (newCollection.code) {
-                    // Search on code field.
+                if (newCollection.productCode) {
+                    // Search on productCode field.
                 }
 
-                if (newCollection.name) {
-                    // Search on name field.
+                if (newCollection.productName) {
+                    // Search on productName field.
+                }
+
+                if (newCollection.supplierCode) {
+                    // Search on supplierCode field.
+                }
+
+                if (newCollection.supplierName) {
+                    // Search on supplierName field.
                 }
             });
         }
@@ -151,7 +197,14 @@
 
         function saveChanges() {
             // TODO: Enter save logic
+            if (vm.mapping.id) {
+                vm.selectedMapping = vm.mapping;
+            } else {
+                vm.mappings.push(vm.mapping);
+            }
+
             vm.mapping = null;
+            vm.selectedMapping = null;
         }
 
         function setupGrid() {

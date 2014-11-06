@@ -416,21 +416,28 @@
             "MASTER_PAGE_TITLE": "Supplier Product Mappings",
 
             "input": {
-                "CODE_LABEL": "Code",
-                "NAME_LABEL": "Name",
+                "SUPPLIER_CODE_LABEL": "Supplier Code",
+                "SUPPLIER_CODE_PLACEHOLDER": "Enter the supplier's code...",
                 "SELECT_PRODUCT_LABEL": "Select Product",
                 "SELECT_PRODUCT_PLACEHOLDER": "Type a product's name or code...",
                 "SELECT_SUPPLIER_LABEL": "Select Supplier",
-                "SELECT_SUPPLIER_PLACEHOLDER": "Type a supplier's name or code..."
+                "SELECT_SUPPLIER_PLACEHOLDER": "Type a supplier's name or code...",
+                "REQUIRED_PRODUCT_VALIDATION_TEXT": "Please select a product.",
+                "REQUIRED_SUPPLIER_CODE_VALIDATION_TEXT": "Please enter a supplier code.",
+                "REQUIRED_SUPPLIER_VALIDATION_TEXT": "Please select a supplier."
             },
 
             "table": {
                 "ID_FILTER_TEXT": "Filter Id",
                 "ID_HEADER": "Id",
-                "CODE_FILTER_TEXT": "Filter Code",
-                "CODE_HEADER": "Code",
-                "NAME_FILTER_TEXT": "Filter Name",
-                "NAME_HEADER": "Name",
+                "PRODUCT_CODE_FILTER_TEXT": "Filter Product Code",
+                "PRODUCT_CODE_HEADER": "Product Code",
+                "PRODUCT_NAME_FILTER_TEXT": "Filter Product Name",
+                "PRODUCT_NAME_HEADER": "Product Name",
+                "SUPPLIER_CODE_FILTER_TEXT": "Filter Supplier Code",
+                "SUPPLIER_CODE_HEADER": "Supplier Code",
+                "SUPPLIER_NAME_FILTER_TEXT": "Filter Supplier Name",
+                "SUPPLIER_NAME_HEADER": "Supplier Name",
                 "COL_VIS_TEXT": "Show/Hide Columns",
                 "COPY_TOOL_TEXT": "Copy",
                 "PRINT_TOOL_TEXT": "Print",

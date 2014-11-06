@@ -510,23 +510,36 @@
                 replace: true,
                 link: function(scope, element, attrs) {
                     if (!topmenu) {
-                        if (!null) {
-                            element.first().jarvismenu({
-                                accordion : true,
-                                speed : $.menu_speed,
-                                closedSign : '<em class="fa fa-plus-square-o"></em>',
-                                openedSign : '<em class="fa fa-minus-square-o"></em>'
-                            });
-                        } else {
-                            alert("Error - menu anchor does not exist");
-                        }
+                        var unloadedLevels = 0;
+                        scope.$on('sa.addMenuLevel', function () {
+                            unloadedLevels++;
+                        });
+
+                        scope.$on('sa.menuLoaded', function () {
+                            if (!null) {
+                                if (unloadedLevels > 1) {
+                                    unloadedLevels--;
+                                    return;
+                                }
+
+                                element.first().jarvismenu({
+                                    accordion : true,
+                                    speed : $.menu_speed,
+                                    closedSign : '<em class="fa fa-plus-square-o"></em>',
+                                    openedSign : '<em class="fa fa-minus-square-o"></em>'
+                                });
+                                unloadedLevels--;
+                            } else {
+                                alert("Error - menu anchor does not exist");
+                            }
+                        })
                     }
 
                     // CUSTOM SCROLL BAR FOR NAV
                     if ($.fn.mCustomScrollbar) {
                         element.mCustomScrollbar({
+                            theme: "minimal",
                             setHeight: true,
-                            autoHideScrollbar: true,
                             mouseWheel: {
                                 normalizeDelta: true
                             }
@@ -565,11 +578,7 @@
                 },
                 template: '\
 				<li data-ng-class="{active: active}">\
-				    <a data-ui-sref="{{state}}" href="" data-ng-if="state">\
-						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
-						<span class="menu-item-parent">{{ title }}</span>\
-					</a>\
-					<a href="" data-ng-if="!state">\
+					<a href="">\
 						<i data-ng-if="hasIcon" class="{{ icon }}"><em data-ng-if="hasIconCaption"> {{ iconCaption }} </em></i>\
 						<span class="menu-item-parent">{{ title }}</span>\
 					</a>\
@@ -620,11 +629,11 @@
 
                     scope.$watch('active', function(newVal, oldVal) {
                         if (newVal) {
-                            if (angular.isDefined(navgroupCtrl)) navgroupCtrl.setActive(true);
+                            if (angular.isDefined(navgroupCtrl) && navgroupCtrl) navgroupCtrl.setActive(true);
                             $window.document.title = scope.title;
                             scope.setBreadcrumb();
                         } else {
-                            if (angular.isDefined(navgroupCtrl)) navgroupCtrl.setActive(false);
+                            if (angular.isDefined(navgroupCtrl) && navgroupCtrl) navgroupCtrl.setActive(false);
                         }
                     });
 
@@ -655,7 +664,6 @@
                             $('html').removeClass("hidden-menu-mobile-lock");
                         }
                     });
-
                 },
                 transclude: true,
                 replace: true,
@@ -674,6 +682,22 @@
 					</a>\
 				</li>'
             };
+        }])
+        .directive('navRepeat', ['$timeout', function ($timeout) {
+            return {
+                restrict: 'AE',
+                link: function (scope) {
+                    $timeout(function () {
+                        if (scope.$last) {
+                            scope.$emit('sa.menuLoaded');
+                        }
+                    });
+
+                    if (scope.$first) {
+                        scope.$emit('sa.addMenuLevel');
+                    }
+                }
+            }
         }]);
 
 

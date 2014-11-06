@@ -117,6 +117,7 @@ html.fixed-height #main {
 }
 
 html.fixed-height #content,
+html.fixed-height #content > *,
 html.fixed-height.has-footer #content #widget-grid,
 html.fixed-height.has-footer #content #widget-grid .row,
 html.fixed-height.has-footer #content #widget-grid *[class^="col"],
