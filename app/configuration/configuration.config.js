@@ -32,7 +32,7 @@
             url: '',
             views: {
                 '': {
-                    templateUrl: 'root.tpl.html'
+                    templateUrl: 'common/root.tpl.html'
                 },
                 'footer': footerView,
                 'left-nav': leftNavView,
