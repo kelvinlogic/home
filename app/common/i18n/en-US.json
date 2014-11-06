@@ -5,6 +5,10 @@
         "SIGN_OUT_WARNING_TITLE": "Sign out",
         "SIGN_OUT_WARNING_MESSAGE": "Are you sure you want to sign out?",
         "COLLAPSE_MENU_TEXT": "Collapse Menu",
+        "CANCEL_SEARCH_TEXT": "Cancel Search",
+        "SUBMIT_SEARCH_TEXT": "Submit Search",
+        "SEARCH_TEXT": "Search",
+        "SEARCH_PLACEHOLDER": "Find stuff...",
 
         "errors": {
             "REMOTE_ACCESS_DENIED": "Access to a resource was denied. Login with different credentials or contact your system administrator."

@@ -19,10 +19,10 @@
     <!-- logout button -->
     <div id="logout" class="btn-header transparent pull-right" data-ng-if="isLoggedIn()"
          data-ng-controller="SignOutCtrl as signOutCtrl">
-                <span>
-                    <a href="" title="{{'fc.common.SIGN_OUT_TEXT' | translate}}" data-ng-click="signOutCtrl.signOut()">
-                        <i class="fa fa-sign-out"></i> </a>
-                </span>
+        <span>
+            <a href="" title="{{'fc.common.SIGN_OUT_TEXT' | translate}}" data-ng-click="signOutCtrl.signOut()">
+                <i class="fa fa-sign-out"></i> </a>
+        </span>
     </div>
     <!-- end logout button -->
 
@@ -48,6 +48,31 @@
             </span>
         </span>
         <!-- End keyboard toggle -->
+    </span>
+
+    <!-- TODO: Add search-bar controller. -->
+    <span>
+        <!-- search mobile button (this is hidden till mobile view port) -->
+        <div id="search-mobile" class="btn-header transparent pull-right">
+            <span>
+                <a href="javascript:void(0)" title="{{'fc.common.SEARCH_TEXT' | translate}}">
+                    <i class="fa fa-search"></i>
+                </a>
+            </span>
+        </div>
+        <!-- end search mobile button -->
+
+        <!-- input: search field -->
+        <form data-ng-submit="" class="header-search pull-right">
+            <input id="search-fld"  type="text" name="param" placeholder="{{'fc.common.SEARCH_PLACEHOLDER' | translate}}">
+            <button type="submit" title="{{'fc.common.SUBMIT_SEARCH_TEXT' | translate}}">
+                <i class="fa fa-search"></i>
+            </button>
+            <button type="reset" id="cancel-search-js" title="{{'fc.common.CANCEL_SEARCH_TEXT' | translate}}">
+                <i class="fa fa-times"></i>
+            </button>
+        </form>
+        <!-- end input: search field -->
     </span>
 
     <ul class="header-dropdown-list hidden-xs" data-ng-controller="LanguageCtrl as langCtrl">
