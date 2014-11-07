@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="SupplierProductMappingCtrl as supplierProductCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="SupplierProductMappingCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::supplierProductCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::vm.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,200 +15,133 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!supplierProductCtrl.mapping">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="supplierSelector" class="control-label"
-                                               data-translate="fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_LABEL"></label>
-                                        <input id="supplierSelector" type="text"
-                                               class="form-control"
-                                               placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_PLACEHOLDER' | translate}}"
-                                               data-ng-model="supplierProductCtrl.selectedSupplier" sf-typeahead
-                                               data-options="supplierProductCtrl.typeaheadOptions"
-                                               data-datasets="supplierProductCtrl.supplierDataset" data-vt-keyboard />
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="supplierSelector" class="control-label"
+                                           data-translate="fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_LABEL"></label>
+                                    <input id="supplierSelector" type="text"
+                                           class="form-control"
+                                           placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_PLACEHOLDER' | translate}}"
+                                           data-ng-model="vm.selectedSupplier" data-sf-typeahead
+                                           data-options="vm.typeaheadOptions"
+                                           data-datasets="vm.supplierDataset" data-vt-keyboard />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input type="search" class="form-control"
-                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="supplierProductCtrl.filters.all" data-vt-keyboard />
-                                    </div>
-                                    <hr class="visible-xs"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="search" class="form-control"
+                                           placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                           data-ng-model="vm.filters.all" data-vt-keyboard />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <hr class="visible-xs"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="btn-toolbar">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="supplierProductCtrl.newMapping()">
+                                        <button type="button" class="btn btn-primary"
+                                                data-ng-click="vm.newMapping()">
                                             <i class="fa fa-plus"></i>
                                             <span class="hidden-sm hidden-xs" data-translate="fc.NEW_TEXT"></span>
                                         </button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="supplierProductCtrl.edit()"
-                                                data-ng-disabled="!supplierProductCtrl.selectedMapping || supplierProductCtrl.selectedMappings.length > 1">
-                                            <i class="fa fa-edit"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
-                                        </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!supplierProductCtrl.selectedMapping">
+                                        <button type="button" class="btn btn-danger" data-ng-disabled="!vm.selected">
                                             <i class="fa fa-trash-o"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
+                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_SELECTED_TEXT"></span>
                                         </button>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table id="table" class="table table-striped table-bordered table-hover"
-                                           data-datatable="ng"
-                                           data-dt-options="supplierProductCtrl.gridOptions">
-                                        <thead>
-                                        <tr>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.table.ID_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="supplierProductCtrl.filters.id" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.table.PRODUCT_CODE_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="supplierProductCtrl.filters.productCode" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.table.PRODUCT_NAME_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="supplierProductCtrl.filters.productName" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.table.SUPPLIER_CODE_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="supplierProductCtrl.filters.supplierCode" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.table.SUPPLIER_NAME_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="supplierProductCtrl.filters.supplierName" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th data-translate="fc.merchandising.supplierProductMapping.table.ID_HEADER"></th>
-                                            <th data-translate="fc.merchandising.supplierProductMapping.table.PRODUCT_CODE_HEADER"></th>
-                                            <th data-translate="fc.merchandising.supplierProductMapping.table.PRODUCT_NAME_HEADER"></th>
-                                            <th data-translate="fc.merchandising.supplierProductMapping.table.SUPPLIER_CODE_HEADER"></th>
-                                            <th data-translate="fc.merchandising.supplierProductMapping.table.SUPPLIER_NAME_HEADER"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr data-ng-repeat="mapping in supplierProductCtrl.mappings"
-                                            data-ng-click="supplierProductCtrl.toggleSelection(mapping)"
-                                            data-ng-class="{'fc-selected': mapping.isSelected}">
-                                            <td>{{mapping.id}}</td>
-                                            <td>{{mapping.product.code}}</td>
-                                            <td>{{mapping.product.name}}</td>
-                                            <td>{{mapping.supplierCode}}</td>
-                                            <td>{{mapping.supplier.name}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="supplierProductCtrl.pagination.page"
-                                         data-ng-change="supplierProductCtrl.pageChanged()" data-pagination
-                                         data-total-items="supplierProductCtrl.pagination.total"
-                                         data-max-size="supplierProductCtrl.pagination.maxSize"></div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            <span class="hidden-sm hidden-xs" data-translate="fc.MORE_TEXT" id="dLabel"></span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
+                                            <li>
+                                                <a href="#" data-ng-click="vm.selectAll()">
+                                                    <i class="fa" data-ng-class="{'fa-check-square-o': vm.selected, 'fa-square-o': !vm.selected}"></i>
+                                                    <span class="hidden-sm hidden-xs" data-translate="fc.SELECT_ALL_TEXT"
+                                                          data-ng-if="!vm.selected"></span>
+                                                    <span class="hidden-sm hidden-xs" data-translate="fc.CLEAR_SELECTION_TEXT"
+                                                          data-ng-if="vm.selected"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="supplierProductCtrl.mapping">
-                            <form class="form-horizontal" name="mappingForm" data-ng-submit="supplierProductCtrl.saveChanges()">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <div class="form-group" data-ng-class="{'has-error': !mappingForm.product.$valid && !mappingForm.product.$pristine}">
-                                            <label for="productSelector" class="control-label col-md-4"
-                                                   data-translate="fc.merchandising.supplierProductMapping.input.SELECT_PRODUCT_LABEL"></label>
-                                            <div class="col-md-8">
-                                                <input id="productSelector" type="text" class="fc-input-full-width form-control"
-                                                       name="product"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_PRODUCT_PLACEHOLDER' | translate}}"
-                                                       data-ng-required="::supplierProductCtrl.validationData.product.required"
-                                                       data-ng-model="supplierProductCtrl.mapping.product" data-sf-typeahead
-                                                       data-options="supplierProductCtrl.typeaheadOptions"
-                                                       data-datasets="supplierProductCtrl.productDataset" />
-                                        <span class="help-block" data-ng-messages="mappingForm.product.$error"
-                                              data-ng-show="!mappingForm.product.$valid && !mappingForm.product.$pristine">
-                                            <span data-ng-if="::supplierProductCtrl.validationData.product.required"
-                                                  data-ng-message="required">
-                                                <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_PRODUCT_VALIDATION_TEXT"></span>
-                                            </span>
-                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <div class="form-group"
-                                             data-ng-class="{'has-error': !mappingForm.supplier.$valid && !mappingForm.supplier.$pristine}">
-                                            <label class="control-label col-md-4" for="supplierSelector2"
-                                                   data-translate="fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_LABEL"></label>
-                                            <div class="col-md-8">
-                                                <input id="supplierSelector2" type="text"
-                                                       class="fc-input-full-width form-control"
-                                                       name="supplier"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_PLACEHOLDER' | translate}}"
-                                                       data-ng-required="::supplierProductCtrl.validationData.supplier.required"
-                                                       data-ng-model="supplierProductCtrl.mapping.supplier" sf-typeahead
-                                                       data-options="supplierProductCtrl.typeaheadOptions"
-                                                       data-datasets="supplierProductCtrl.supplierDataset" />
-                                                <span class="help-block" data-ng-messages="mappingForm.supplier.$error"
-                                                      data-ng-show="!mappingForm.supplier.$valid && !mappingForm.supplier.$pristine">
-                                                    <span data-ng-if="::supplierProductCtrl.validationData.supplier.required"
-                                                          data-ng-message="required">
-                                                        <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_SUPPLIER_VALIDATION_TEXT"></span>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <div class="form-group"
-                                             data-ng-class="{'has-error': !mappingForm.supplierCode.$valid && !mappingForm.supplierCode.$pristine}">
-                                            <label class="control-label col-md-4" for="code"
-                                                   data-translate="fc.merchandising.supplierProductMapping.input.SUPPLIER_CODE_LABEL"></label>
-                                            <div class="col-md-8">
-                                                <input id="code" type="number" name="supplierCode"
-                                                       class="fc-input-full-width form-control"
-                                                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SUPPLIER_CODE_PLACEHOLDER' | translate}}"
-                                                       data-ng-required="::supplierProductCtrl.validationData.supplierCode.required"
-                                                       data-ng-model="supplierProductCtrl.mapping.supplierCode" />
-                                        <span class="help-block" data-ng-messages="mappingForm.supplierCode.$error"
-                                              data-ng-show="!mappingForm.supplierCode.$valid && !mappingForm.supplierCode.$pristine">
-                                            <span data-ng-if="::supplierProductCtrl.validationData.supplierCode.required"
-                                                  data-ng-message="required">
-                                                <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_SUPPLIER_CODE_VALIDATION_TEXT"></span>
-                                            </span>
-                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    <button class="btn btn-success" type="submit"
-                                            data-translate="fc.SAVE_TEXT"
-                                            data-ng-click="supplierProductCtrl.saveChanges()"
-                                            data-ng-disabled="!supplierProductCtrl.canSaveChanges()"></button>
-                                    <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="supplierProductCtrl.cancelChanges()"></button>
-                                </div>
-                            </form>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="table" class="table table-striped table-bordered table-hover"
+                                       data-datatable="ng"
+                                       data-dt-options="vm.gridOptions">
+                                    <thead>
+                                    <tr>
+                                        <td class="hasinput">
+                                            <input type="text" class="form-control fc-input-full-width fc-force"
+                                                   placeholder="{{'fc.merchandising.supplierProductMapping.table.PRODUCT_CODE_FILTER_TEXT' | translate}}"
+                                                   data-ng-model="vm.filters.productCode" />
+                                        </td>
+                                        <td class="hasinput">
+                                            <input type="text" class="form-control fc-input-full-width fc-force"
+                                                   placeholder="{{'fc.merchandising.supplierProductMapping.table.PRODUCT_NAME_FILTER_TEXT' | translate}}"
+                                                   data-ng-model="vm.filters.productName" />
+                                        </td>
+                                        <td class="hasinput">
+                                            <input type="text" class="form-control fc-input-full-width fc-force"
+                                                   placeholder="{{'fc.merchandising.supplierProductMapping.table.SUPPLIER_CODE_FILTER_TEXT' | translate}}"
+                                                   data-ng-model="vm.filters.supplierCode" />
+                                        </td>
+                                        <td class="hasinput">
+                                            <input type="text" class="form-control fc-input-full-width fc-force"
+                                                   placeholder="{{'fc.merchandising.supplierProductMapping.table.SUPPLIER_NAME_FILTER_TEXT' | translate}}"
+                                                   data-ng-model="vm.filters.supplierName" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th data-translate="fc.merchandising.supplierProductMapping.table.PRODUCT_CODE_HEADER"></th>
+                                        <th data-translate="fc.merchandising.supplierProductMapping.table.PRODUCT_NAME_HEADER"></th>
+                                        <th data-translate="fc.merchandising.supplierProductMapping.table.SUPPLIER_CODE_HEADER"></th>
+                                        <th data-translate="fc.merchandising.supplierProductMapping.table.SUPPLIER_NAME_HEADER"></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr data-ng-repeat="mapping in vm.mappings"
+                                        data-ng-click="vm.toggleSelection(mapping)"
+                                        data-ng-class="{'fc-selected': mapping.isSelected}">
+                                        <td>{{mapping.product.code}}</td>
+                                        <td>{{mapping.product.name}}</td>
+                                        <td>{{mapping.supplierCode}}</td>
+                                        <td>{{mapping.supplier.name}}</td>
+                                        <td class="fc-btn-cell">
+                                            <button type="button" class="btn btn-default btn-sm"
+                                                    data-ng-click="$event.stopPropagation(); vm.edit(mapping)">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                                <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                    data-ng-click="$event.stopPropagation(); vm.deactivate(mapping)">
+                                                <i class="fa fa-trash-o"></i>
+                                                <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pagination-sm pull-right" data-ng-model="vm.pagination.page"
+                                     data-ng-change="vm.pageChanged()" data-pagination
+                                     data-total-items="vm.pagination.total"
+                                     data-max-size="vm.pagination.maxSize"></div>
+                            </div>
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -222,3 +155,83 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
+
+<!-- New and edit modal template -->
+<script id="fc/editView" type="text/ng-template">
+    <div class="modal-header">
+        <h3 class="modal-title" data-translate="fc.merchandising.supplierProductMapping.DETAIL_PAGE_TITLE"></h3>
+    </div>
+    <div class="modal-body">
+        <form name="mappingForm" role="form">
+            <div class="form-group" data-ng-class="{'has-error has-feedback': !mappingForm.product.$valid && !mappingForm.product.$pristine}">
+                <label for="productSelector" class="control-label"
+                       data-translate="fc.merchandising.supplierProductMapping.input.SELECT_PRODUCT_LABEL"></label>
+                <input id="productSelector" type="text" class="fc-input-full-width form-control"
+                       name="product"
+                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_PRODUCT_PLACEHOLDER' | translate}}"
+                       data-ng-required="::vm.validationData.product.required"
+                       data-ng-model="vm.mapping.product" data-sf-typeahead
+                       data-options="vm.typeaheadOptions"
+                       data-datasets="vm.productDataset" />
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!mappingForm.product.$valid && !mappingForm.product.$pristine"></i>
+                <span class="help-block" data-ng-messages="mappingForm.product.$error"
+                      data-ng-show="!mappingForm.product.$valid && !mappingForm.product.$pristine">
+                    <span data-ng-if="::vm.validationData.product.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_PRODUCT_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !mappingForm.supplier.$valid && !mappingForm.supplier.$pristine}">
+                <label for="supplierSelector2" class="control-label"
+                       data-translate="fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_LABEL"></label>
+                <input id="supplierSelector2" type="text"
+                       class="fc-input-full-width form-control"
+                       name="supplier"
+                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SELECT_SUPPLIER_PLACEHOLDER' | translate}}"
+                       data-ng-required="::vm.validationData.supplier.required"
+                       data-ng-model="vm.mapping.supplier" data-sf-typeahead
+                       data-options="vm.typeaheadOptions"
+                       data-datasets="vm.supplierDataset" />
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!mappingForm.supplier.$valid && !mappingForm.supplier.$pristine"></i>
+                <span class="help-block" data-ng-messages="mappingForm.supplier.$error"
+                      data-ng-show="!mappingForm.supplier.$valid && !mappingForm.supplier.$pristine">
+                    <span data-ng-if="::vm.validationData.supplier.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_SUPPLIER_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !mappingForm.supplierCode.$valid && !mappingForm.supplierCode.$pristine}">
+                <label class="control-label" for="code"
+                       data-translate="fc.merchandising.supplierProductMapping.input.SUPPLIER_CODE_LABEL"></label>
+                <input id="code" type="number" name="supplierCode"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.supplierProductMapping.input.SUPPLIER_CODE_PLACEHOLDER' | translate}}"
+                       data-ng-required="::vm.validationData.supplierCode.required"
+                       data-ng-model="vm.mapping.supplierCode" />
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!mappingForm.supplierCode.$valid && !mappingForm.supplierCode.$pristine"></i>
+                <span class="help-block" data-ng-messages="mappingForm.supplierCode.$error"
+                      data-ng-show="!mappingForm.supplierCode.$valid && !mappingForm.supplierCode.$pristine">
+                    <span data-ng-if="::vm.validationData.supplierCode.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.supplierProductMapping.input.REQUIRED_SUPPLIER_CODE_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" data-ng-click="vm.ok()"
+                data-ng-disabled="!vm.canSaveChanges()">
+            <i class="fa fa-save"></i>
+            <span data-translate="fc.SAVE_TEXT"></span>
+        </button>
+        <button class="btn btn-warning" data-ng-click="vm.cancel()" data-translate="fc.CANCEL_TEXT"></button>
+    </div>
+</script>

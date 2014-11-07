@@ -18,7 +18,11 @@
         "NEW_TEXT": "New",
         "EDIT_TEXT": "Edit",
         "DELETE_TEXT": "Delete",
+        "DELETE_SELECTED_TEXT": "Delete Selected",
         "TOGGLE_SELECTION_TEXT": "Toggle Selection",
+        "TOGGLE_DROP_DOWN_TEXT": "Toggle Drop Down",
+        "SELECT_ALL_TEXT": "Select All",
+        "MORE_TEXT": "More",
 
         "table": {
             "ID_FILTER_TEXT": "Filter Id",

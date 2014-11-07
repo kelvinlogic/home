@@ -3,41 +3,36 @@
 
     angular
         .module("fc.merchandising")
-        .controller("SupplierProductMappingCtrl", supplierProductMapping);
+        .controller("SupplierProductMappingCtrl", supplierProductMapping)
+        .controller("SupplierProductMappingDetailCtrl", supplierProductMappingDetail);
 
-    supplierProductMapping.$inject = ["lodash", "$scope", "$translate", "merchandisingConstants", "DTOptionsBuilder"];
+    supplierProductMapping.$inject = ["lodash", "$modal", "$scope", "$translate", "merchandisingConstants", "DTOptionsBuilder"];
 
     /* @ngInject */
-    function supplierProductMapping(_, $scope, $translate, constants, DTOptionsBuilder) {
+    function supplierProductMapping(_, $modal, $scope, $translate, constants, DTOptionsBuilder) {
         /* jshint validthis: true */
         var vm = this,
-            _productsEngine = null,
-            _suppliersEngine = null;
+            _suppliersEngine = null,
+            _mappingDetailModalOptions = null,
+            _selectionEnum = {"none": 0, "some": 1, "all": 2 };
 
-        vm.activate = activate;
-        vm.cancelChanges = cancelChanges;
-        vm.canSaveChanges = canSaveChanges;
+        vm.deactivate = deactivate;
         vm.edit = edit;
         vm.filters = {};
         vm.gridOptions = null;
-        vm.mapping = null;
         vm.mappings = [];
         vm.newMapping = newMapping;
         vm.typeaheadOptions = null;
         vm.pageChanged = pageChanged;
         vm.pagination = {};
         vm.products = [];
-        vm.productDataset = null;
-        vm.saveChanges = saveChanges;
-        vm.selectedAll = false;
-        vm.selectedMappings = [];
-        vm.selectedMapping = null;
+        vm.selectAll = selectAll;
+        vm.selected = null;
         vm.selectedSupplier = null;
         vm.supplierDataset = null;
         vm.suppliers = [];
         vm.titleKey = "fc.merchandising.supplierProductMapping.MASTER_PAGE_TITLE";
         vm.toggleSelection = toggleSelection;
-        vm.validationData = null;
 
         activate();
 
@@ -50,13 +45,10 @@
             // Set up pagination.
             setupPagination();
 
-            _productsEngine = new Bloodhound({
-                datumTokenizer: function(d) {
-                    return Bloodhound.tokenizers.whitespace(d[constants.suggestions.products.displayKey]);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: constants.suggestions.products.remote
-            });
+            _mappingDetailModalOptions = {
+                templateUrl: "fc/editView",
+                controller: "SupplierProductMappingDetailCtrl as vm"
+            };
 
             _suppliersEngine = new Bloodhound({
                 datumTokenizer: function(d) {
@@ -66,19 +58,12 @@
                 remote: constants.suggestions.suppliers.remote
             });
 
-            _productsEngine.initialize();
             _suppliersEngine.initialize();
 
             vm.typeaheadOptions = {
                 hint: true,
                 highlight: true,
                 minLength: 1
-            };
-            vm.productDataset = {
-                name: "products",
-                displayKey: constants.suggestions.products.displayKey,
-                source: _productsEngine.ttAdapter(),
-                templates: constants.suggestions.products.templates
             };
             vm.supplierDataset = {
                 name: "suppliers",
@@ -95,22 +80,41 @@
             });
         }
 
-        function cancelChanges() {
-            vm.mapping = null;
-            vm.selectedMapping = null;
+        function deactivate(item) {
+            // Show alert...
         }
 
-        function canSaveChanges() {
-            return vm.mapping && vm.mapping.supplier && vm.mapping.product && vm.mapping.supplierCode;
-        }
+        function edit(item) {
+            // Prevent propagation to disable selecting row...done on view.
+            if (!item) {
+                return;
+            }
 
-        function edit() {
-            // Use extend to prevent reference copying.
-            vm.mapping = angular.extend({}, vm.selectedMapping);
+            // Use extend to prevent reference copying so we can edit the item in isolation.
+            var mapping = angular.extend({}, item);
 
-            // Clear table selection
-            delete vm.selectedMapping.isSelected;
-            vm.selectedMappings = [];
+            // Setup modal options.
+            _mappingDetailModalOptions.resolve = {
+                data: function () {
+                    return {
+                        constants: constants,
+                        mapping: mapping,
+                        supplierDataset: vm.supplierDataset,
+                        typeaheadOptions: vm.typeaheadOptions
+                    };
+                }
+            };
+
+            // Open modal popup.
+            var modalInstance = $modal.open(_mappingDetailModalOptions);
+
+            modalInstance.result.then(function (editedMapping) {
+                // We selected ok...
+                angular.extend(item, editedMapping);
+            }, function () {
+                // We cancelled the search...
+                // Do nothing...
+            });
         }
 
         function load() {
@@ -142,27 +146,11 @@
                 }
             ];
 
-            vm.validationData = {
-                product: {
-                    required: true
-                },
-                supplier: {
-                    required: true
-                },
-                supplierCode: {
-                    required: true
-                }
-            };
-
             $scope.$watchCollection(function () {
                 return vm.filters;
             }, function (newCollection) {
                 if (newCollection.all) {
                     // Search on all fields.
-                }
-
-                if (newCollection.id) {
-                    // Search on id field.
                 }
 
                 if (newCollection.productCode) {
@@ -187,7 +175,33 @@
             var mapping = {};
             mapping.supplier = vm.selectedSupplier || null;
 
-            vm.mapping = mapping;
+            // Add new mapping to the grid.
+            vm.mappings.push(mapping);
+
+            // Setup modal options.
+            _mappingDetailModalOptions.resolve = {
+                data: function () {
+                    return {
+                        constants: constants,
+                        mapping: mapping,
+                        supplierDataset: vm.supplierDataset,
+                        typeaheadOptions: vm.typeaheadOptions
+                    };
+                }
+            };
+
+            // Open modal popup.
+            var modalInstance = $modal.open(_mappingDetailModalOptions);
+
+            modalInstance.result.then(function (newMapping) {
+                // We selected ok...
+                // Show the new mapping on the grid.
+            }, function () {
+                // We cancelled the search...
+                // Do nothing...
+                var index = vm.mappings.indexOf(mapping);
+                vm.mappings.splice(index, 1);
+            });
         }
 
         function pageChanged() {
@@ -195,16 +209,17 @@
             var currentPage = vm.pagination.page;
         }
 
-        function saveChanges() {
-            // TODO: Enter save logic
-            if (vm.mapping.id) {
-                vm.selectedMapping = vm.mapping;
-            } else {
-                vm.mappings.push(vm.mapping);
-            }
+        function selectAll() {
+            var _this = this;
+            _this.selected = _.any(_this.mappings, function (mapping) {
+                return mapping.isSelected;
+            });
 
-            vm.mapping = null;
-            vm.selectedMapping = null;
+            _this.selected = !_this.selected;
+
+            _.forEach(_this.mappings, function(mapping) {
+                mapping.isSelected = _this.selected;
+            });
         }
 
         function setupGrid() {
@@ -217,6 +232,7 @@
                 .newOptions()
                 .withDOM(sDom)
                 .withBootstrap()
+                .withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf")
                 .withOption("paging", false)
                 .withOption("autoWidth", true)
                 .withOption('responsive', true);
@@ -250,7 +266,6 @@
                     }
                 ];
 
-                vm.gridOptions.withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf");
                 vm.gridOptions.withTableToolsButtons(ttBtnCfg);
             });
 
@@ -264,26 +279,86 @@
         }
 
         function toggleSelection(item) {
-            var index = vm.selectedMappings.indexOf(item);
             item.isSelected = !item.isSelected;
+            var check = function (mapping) {
+                return mapping.isSelected;
+            };
 
-            if (item.isSelected) {
-                vm.selectedMapping = item;
-
-                // If item isn't in the selected items array...
-                if (index < 0) {
-                    // add it.
-                    vm.selectedMappings.push(item);
-                }
+            var allSelected = _.all(vm.mappings, check);
+            var someSelected = _.any(vm.mappings, check);
+            if (allSelected) {
+                vm.selected = _selectionEnum.all;
+            } else if (someSelected) {
+                vm.selected = _selectionEnum.some;
             } else {
-                // If item isn't in the selected items array...
-                if (index > -1) {
-                    // remove it.
-                    vm.selectedMappings.splice(index, 1);
-                }
-
-                vm.selectedMapping = _.last(vm.selectedMappings);
+                vm.selected = _selectionEnum.none;
             }
+        }
+    }
+
+    /* Add functions to su */
+
+    supplierProductMappingDetail.$inject = ["$modalInstance", "data"];
+
+    function supplierProductMappingDetail($modalInstance, data) {
+        var vm = this,
+            _productsEngine = null,
+            _constants = data.constants;
+
+        vm.cancel = cancel;
+        vm.canSaveChanges = canSaveChanges;
+        vm.mapping = data.mapping;
+        vm.ok = ok;
+        vm.productDataset = null;
+        vm.supplierDataset = data.supplierDataset;
+        vm.typeaheadOptions = data.typeaheadOptions;
+        vm.validationData = null;
+
+        activate();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function activate() {
+            _productsEngine = new Bloodhound({
+                datumTokenizer: function(d) {
+                    return Bloodhound.tokenizers.whitespace(d[_constants.suggestions.products.displayKey]);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: _constants.suggestions.products.remote
+            });
+
+            _productsEngine.initialize();
+
+            vm.productDataset = {
+                name: "products",
+                displayKey: _constants.suggestions.products.displayKey,
+                source: _productsEngine.ttAdapter(),
+                templates: _constants.suggestions.products.templates
+            };
+
+            vm.validationData = {
+                product: {
+                    required: true
+                },
+                supplier: {
+                    required: true
+                },
+                supplierCode: {
+                    required: true
+                }
+            };
+        }
+
+        function cancel() {
+            $modalInstance.dismiss();
+        }
+
+        function canSaveChanges() {
+            return vm.mapping && vm.mapping.supplier && vm.mapping.product && vm.mapping.supplierCode;
+        }
+
+        function ok() {
+            $modalInstance.close(vm.mapping);
         }
     }
 })();

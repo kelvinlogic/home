@@ -140,29 +140,25 @@ html.fixed-height.has-footer #content {
     padding-bottom: 65px;
 }
 
+
 /*
-** Give grid dimensions.
-**/
-.fc-ui-grid,
-.fc-ui-grid .ui-grid-pinned-container-left,
-.fc-ui-grid .ui-grid-pinned-container-left .ui-grid-render-container-left .ui-grid-viewport,
-.fc-ui-grid .ui-grid-render-container-body .ui-grid-viewport {
-    height: auto !important;
+** Data tables print mode.
+*/
+html.fixed-height body.DTTT_Print,
+html.fixed-height.has-footer body.DTTT_Print #content,
+html.fixed-height body.DTTT_Print #content > *,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .row,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid *[class^="col"],
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget > div {
+    overflow: visible;
 }
 
-.fc-ui-grid-scrollable {
-    height: 290px;
-}
-
-.fc-ui-grid .ui-grid-menu .ui-grid-menu-inner ul,
-.fc-ui-grid-scrollable .ui-grid-menu .ui-grid-menu-inner ul {
-    max-height: 200px;
-    overflow: auto;
-}
-
-.fc-ui-grid .ui-grid-menu .ui-grid-menu-inner ul > li,
-.fc-ui-grid-scrollable .ui-grid-menu .ui-grid-menu-inner ul > li {
-    padding-right: 2em;
+html.fixed-height body.DTTT_Print #main,
+html.fixed-height.has-footer body.DTTT_Print #content,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget {
+    padding: 0;
 }
 
 /*
@@ -207,6 +203,20 @@ html.fixed-height.has-footer #content {
 
 .table tbody > tr.fc-selected td {
     background-color: #9cdfd8;
+}
+
+.table tbody > tr td.fc-btn-cell {
+    padding: 1px 0;
+    text-align: center;
+}
+
+.table tbody > tr td.fc-btn-cell.fc-btn-xs-cell {
+    padding: 6px 0;;
+}
+
+.dt-toolbar {
+    margin-top: 2px;
+    padding: 0 0 1px;
 }
 
 /* Custom input styles */
