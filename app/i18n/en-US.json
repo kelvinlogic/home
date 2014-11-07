@@ -22,6 +22,7 @@
         "TOGGLE_SELECTION_TEXT": "Toggle Selection",
         "TOGGLE_DROP_DOWN_TEXT": "Toggle Drop Down",
         "SELECT_ALL_TEXT": "Select All",
+        "CLEAR_SELECTION_TEXT": "Clear Selection",
         "MORE_TEXT": "More",
 
         "table": {

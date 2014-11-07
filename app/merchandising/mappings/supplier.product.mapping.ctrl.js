@@ -209,17 +209,34 @@
             var currentPage = vm.pagination.page;
         }
 
-        function selectAll() {
-            var _this = this;
-            _this.selected = _.any(_this.mappings, function (mapping) {
+        function refreshSelection(){
+            var check = function (mapping) {
                 return mapping.isSelected;
-            });
+            };
 
-            _this.selected = !_this.selected;
+            var allSelected = _.all(vm.mappings, check);
+            var someSelected = _.any(vm.mappings, check);
+            if (allSelected) {
+                vm.selected = _selectionEnum.all;
+            } else if (someSelected) {
+                vm.selected = _selectionEnum.some;
+            } else {
+                vm.selected = _selectionEnum.none;
+            }
+        }
 
-            _.forEach(_this.mappings, function(mapping) {
-                mapping.isSelected = _this.selected;
-            });
+        function selectAll() {
+            if (!vm.selected || vm.selected === _selectionEnum.none) {
+                _.forEach(vm.mappings, function(mapping) {
+                    mapping.isSelected = true;
+                });
+            } else {
+                _.forEach(vm.mappings, function(mapping) {
+                    mapping.isSelected = false;
+                });
+            }
+
+            refreshSelection();
         }
 
         function setupGrid() {
@@ -280,19 +297,8 @@
 
         function toggleSelection(item) {
             item.isSelected = !item.isSelected;
-            var check = function (mapping) {
-                return mapping.isSelected;
-            };
 
-            var allSelected = _.all(vm.mappings, check);
-            var someSelected = _.any(vm.mappings, check);
-            if (allSelected) {
-                vm.selected = _selectionEnum.all;
-            } else if (someSelected) {
-                vm.selected = _selectionEnum.some;
-            } else {
-                vm.selected = _selectionEnum.none;
-            }
+            refreshSelection();
         }
     }
 
