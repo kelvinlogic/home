@@ -40,6 +40,10 @@
             {
                 "code": "sw-KE",
                 "name": "Swahili"
+            },
+            {
+                "code": "ar-AE",
+                "name": "Arabic"
             }
         ]
     },

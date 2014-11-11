@@ -43,6 +43,23 @@
             collision: "flipfit flipfit"
         };
 
+        defaultCfg.css = {
+            // input & preview
+            //input: 'form-control input-sm',
+            // keyboard container
+            container: 'center-block dropdown-menu', // jumbotron
+            // default state
+            buttonDefault: 'btn btn-default',
+            // hovered button
+            buttonHover: 'btn-primary',
+            // Action keys (e.g. Accept, Cancel, Tab, etc);
+            // this replaces "actionClass" option
+            buttonAction: 'active',
+            // used when disabling the decimal button {dec}
+            // when a decimal exists in the input area
+            buttonDisabled: 'disabled'
+        };
+
         cfg.config = defaultCfg;
         cfg.keyboardClass = null;
         cfg.keyboardToggledEvent = null;
@@ -72,7 +89,8 @@
     keyboardDirective.$inject = ["$rootScope", "$timeout", "configSvc", "keyboardConfigSvc"];
 
     function keyboardDirective($rootScope, $timeout, configSvc, keyboardConfigSvc) {
-        var kbElements = null;
+        var elements = null,
+            currentLayout = null;
 
         return {
             restrict: "A",
@@ -80,34 +98,38 @@
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         function changeLanguage() {
-            if (!kbElements){
+            if (!elements){
                 return;
             }
 
             var config = configSvc.getLocalConfig();
             var enabled = config.keyboardEnabled;
-
-            // Set language.
-            // Language specific config...
-            var layout = keyboardConfigSvc.languageLayoutMapping[config.languageCode].layout;
+            var kbConfig = getKeyboardConfig();
 
             // Check if the keyboard language is the same as the new language.
-            if (keyboardConfigSvc.config.layout === layout && kbElements.data('keyboard')){
+            if (currentLayout === kbConfig.layout && $(elements).data('keyboard')){
                 return;
             }
-
-            keyboardConfigSvc.config.layout = layout;
 
             if (!enabled){
                 return;
             }
 
-            toggleKeyboard();
+            // Input orientation...
+            // Add rtl class if the config has the rtl flag.
+            var rtlClass = keyboardConfigSvc.rtlClass;
+            elements.toggleClass(rtlClass, kbConfig.rtl)
+                // Reset startup options set by Mottie keyboard in css
+                // at (334:55)
+                .css('direction', kbConfig.rtl ? 'rtl' : '');
+
+            toggleKeyboard(kbConfig);
+
+            currentLayout = kbConfig.layout;
         }
 
-        function disableKeyboards(elements) {
+        function disableKeyboards() {
             elements.each(function (i, element) {
                 if ($(element).data('keyboard')){
                     $(element).getkeyboard().destroy();
@@ -115,12 +137,39 @@
             });
         }
 
-        function enableKeyboards(elements, config) {
+        function enableKeyboards(config) {
             elements.each(function (i, element) {
                 if (!$(element).data('keyboard')){
                     $(element).keyboard(config).addTyping();
                 }
             });
+        }
+
+        function getKeyboardConfig() {
+            var config = configSvc.getLocalConfig();
+
+            // Set language.
+            // Language specific config...
+            var layoutMapping = keyboardConfigSvc.languageLayoutMapping[config.languageCode];
+            var langConfig = language[layoutMapping.language] || {};
+
+            var targetConfig = $.extend(true, {}, keyboardConfigSvc.config, langConfig, layoutMapping);
+
+            targetConfig.beforeVisible = function (e, keyboard, el) {
+                // Add draggable if one doesn't exist.
+                if (!keyboard.$keyboard.hasClass("hidden") && !$(".ui-keyboard-header").length) {
+                    keyboard.$keyboard
+                        .prepend("<div class='ui-keyboard-header'></div>")
+                        .draggable({
+                            handle: "div.ui-keyboard-header",
+                            containment: "window"
+                        });
+                }
+
+                keyboard.$keyboard.toggleClass("hidden", !config.keyboardVisible);
+            };
+
+            return targetConfig;
         }
 
         function init() {
@@ -135,67 +184,36 @@
             // Use the timeout technique to ensure rendering has finished before activating the directive.
             // This enables it to be activated in directives like ng-repeat.
             $timeout(function () {
-                if (!kbElements) {
-                    kbElements = $("[data-vt-keyboard]");
+                if (!elements) {
+                    elements = $("[data-vt-keyboard]:not(.tt-hint), [vt-keyboard]:not(.tt-hint)");
+
                     init();
                 }
+
+                $(element).on("change.keyboard", function () {
+                    if (attributes.hasOwnProperty("sfTypeahead")) {
+                        scope.$apply(function () {
+                            element.typeahead('val', element.val());
+                        });
+                    }
+                });
             }, 0);
         }
 
         function toggleKeyboard() {
-            if (!kbElements){
+            if (!elements){
                 return;
             }
 
             var config = configSvc.getLocalConfig();
             var enabled = config.keyboardEnabled;
+            var kbConfig = getKeyboardConfig();
 
-            // Disable any existing keyboards...
-            disableKeyboards(kbElements);
-
-            // Set language.
-            // Language specific config...
-            var langConfig = language[keyboardConfigSvc.languageLayoutMapping[config.languageCode].language] || {};
-
-            var targetConfig = $.extend(true, {}, keyboardConfigSvc.config, langConfig);
-
-            // Input orientation...
-            // Add rtl class if the config has the rtl flag.
-            var rtlClass = keyboardConfigSvc.rtlClass;
-            if (targetConfig.rtl){
-                if (!kbElements.hasClass(rtlClass)){
-                    kbElements.addClass(rtlClass);
-                }
-            } else {
-                if (kbElements.hasClass(rtlClass)){
-                    kbElements.removeClass(rtlClass);
-                }
-            }
-
-            targetConfig.beforeVisible = function (e, keyboard, el) {
-                // Add draggable if one doesn't exist.
-                if (!keyboard.$keyboard.hasClass("hidden") && !$(".ui-keyboard-header").length) {
-                    keyboard.$keyboard
-                        .prepend("<div class='ui-keyboard-header'></div>")
-                        .draggable({
-                            handle: "div.ui-keyboard-header",
-                            containment: "window"
-                        });
-                }
-
-                if (config.keyboardVisible){
-                    if (keyboard && keyboard.$keyboard.hasClass("hidden")){
-                        keyboard.$keyboard.removeClass("hidden");
-                    }
-                } else {
-                    if (keyboard && !keyboard.$keyboard.hasClass("hidden")){
-                        keyboard.$keyboard.addClass("hidden");
-                    }
-                }
-            };
+            // Disable the existing keyboard...
+            disableKeyboards();
 
             if (enabled) {
-                enableKeyboards(kbElements, targetConfig);
+                enableKeyboards(kbConfig);
             }
         }
     }

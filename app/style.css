@@ -50,17 +50,6 @@
 /*
  *  Keyboard action button styling.
 **/
-.fc-keyboard-icon {
-    background: none;
-    padding: 4px 2px;
-    box-shadow: none;
-    float: right;
-}
-
-.rtl {
-    direction: rtl;
-    text-align: right;
-}
 
 .btn-header.active > :first-child > a {
     background-color: #e8e8e8;
@@ -75,20 +64,6 @@
     box-shadow: inset 0 0 3px 1px rgba(0,0,0,.15);
     color: #fff;
     border-color: #494949;
-}
-
-.ui-keyboard-input-current {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-
-.ui-keyboard-header {
-    min-height: 25px;
-    background: #dddddd;
-    margin: -4px -4px 0 -4px;
-    padding: 4px;
-    cursor: move;
 }
 
 #extr-page #extr-page-header-space {
@@ -291,4 +266,50 @@ nav ul > div ul li a i {
 nav ul > div > li:hover > ul::before,
 nav ul > div > li:hover > ul > li::before {
     border-color: #ACACAC !important;
+}
+
+
+/*
+** Keyboard styles.
+*/
+
+.fc-keyboard-icon {
+    background: none;
+    padding: 4px 2px;
+    box-shadow: none;
+    float: right;
+}
+
+.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+.rtl * {
+    direction: rtl;
+}
+
+.btn.ui-keyboard-button {
+    height: auto;
+}
+
+.ui-keyboard-input-current {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.ui-keyboard-header {
+    min-height: 25px;
+    background: #dddddd;
+    margin: -5px 0 0 0;
+    padding: 4px;
+    cursor: move;
+}
+
+/*
+** Nav styles
+*/
+.fc-sidebar li:not(:last-child) .btn {
+    margin-bottom: 0.2em;
 }

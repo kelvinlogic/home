@@ -217,6 +217,5 @@ language.arabic = {
     rtl: true
 };
 
-// This will replace all default language options with these language options.
-// it is separated out here so the layout demo will work properly.
-//$.extend(true, $.keyboard.defaultOptions, language.arabic);
+// This will add arabic language options to the keyboard's existing language options.
+$.extend(true, $.keyboard.language, language);
