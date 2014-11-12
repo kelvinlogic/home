@@ -6,7 +6,14 @@
         .config(config)
         .run(run);
 
-    config.$inject = ["$httpProvider", "authSvcProvider", "configSvcProvider", "langSvcProvider", "menuSvcProvider", "searchSvcProvider"];
+    config.$inject = [
+        "$httpProvider",
+        "authSvcProvider",
+        "configSvcProvider",
+        "langSvcProvider",
+        "menuSvcProvider",
+        "searchSvcProvider"
+    ];
     run.$inject = ["$rootScope", "authSvc"];
 
     function config($httpProvider, authSvcProvider, configSvcProvider, langSvcProvider, menuSvcProvider, searchSvcProvider) {

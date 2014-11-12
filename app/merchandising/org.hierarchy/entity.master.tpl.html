@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="EntityMasterCtrl as entityCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="EntityMasterCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::entityCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::vm.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,106 +15,146 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!entityCtrl.entity">
+                        <div data-ng-if="!vm.entity">
+                            <!-- Button bar -->
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input type="search" class="form-control"
-                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="entityCtrl.filters.all" data-vt-keyboard />
-                                    </div>
-                                    <hr class="visible-xs"/>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary">
-                                            <i class="fa fa-plus"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.NEW_TEXT"></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="entityCtrl.edit()"
-                                                data-ng-disabled="!entityCtrl.selectedEntity || entityCtrl.selectedEntities.length > 1">
-                                            <i class="fa fa-edit"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
-                                        </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!entityCtrl.selectedEntity">
-                                            <i class="fa fa-trash-o"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
-                                        </button>
+                                <div class="col-md-12">
+                                    <!-- NOTE: Tooltips don't work without trigger & placements specified. -->
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-ng-click="vm.selectAll()"
+                                                    data-tooltip="{{vm.getSelectionKey() | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa" data-ng-class="{'fa-check-square-o': vm.selected === 2, 'fa-minus-square-o': vm.selected === 1, 'fa-square-o': !vm.selected}"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger" data-ng-if="vm.selected"
+                                                    data-tooltip="{{'fc.DELETE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <hr/>
-
                             <div class="row">
-                                <div class="col-md-12">
-                                    <table id="table" class="table table-striped table-bordered table-hover"
-                                           data-datatable="ng"
-                                           data-dt-options="entityCtrl.gridOptions">
-                                        <thead>
-                                        <tr>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.entity.table.ID_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="entityCtrl.filters.id" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.entity.table.CODE_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="entityCtrl.filters.code" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.entity.table.NAME_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="entityCtrl.filters.name" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.entity.table.DESCRIPTION_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="entityCtrl.filters.description" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.entity.table.LOCATION_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="entityCtrl.filters.location" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th data-translate="fc.merchandising.entity.table.ID_HEADER"></th>
-                                            <th data-translate="fc.merchandising.entity.table.CODE_HEADER"></th>
-                                            <th data-translate="fc.merchandising.entity.table.NAME_HEADER"></th>
-                                            <th data-translate="fc.merchandising.entity.table.DESCRIPTION_HEADER"></th>
-                                            <th data-translate="fc.merchandising.entity.table.LOCATION_HEADER"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr data-ng-repeat="entity in entityCtrl.entities"
-                                            data-ng-click="entityCtrl.toggleSelection(entity)"
-                                            data-ng-class="{'fc-selected': entity.isSelected}">
-                                            <td>{{entity.id}}</td>
-                                            <td>{{entity.code}}</td>
-                                            <td>{{entity.name}}</td>
-                                            <td>{{entity.description}}</td>
-                                            <td>{{entity.location}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="col-lg-10 col-md-10 col-sm-10">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <input type="search" class="form-control"
+                                                       placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                                       data-ng-model="vm.filters.all" data-vt-keyboard
+                                                       data-tooltip="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                                       data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <table id="table" class="table table-striped table-bordered table-hover"
+                                                   data-datatable="ng"
+                                                   data-dt-options="vm.gridOptions">
+                                                <thead>
+                                                <tr>
+                                                    <td class="hasinput">
+                                                        <input type="text" class="form-control fc-input-full-width fc-force"
+                                                               placeholder="{{'fc.merchandising.entity.table.ID_FILTER_TEXT' | translate}}"
+                                                               data-ng-model="vm.filters.id"
+                                                               data-tooltip="{{'fc.merchandising.entity.table.ID_FILTER_TEXT' | translate}}"
+                                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                    </td>
+                                                    <td class="hasinput">
+                                                        <input type="text" class="form-control fc-input-full-width fc-force"
+                                                               placeholder="{{'fc.merchandising.entity.table.CODE_FILTER_TEXT' | translate}}"
+                                                               data-ng-model="vm.filters.code"
+                                                               data-tooltip="{{'fc.merchandising.entity.table.CODE_FILTER_TEXT' | translate}}"
+                                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                    </td>
+                                                    <td class="hasinput">
+                                                        <input type="text" class="form-control fc-input-full-width fc-force"
+                                                               placeholder="{{'fc.merchandising.entity.table.NAME_FILTER_TEXT' | translate}}"
+                                                               data-ng-model="vm.filters.name"
+                                                               data-tooltip="{{'fc.merchandising.entity.table.NAME_FILTER_TEXT' | translate}}"
+                                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                    </td>
+                                                    <td class="hasinput">
+                                                        <input type="text" class="form-control fc-input-full-width fc-force"
+                                                               placeholder="{{'fc.merchandising.entity.table.DESCRIPTION_FILTER_TEXT' | translate}}"
+                                                               data-ng-model="vm.filters.description"
+                                                               data-tooltip="{{'fc.merchandising.entity.table.DESCRIPTION_FILTER_TEXT' | translate}}"
+                                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                    </td>
+                                                    <td class="hasinput">
+                                                        <input type="text" class="form-control fc-input-full-width fc-force"
+                                                               placeholder="{{'fc.merchandising.entity.table.LOCATION_FILTER_TEXT' | translate}}"
+                                                               data-ng-model="vm.filters.location"
+                                                               data-tooltip="{{'fc.merchandising.entity.table.LOCATION_FILTER_TEXT' | translate}}"
+                                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th data-translate="fc.merchandising.entity.table.ID_HEADER"></th>
+                                                    <th data-translate="fc.merchandising.entity.table.CODE_HEADER"></th>
+                                                    <th data-translate="fc.merchandising.entity.table.NAME_HEADER"></th>
+                                                    <th data-translate="fc.merchandising.entity.table.DESCRIPTION_HEADER"></th>
+                                                    <th data-translate="fc.merchandising.entity.table.LOCATION_HEADER"></th>
+                                                    <th style="width: 80px"></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="entity in vm.entities"
+                                                    data-ng-click="vm.toggleSelection(entity)"
+                                                    data-ng-class="{'fc-selected': entity.isSelected}">
+                                                    <td>{{entity.id}}</td>
+                                                    <td>{{entity.code}}</td>
+                                                    <td>{{entity.name}}</td>
+                                                    <td>{{entity.description}}</td>
+                                                    <td>{{entity.location}}</td>
+                                                    <td class="fc-btn-cell" style="width: 80px">
+                                                        <button class="btn btn-primary" data-ng-click="$event.stopPropagation(); vm.edit(entity)"
+                                                                data-tooltip="{{'fc.EDIT_TEXT' | translate}}" data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseenter">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger" data-ng-click="vm.delete(entity)"
+                                                                data-tooltip="{{'fc.DELETE_TEXT' | translate}}" data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseenter">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="pagination-sm pull-right" data-ng-model="vm.pagination.page"
+                                                 data-ng-change="vm.pageChanged()" data-pagination
+                                                 data-total-items="vm.pagination.total"
+                                                 data-max-size="vm.pagination.maxSize"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="entityCtrl.pagination.page"
-                                         data-ng-change="entityCtrl.pageChanged()" data-pagination
-                                         data-total-items="entityCtrl.pagination.total"
-                                         data-max-size="entityCtrl.pagination.maxSize"></div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <ul class="fc-sidebar nav nav-stacked">
+                                        <li>
+                                            <button type="button" class="btn btn-primary col-xs-12"
+                                                    data-ng-click="vm.newEntity()">
+                                                <i class="fa fa-plus"></i>
+                                                <span data-translate="fc.NEW_TEXT"></span>
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="entityCtrl.entity">
-                            <form class="form-horizontal" name="entityForm" data-ng-submit="entityCtrl.saveChanges()">
+                        <div data-ng-if="vm.entity">
+                            <form class="form-horizontal" name="entityForm" data-ng-submit="vm.saveChanges()">
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="code"
                                            data-translate="fc.merchandising.entity.input.CODE_LABEL"></label>
@@ -122,7 +162,7 @@
                                         <input id="code" type="text"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{'fc.merchandising.entity.input.CODE_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.code" data-vt-keyboard/>
+                                               data-ng-model="vm.entity.code" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -132,7 +172,7 @@
                                         <input id="name" type="text"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{'fc.merchandising.entity.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.name" data-vt-keyboard/>
+                                               data-ng-model="vm.entity.name" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -142,7 +182,7 @@
                                         <input id="location" type="text"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{'fc.merchandising.entity.input.LOCATION_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.location" data-vt-keyboard/>
+                                               data-ng-model="vm.entity.location" data-vt-keyboard/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -152,7 +192,7 @@
                                         <textarea id="description"
                                                class="fc-input-full-width form-control"
                                                placeholder="{{'fc.merchandising.entity.input.DESCRIPTION_LABEL' | translate}}"
-                                               data-ng-model="entityCtrl.entity.description" data-vt-keyboard>
+                                               data-ng-model="vm.entity.description" data-vt-keyboard>
                                                </textarea>
                                     </div>
                                 </div>
@@ -160,7 +200,7 @@
                                     <button class="btn btn-success" type="submit"
                                             data-translate="fc.SAVE_TEXT"></button>
                                     <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="entityCtrl.cancelChanges()"></button>
+                                            data-ng-click="vm.cancelChanges()"></button>
                                 </div>
                             </form>
                         </div>
@@ -176,3 +216,93 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
+
+<script id="fc/editModalTpl" type="text/ng-template">
+    <div class="modal-header">
+        <h3 class="modal-title" data-translate="fc.merchandising.entity.DETAIL_PAGE_TITLE"></h3>
+    </div>
+    <div class="modal-body">
+        <form name="entityForm" role="form">
+            <div class="form-group" data-ng-class="{'has-error has-feedback': !entityForm.code.$valid && !entityForm.code.$pristine}">
+                <label class="control-label" for="code-1"
+                       data-translate="fc.merchandising.entity.input.CODE_LABEL"></label>
+                <input id="code-1" type="text" name="code"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.entity.input.CODE_LABEL' | translate}}"
+                       data-ng-model="vm.entity.code" data-vt-keyboard
+                       data-ng-required="::vm.validationData.code.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!entityForm.code.$valid && !entityForm.code.$pristine"></i>
+                <span class="help-block" data-ng-messages="entityForm.code.$error"
+                      data-ng-show="!entityForm.code.$valid && !entityForm.code.$pristine">
+                    <span data-ng-if="::vm.validationData.code.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.entity.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error has-feedback': !entityForm.name.$valid && !entityForm.name.$pristine}">
+                <label class="control-label" for="name-1"
+                       data-translate="fc.merchandising.entity.input.NAME_LABEL"></label>
+                <input id="name-1" type="text" name="name"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.entity.input.NAME_LABEL' | translate}}"
+                       data-ng-model="vm.entity.name" data-vt-keyboard
+                       data-ng-required="::vm.validationData.name.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!entityForm.name.$valid && !entityForm.name.$pristine"></i>
+                <span class="help-block" data-ng-messages="entityForm.name.$error"
+                      data-ng-show="!entityForm.name.$valid && !entityForm.name.$pristine">
+                    <span data-ng-if="::vm.validationData.name.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.entity.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error has-feedback': !entityForm.location.$valid && !entityForm.location.$pristine}">
+                <label class="control-label" for="location-1"
+                       data-translate="fc.merchandising.entity.input.LOCATION_LABEL"></label>
+                <input id="location-1" type="text" name="location"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.entity.input.LOCATION_LABEL' | translate}}"
+                       data-ng-model="vm.entity.location" data-vt-keyboard
+                       data-ng-required="::vm.validationData.location.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!entityForm.location.$valid && !entityForm.location.$pristine"></i>
+                <span class="help-block" data-ng-messages="entityForm.location.$error"
+                      data-ng-show="!entityForm.location.$valid && !entityForm.location.$pristine">
+                    <span data-ng-if="::vm.validationData.location.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.entity.input.REQUIRED_LOCATION_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group" data-ng-class="{'has-error has-feedback': !entityForm.description.$valid && !entityForm.description.$pristine}">
+                <label class="control-label" for="description-1"
+                       data-translate="fc.merchandising.entity.input.DESCRIPTION_LABEL"></label>
+                <textarea id="description-1" name="description" class="fc-input-full-width form-control"
+                          placeholder="{{'fc.merchandising.entity.input.DESCRIPTION_LABEL' | translate}}"
+                          data-ng-model="vm.entity.description" data-vt-keyboard
+                          data-ng-required="::vm.validationData.description.required">
+                </textarea>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!entityForm.description.$valid && !entityForm.description.$pristine"></i>
+                <span class="help-block" data-ng-messages="entityForm.description.$error"
+                      data-ng-show="!entityForm.description.$valid && !entityForm.description.$pristine">
+                    <span data-ng-if="::vm.validationData.description.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.entity.input.REQUIRED_DESCRIPTION_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" data-ng-click="vm.ok()"
+                data-ng-disabled="!vm.canSaveChanges()">
+            <i class="fa fa-save"></i>
+            <span data-translate="fc.SAVE_TEXT"></span>
+        </button>
+        <button class="btn btn-warning" data-ng-click="vm.cancel()" data-translate="fc.CANCEL_TEXT"></button>
+    </div>
+</script>

@@ -313,3 +313,11 @@ nav ul > div > li:hover > ul > li::before {
 .fc-sidebar li:not(:last-child) .btn {
     margin-bottom: 0.2em;
 }
+
+/*
+** Fix spacing.
+*/
+hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}

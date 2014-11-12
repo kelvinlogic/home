@@ -8,7 +8,11 @@
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
                 "DESCRIPTION_LABEL": "@:fc.input.DESCRIPTION_LABEL",
                 "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this entity.",
+                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this entity.",
+                "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
+                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this entity."
             },
 
             "table": {

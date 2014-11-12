@@ -3,27 +3,34 @@
 
     angular
         .module('fc.merchandising')
-        .controller('EntityMasterCtrl', entityMaster);
+        .controller('EntityMasterCtrl', entityMaster)
+        .controller('EntityDetailCtrl', entityDetail);
 
-    entityMaster.$inject = ['lodash', '$scope', '$translate', 'DTOptionsBuilder'];
+    entityMaster.$inject = ['lodash', '$modal', '$scope', '$translate', 'DTOptionsBuilder'];
 
     /* @ngInject */
-    function entityMaster(_, $scope, $translate, DTOptionsBuilder) {
+    function entityMaster(_, $modal, $scope, $translate, DTOptionsBuilder) {
         /* jshint validthis: true */
-        var vm = this;
+        var vm = this,
+            _entityDetailModalOptions = null,
+            _selectionEnum = {"none": 0, "some": 1, "all": 2 };
 
         vm.activate = activate;
-        vm.entities = [];
         vm.cancelChanges = cancelChanges;
         vm.edit = edit;
+        vm.getSelectionKey = getSelectionKey;
         vm.filters = {};
         vm.gridOptions = {};
+        vm.newEntity = newEntity;
         vm.pageChanged = pageChanged;
         vm.pagination = {};
         vm.saveChanges = saveChanges;
+        vm.selectAll = selectAll;
+        vm.selected = null;
         vm.selectedAll = false;
         vm.selectedEntities = [];
         vm.selectedEntity = null;
+        vm.entities = [];
         vm.entity = null;
         vm.titleKey = 'fc.merchandising.entity.MASTER_PAGE_TITLE';
         vm.toggleSelection = toggleSelection;
@@ -38,6 +45,11 @@
             // Set up pagination.
             setupPagination();
 
+            _entityDetailModalOptions = {
+                templateUrl: "fc/editModalTpl",
+                controller: "EntityDetailCtrl as vm"
+            };
+
             // TODO: Load user data here.
             load();
         }
@@ -46,14 +58,45 @@
             vm.entity = null;
         }
 
-        function edit() {
-            // Use extend to prevent reference copying.
-            vm.entity = angular.extend({}, vm.selectedEntity);
+        function edit(item) {
+            if (!item) {
+                return;
+            }
 
-            // Clear table selection
-            delete vm.selectedEntity.isSelected;
-            vm.selectedEntities = [];
-            vm.selectedEntity = null;
+            // Use extend to prevent reference copying so we can edit the item in isolation.
+            var entity = angular.extend({}, item);
+
+            // Setup modal options.
+            _entityDetailModalOptions.resolve = {
+                data: function () {
+                    return {
+                        entity: entity
+                    };
+                }
+            };
+
+            // Open modal popup.
+            var modalInstance = $modal.open(_entityDetailModalOptions);
+
+            modalInstance.result.then(function (editedEntity) {
+                // We selected ok...
+                angular.extend(item, editedEntity);
+            }, function () {
+                // We cancelled the search...
+                // Do nothing...
+            });
+
+            // Use extend to prevent reference copying.
+            //vm.entity = angular.extend({}, vm.selectedEntity);
+            //
+            //// Clear table selection
+            //delete vm.selectedEntity.isSelected;
+            //vm.selectedEntities = [];
+            //vm.selectedEntity = null;
+        }
+
+        function getSelectionKey() {
+            return vm.selected ? "fc.CLEAR_SELECTION_TEXT" : "fc.SELECT_ALL_TEXT";
         }
 
         function load() {
@@ -93,14 +136,48 @@
             });
         }
 
+        function newEntity() {
+            vm.entity = {};
+        }
+
         function pageChanged() {
             // TODO: Enter page change logic.
             var currentPage = vm.pagination.page;
         }
 
+        function refreshSelection(){
+            var check = function (entity) {
+                return entity.isSelected;
+            };
+
+            var allSelected = _.all(vm.entities, check);
+            var someSelected = _.any(vm.entities, check);
+            if (allSelected) {
+                vm.selected = _selectionEnum.all;
+            } else if (someSelected) {
+                vm.selected = _selectionEnum.some;
+            } else {
+                vm.selected = _selectionEnum.none;
+            }
+        }
+
         function saveChanges() {
             // TODO: Enter save logic
             vm.entity = null;
+        }
+
+        function selectAll() {
+            if (!vm.selected || vm.selected === _selectionEnum.none) {
+                _.forEach(vm.entities, function(entity) {
+                    entity.isSelected = true;
+                });
+            } else {
+                _.forEach(vm.entities, function(entity) {
+                    entity.isSelected = false;
+                });
+            }
+
+            refreshSelection();
         }
 
         function setupGrid() {
@@ -160,26 +237,54 @@
         }
 
         function toggleSelection(item) {
-            var index = vm.selectedEntities.indexOf(item);
             item.isSelected = !item.isSelected;
 
-            if (item.isSelected) {
-                vm.selectedEntity = item;
+            refreshSelection();
+        }
+    }
 
-                // If item isn't in the selected items array...
-                if (index < 0) {
-                    // add it.
-                    vm.selectedEntities.push(item);
-                }
-            } else {
-                // If item isn't in the selected items array...
-                if (index > -1) {
-                    // remove it.
-                    vm.selectedEntities.splice(index, 1);
-                }
+    entityDetail.$inject = ["$modalInstance", "data"];
 
-                vm.selectedEntity = _.last(vm.selectedEntities);
-            }
+    function entityDetail($modalInstance, data) {
+        var vm = this;
+
+        vm.cancel = cancel;
+        vm.canSaveChanges = canSaveChanges;
+        vm.entity = data.entity;
+        vm.ok = ok;
+        vm.validationData = null;
+
+        activate();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function activate() {
+            vm.validationData = {
+                code: {
+                    required: true
+                },
+                description: {
+                    required: true
+                },
+                location: {
+                    required: true
+                },
+                name: {
+                    required: true
+                }
+            };
+        }
+
+        function cancel() {
+            $modalInstance.dismiss();
+        }
+
+        function canSaveChanges() {
+            return vm.mapping && vm.mapping.supplier && vm.mapping.product && vm.mapping.supplierCode;
+        }
+
+        function ok() {
+            $modalInstance.close(vm.mapping);
         }
     }
 })();
