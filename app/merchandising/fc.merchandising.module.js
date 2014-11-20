@@ -3,7 +3,6 @@
 
     angular
         .module("fc.merchandising", [
-            "ui.bootstrap",
             "fc.common",
             "siyfion.sfTypeahead"
         ]);

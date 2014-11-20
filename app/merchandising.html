@@ -31,7 +31,7 @@
          specific styles this will also ensure you retrain your customization with each SmartAdmin update.
     -->
     <link rel="stylesheet" type="text/css" media="screen" href="theme/SmartAdmin/css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
 
     <!-- FAVICONS -->
     <link rel="shortcut icon" href="theme/SmartAdmin/img/favicon/favicon.ico" type="image/x-icon">
@@ -59,6 +59,7 @@
     <link rel="apple-touch-startup-image" href="theme/SmartAdmin/img/splash/iphone.png"
           media="screen and (max-device-width: 320px)">
 
+    <script src="bower_components/modernizr/modernizr.js"></script>
 </head>
 <body class="fixed-navigation">
 
@@ -123,6 +124,11 @@
 
 <!-- BOOTSTRAP JS -->
 <script src="theme/SmartAdmin/js/bootstrap/bootstrap.min.js"></script>
+
+<!-- Masonry JS -->
+<script src="bower_components/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="bower_components/masonry/dist/masonry.pkgd.min.js"></script>
+<script src="bower_components/angular-masonry/angular-masonry.js"></script>
 
 <!-- CUSTOM NOTIFICATION -->
 <script src="theme/SmartAdmin/js/notification/SmartNotification.min.js"></script>
@@ -203,6 +209,7 @@
 <!-- Module defs, Constants, Configs & Services -->
 <script src="merchandising/fc.merchandising.module.js"></script>
 <script src="merchandising/prod.hierarchy/hierarchy.data.svc.js"></script>
+<script src="merchandising/org.hierarchy/entity.data.svc.js"></script>
 <script src="merchandising/merchandising.config.js"></script>
 <script src="merchandising/fc.merchandising.lang.config.js"></script>
 

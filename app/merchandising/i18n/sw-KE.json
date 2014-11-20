@@ -25,7 +25,8 @@
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
                 "DESCRIPTION_FILTER_TEXT": "@:fc.table.DESCRIPTION_FILTER_TEXT",
                 "LOCATION_FILTER_TEXT": "@:fc.table.LOCATION_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
             }
         },
 

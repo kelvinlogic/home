@@ -20,8 +20,7 @@ var port = 4000;
 var db = {};
 var params = {
     search: "_search",
-    sortField: "sort_field",
-    sortOrder: "sort_order"
+    sortField: "orderBy"
 };
 
 // Enable serving static files.
@@ -39,12 +38,28 @@ var router = express.Router(); 				// get an instance of the express Router
 // Entities api
 router.get("/entities", function (req, resp) {
     var fields = ["code", "name", "description", "location"];
-    var max = (isNaN(parseInt(req.query.max)) ? undefined : parseInt(req.query.max)) || 10;
-    var page = (isNaN(parseInt(req.query.page)) ? undefined : parseInt(req.query.page)) || 1;
-    var sortOrder = req.query[params.sortOrder];
-    var sortField = req.query[params.sortField];
+    var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
+    var page = (isNaN(parseInt(req.query.page)) ? 1 : parseInt(req.query.page)) || 1;
+    var replaceRemoved = (isNaN(parseInt(req.query.replaceRemoved)) ? 0 : parseInt(req.query.replaceRemoved)) || 0;
 
-    var skip = (page - 1) * max;
+    var sortOrder = null;
+    var sortField = null;
+    var isTrueRegEx = /true/i;
+
+    if (req.query[params.sortField]) {
+        var orderString = req.query[params.sortField];
+        var split = orderString.split(" ");
+        sortOrder = _.first(split);
+        sortField = split.length > 1 ? split[1] : "asc";
+    }
+
+    var skip = (page - 1) * maxItems;
+    var getFirst = maxItems;
+
+    if (replaceRemoved > 0) {
+        skip += (maxItems - replaceRemoved);
+        getFirst = replaceRemoved;
+    }
 
     var entities = _(db).values();
 
@@ -58,7 +73,7 @@ router.get("/entities", function (req, resp) {
         }
     }
 
-    if (/true/i.test(req.query[params.search])) {
+    if (isTrueRegEx.test(req.query[params.search])) {
         var filter_on_fields = _.intersection(_.keys(req.query), fields);
         if (filter_on_fields) {
             _.forEach(filter_on_fields, function (field) {
@@ -72,15 +87,19 @@ router.get("/entities", function (req, resp) {
         }
     }
 
-    var total = entities.size();
+    if (!isTrueRegEx.test(req.query["showInactive"])) {
+        entities = entities.filter({"active": true});
+    }
 
-    entities = entities.rest(skip).first(max);
+    var inlineCount = entities.size();
+
+    entities = entities.rest(skip).first(getFirst);
 
     var pagedResult = {
-        max: max,
+        maxItems: maxItems,
         page: page,
-        total: total,
-        rows: entities.value()
+        inlineCount: inlineCount,
+        results: entities.value()
     };
 
     resp.json(pagedResult);
@@ -97,9 +116,8 @@ router.post("/entities", function (req, resp) {
     var last = _.findLast(db);
     var id = (last ? last.id : 0) + 1;
 
-    delete entity.oper;
-
     entity.id = id;
+    entity.active = true;
     db[id.toString()] = entity;
     resp.json(entity);
 });
@@ -113,21 +131,44 @@ router.put("/entities/:id", function (req, resp) {
         return;
     }
 
-    delete newData.oper;
-
     _.assign(db[idStr], newData);
     resp.json(db[idStr]);
 });
 
-router.delete("/entities/:id", function (req, resp) {
-    var idStr = req.params.id;
-    var entity = db[idStr];
+router.post("/entities/activate", function (req, resp) {
+    var ids = req.body;
+    var activated = [];
 
-    if (!entity) {
-        return false;
-    }
+    var deactivate = function (id) {
+        if (db[id] && !db[id].active) {
+            db[id].active = true;
+            activated.push(db[id]);
+        }
+    };
 
-    resp.json(delete db[idStr]);
+    _.forEach(ids, function (id) {
+        deactivate(id);
+    });
+
+    resp.json(activated);
+});
+
+router.post("/entities/deactivate", function (req, resp) {
+    var ids = req.body;
+    var deactivated = [];
+
+    var deactivate = function (id) {
+        if (db[id] && db[id].active) {
+            db[id].active = false;
+            deactivated.push(db[id]);
+        }
+    };
+
+    _.forEach(ids, function (id) {
+        deactivate(id);
+    });
+
+    resp.json(deactivated);
 });
 
 // REGISTER OUR ROUTES -------------------------------

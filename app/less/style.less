@@ -1,0 +1,641 @@
+// Core variables and mixins
+@import "theme/SmartAdmin/LESS_FILES/variables.less";
+@import "theme/SmartAdmin/LESS_FILES/3.3/mixins.less";
+@import "theme/SmartAdmin/LESS_FILES/elements/elements.less";
+@import "theme/SmartAdmin/LESS_FILES/custom.less"; // custom variable overrides
+
+@highlight-color: #3498db;
+@highlight-text-color: #fff;
+@highlight-muted-text-color: darken(@highlight-text-color, 10%);
+@gutter-width: 0;
+
+.fc-config-section {
+    .well {
+        margin-bottom: 5px;
+
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    .fc-link-arrow {
+        margin-bottom: 5px;
+    }
+}
+
+/*
+ *  Centering Hack BEGIN
+ *  See http://css-tricks.com/centering-in-the-unknown/
+ */
+.fc-block {
+    text-align: center;
+
+    &:before {
+        display: inline-block;
+        /* For visualization
+          background: #808080; width: 5px;
+          */
+
+        margin-right: -0.25em;
+        /*height: 100%;*/
+        /*vertical-align: middle;*/
+
+        content: ''; /* Adjusts for spacing */
+    }
+
+    .fc-centered {
+        display: inline-block;
+
+        vertical-align: middle;
+    }
+}
+
+/*
+ *  Centering Hack END
+**/
+
+/*
+ *  Keyboard action button styling.
+**/
+
+.btn-header.active > :first-child > a {
+    background-color: #e8e8e8;
+    background-image: -moz-linear-gradient(top,#5a5a5a 0,#686868 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#5a5a5a),color-stop(100%,#686868));
+    background-image: -webkit-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: -o-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: -ms-linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    background-image: linear-gradient(to bottom,#5a5a5a 0,#686868 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5A5A5A', endColorstr='#686868', GradientType=0);
+    -webkit-box-shadow: inset 0 0 3px 1px rgba(0,0,0,.15);
+    box-shadow: inset 0 0 3px 1px rgba(0,0,0,.15);
+    color: #fff;
+    border-color: #494949;
+}
+
+#extr-page {
+    #extr-page-header-space {
+        margin-right: 2em;
+    }
+
+    #header {
+        overflow: visible;
+
+        & > .pull-right {
+            margin-top: 0.9em;
+        }
+    }
+}
+
+/*
+** Put scroller in widget content.
+**/
+
+html {
+    &.fixed-height {
+        &, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #main {
+            min-height: inherit;
+            height: 100%;
+        }
+
+        #content {
+            &, & > * {
+                height: 100%;
+            }
+        }
+
+        &.has-footer {
+            #content {
+                padding-bottom: 65px;
+
+                #widget-grid {
+                    &, .row, *[class^="col"], .jarviswidget, .jarviswidget > div {
+                        height: 100%;
+                    }
+
+                    .jarviswidget {
+                        padding-bottom: 25px;
+                    }
+
+                    .jarviswidget > div {
+                        /* Cater for header height. */
+                        /*padding-bottom: 32px;*/
+                        overflow: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+** Data tables print mode.
+*/
+
+html.fixed-height body.DTTT_Print,
+html.fixed-height.has-footer body.DTTT_Print #content,
+html.fixed-height body.DTTT_Print #content > *,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .row,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid *[class^="col"],
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget > div {
+    overflow: visible;
+}
+
+html.fixed-height body.DTTT_Print #main,
+html.fixed-height.has-footer body.DTTT_Print #content,
+html.fixed-height.has-footer body.DTTT_Print #content #widget-grid .jarviswidget {
+    padding: 0;
+}
+
+/*
+** Typeahead styling.
+*/
+.twitter-typeahead {
+    width: 100%;
+
+    .tt-dropdown-menu {
+        background: #fff;
+        width: 100%;
+        margin-bottom: 5px;
+        border: 1px solid #ddd;
+        border-top: none;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        box-shadow: 0 0 5px #ccc;
+
+        .tt-suggestion {
+            padding: 2px 6px 2px 6px;
+            border-bottom: 1px solid #ddd;
+
+            .fc-compound-suggestion {
+                .fc-compound-main {
+                    font-size: 1em;
+                }
+
+                .fc-compound-hint {
+                    font-size: 0.8em;
+                }
+            }
+
+            &.tt-cursor {
+                background: @highlight-color;
+                color: @highlight-text-color;
+
+                .text-muted {
+                    color: @highlight-muted-text-color;
+                }
+            }
+        }
+
+        .tt-suggestion > p,
+        .tt-suggestion > div {
+            margin: 3px 0 3px 0;
+        }
+    }
+}
+
+/*
+** Table styling.
+*/
+
+.table {
+    tbody > tr {
+        &.fc-selected td {
+            background-color: #9cdfd8;
+        }
+
+        td.fc-btn-cell {
+            padding: 1px 0;
+            text-align: center;
+
+            &.fc-btn-xs-cell {
+                padding: 6px 0;;
+            }
+        }
+    }
+}
+
+.dt-toolbar {
+    margin-top: 2px;
+    padding: 0 0 1px;
+}
+
+/* Custom input styles */
+input {
+    .fc-input-empty {
+        background: none;
+        border: 1px dotted transparent;
+        border-bottom-color: #bbbbbb;
+        margin-bottom: 10px;
+
+        &:focus {
+            border: 1px dashed #bbbbbb;
+        }
+
+        &[disabled] {
+            border-color: transparent;
+        }
+    }
+
+    .fc-input-full-width {
+        width: 100%;
+
+        &.fc-force {
+            width: 100% !important;
+        }
+    }
+}
+
+/*
+** Left Menu styling
+*/
+
+/* Second level: UL */
+nav ul > div > li > ul::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    left: 23px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid #7A7A7A;
+}
+/* Second level: UL LI */
+nav ul > div ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8px;
+    left: 23px;
+    top: 16px;
+    border-top: 1px solid #7A7A7A;
+    z-index: 1;
+}
+/* Third level: UL LI */
+nav ul > div ul ul li::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 18px;
+    left: 10px;
+    top: 17px;
+    border-top: 1px solid transparent;
+}
+/* Second level and onwards > */
+nav ul > div ul li a i {
+    font-size: 14px !important;
+    width: 18px !important;
+    text-align: center !important;
+    vertical-align: 0 !important;
+    line-height: 1 !important;
+}
+/* Second and Third level line color */
+nav ul > div > li:hover > ul::before,
+nav ul > div > li:hover > ul > li::before {
+    border-color: #ACACAC !important;
+}
+
+
+/*
+** Keyboard styles.
+*/
+
+.fc-keyboard-icon {
+    background: none;
+    padding: 4px 2px;
+    box-shadow: none;
+    float: right;
+}
+
+.rtl, .rtl * {
+    direction: rtl;
+    text-align: right;
+}
+
+.btn.ui-keyboard-button {
+    height: auto;
+}
+
+.ui-keyboard-input-current {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.ui-keyboard-header {
+    min-height: 25px;
+    background: #dddddd;
+    margin: -5px 0 0 0;
+    padding: 4px;
+    cursor: move;
+}
+
+/*
+** Nav styles
+*/
+.fc-sidebar li:not(:last-child) .btn {
+    margin-bottom: 0.2em;
+}
+
+/*
+** Fix spacing.
+*/
+hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.btn .caret {
+    position: absolute;
+    display: inline-block;
+    right: 10px;
+    top: 13px;
+}
+
+.btn-lg .caret {
+    top: 18px;
+    right: 15px;
+}
+
+.btn-sm .caret {
+    top: 13px;
+}
+
+.btn-xs .caret {
+    top: 8px;
+    right: 6px;
+}
+
+/*
+** Card UI
+*/
+.fc-card-container {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+
+    ul& {
+        list-style: none;
+    }
+}
+
+.fc-card-wrapper {
+    &.fc-sizer {
+        padding: 0;
+    }
+
+    .fc-card {
+        padding: 10px;
+    }
+}
+
+.fc-card {
+    overflow: visible;
+    cursor: pointer;
+
+    .fc-content-wrapper {
+        background: darken(rgb(255, 255, 255), 6%);
+
+        -webkit-box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.60);
+        -moz-box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.60);
+        box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.60);
+
+        -webkit-transition: all 200ms ease-in;
+        -moz-transition: all 200ms ease-in;
+        -ms-transition: all 200ms ease-in;
+        -o-transition: all 200ms ease-in;
+        transition: all 200ms ease-in;
+
+        -webkit-transition-property: transform, box-shadow, background, color;
+        -moz-transition-property: transform, box-shadow, background, color;
+        -o-transition-property: transform, box-shadow, background, color;
+        transition-property: transform, box-shadow, background, color;
+
+        .fc-inactive& {
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+
+            background: darken(rgb(255, 255, 255), 5%);
+            color: @text-muted;
+        }
+
+        .text-muted {
+            -webkit-transition: color 200ms ease-in;
+            -moz-transition: color 200ms ease-in;
+            -ms-transition: color 200ms ease-in;
+            -o-transition: color 200ms ease-in;
+            transition: color 200ms ease-in;
+        }
+    }
+
+    .fc-card-image {
+        &, & img {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    &.fc-selected {
+        .fc-content-wrapper {
+            -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.3);
+
+            -webkit-transform: translate3d(-4px, -4px, 10px);
+            -moz-transform: translate3d(-4px, -4px, 10px);
+            -ms-transform: translate3d(-4px, -4px, 10px);
+            -o-transform: translate3d(-4px, -4px, 10px);
+            transform: translate3d(-4px, -4px, 10px);
+
+            background: @highlight-color;
+            color: @highlight-text-color;
+
+            .fc-inactive& {
+                background: lighten(@highlight-color, 20%);
+                color: darken(@text-muted, 20%);
+
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+
+                -webkit-transform: none;
+                -moz-transform: none;
+                -ms-transform: none;
+                -o-transform: none;
+                transform: none;
+
+                .text-muted {
+                    color: darken(@text-muted, 20%);
+                }
+            }
+
+            .text-muted {
+                color: @highlight-muted-text-color;
+            }
+        }
+    }
+
+    .fc-card-title,
+    .fc-card-body {
+        padding: 10px 15px 0;
+    }
+
+    .fc-card-title {
+        font-size: 1.2em;
+        font-weight: 300;
+    }
+
+    .fc-card-body {
+        padding-bottom: 0;
+    }
+
+    .fc-card-actions {
+        background: rgb(20, 20, 20);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0;
+        margin-top: 4px;
+
+        font-size: 0;
+
+        .btn {
+            border: none;
+            border-radius: 0;
+            padding: 11px 11.5px;
+
+            &.btn-default,
+            &.btn-primary,
+            &.btn-info,
+            &.btn-success,
+            &.btn-warning,
+            &.btn-danger {
+                border: none;
+            }
+
+            .no-touch & {
+                color: #fff;
+                background: none;
+
+                &.btn-default:hover {
+                    background: @btn-default-bg;
+                    color: @btn-default-color;
+                }
+
+                &.btn-primary:hover {
+                    background: @btn-primary-bg;
+                }
+
+                &.btn-info:hover {
+                    background: @btn-info-bg;
+                }
+
+                &.btn-success:hover {
+                    background: @btn-success-bg;
+                }
+
+                &.btn-warning:hover {
+                    background: @btn-warning-bg;
+                }
+
+                &.btn-danger:hover {
+                    background: @btn-danger-bg;
+                }
+
+                &.btn-default,
+                &.btn-primary,
+                &.btn-info,
+                &.btn-success,
+                &.btn-warning,
+                &.btn-danger {
+                    background: none;
+                }
+            }
+
+            /* Make the buttons slightly bigger on touch screens. */
+            .touch & {
+                padding: 14px 14.5px;
+            }
+        }
+
+        /* Fix padding for touch devices. */
+        .touch & {
+            margin-top: 10px;
+        }
+
+        /* Hide and show the action bar if there's no touch. */
+        .no-touch & {
+            opacity: 0;
+            -webkit-transition: opacity 200ms;
+            -moz-transition: opacity 200ms;
+            -ms-transition: opacity 200ms;
+            -o-transition: opacity 200ms;
+            transition: opacity 200ms;
+        }
+    }
+
+    /* Hide and show the action bar if there's no touch. */
+    .no-touch & {
+        &:hover .fc-card-actions {
+            opacity: 1;
+        }
+    }
+}
+
+/* Responsive sizing */
+@max-card-columns: 4;
+.calc-card-column(@index, @class) when (@index <= @max-card-columns) {
+    float: left;
+
+    &.w-@{class}-@{index} {
+        width: percentage(1 / @index);
+    }
+}
+
+// Basic looping in LESS
+.loop-card-columns(@index, @class) when (@index > 0) {
+    .calc-card-column(@index, @class);
+    // next iteration
+    .loop-card-columns((@index - 1), @class);
+}
+
+.make-card-columns(@class) {
+    .loop-card-columns(@max-card-columns, @class);
+}
+
+// For xs devices
+.fc-card-wrapper, .fc-sizer {
+    .make-card-columns(xs);
+}
+
+// Small screen
+@media (min-width: @screen-sm-min) {
+    .fc-card-wrapper, .fc-sizer {
+        .make-card-columns(sm);
+    }
+}
+
+// Medium screen
+@media (min-width: @screen-md-min) {
+    .fc-card-wrapper, .fc-sizer {
+        .make-card-columns(md);
+    }
+}
+
+// Large screen
+@media (min-width: @screen-lg-min) {
+    .fc-card-wrapper, .fc-sizer {
+        .make-card-columns(lg);
+    }
+}

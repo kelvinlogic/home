@@ -7,6 +7,7 @@
         '$urlRouterProvider',
         routeConfig
     ]).config([
+        "entityDataSvcProvider",
         "hierarchyDataSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
@@ -140,7 +141,8 @@
         });
     }
 
-    function svcConfig(hierarchyDataSvcProvider) {
+    function svcConfig(entityDataSvcProvider, hierarchyDataSvcProvider) {
+        entityDataSvcProvider.entityUrl = 'api/entities';
         hierarchyDataSvcProvider.hierarchyMappingUrl = null;
     }
 
