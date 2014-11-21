@@ -329,19 +329,20 @@
         }
 
         function fetchEntities(page, pageSize, replaceRemoved, refresh) {
-            entityDataSvc.getEntities(page, pageSize, vm.filter, vm.showInactive, replaceRemoved).then(function (data) {
-                _currentPage = data.page;
-                _pageSize = data.maxItems;
-                _totalServerItems = data.inlineCount;
+            entityDataSvc.getEntities(page, pageSize, vm.filter, vm.showInactive, replaceRemoved, refresh)
+                .then(function (data) {
+                    _currentPage = data.page;
+                    _pageSize = data.maxItems;
+                    _totalServerItems = data.inlineCount;
 
-                if (refresh) {
-                    vm.entities = [];
-                }
+                    if (refresh) {
+                        vm.entities = [];
+                    }
 
-                updateEntities(data.results);
-            }, function (error) {
+                    updateEntities(data.results);
+                }, function (error) {
 
-            });
+                });
         }
 
         function getFields() {
@@ -384,7 +385,11 @@
 
             $scope.$watch(function() {
                 return vm.showInactive;
-            }, function () {
+            }, function (newValue, oldValue) {
+                if (newValue === oldValue) {
+                    return;
+                }
+
                 fetchEntities(_currentPage, _pageSize, null, true);
             });
         }

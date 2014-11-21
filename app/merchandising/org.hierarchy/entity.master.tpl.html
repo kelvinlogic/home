@@ -34,7 +34,10 @@
                                                     data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
                                                 <i class="fa" data-ng-class="{'fa-check-square-o': vm.selected === 2, 'fa-minus-square-o': vm.selected === 1, 'fa-square-o': !vm.selected}"></i>
                                             </button>
-                                            <button type="button" class="btn btn-default" data-ng-click="vm.showInactive = !vm.showInactive"
+                                            <button type="button" class="btn btn-default"
+                                                    aria-pressed="{{vm.showInactive}}"
+                                                    data-ng-click="vm.showInactive = !vm.showInactive"
+                                                    data-ng-class="{'active': vm.showInactive}"
                                                     data-tooltip="{{vm.getStatusToggleKey() | translate}}"
                                                     data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
                                                 <i class="fa" data-ng-class="{'fa-eye': vm.showInactive, 'fa-eye-slash': !vm.showInactive}"></i>

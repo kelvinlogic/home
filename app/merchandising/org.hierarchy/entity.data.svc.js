@@ -59,7 +59,7 @@
                 });
             }
 
-            function getEntities(page, pageSize, filter, showInactive, replaceRemoved) {
+            function getEntities(page, pageSize, filter, showInactive, replaceRemoved, refresh) {
                 if (!page) {
                     page = 1;
                 }
@@ -90,6 +90,12 @@
                 if (replaceRemoved) {
                     if (replaceRemoved) {
                         config.params.replaceRemoved = replaceRemoved;
+                    }
+                }
+
+                if (refresh) {
+                    if (refresh) {
+                        config.params.refresh = refresh;
                     }
                 }
 
