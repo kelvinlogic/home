@@ -325,7 +325,11 @@
             });
         }
 
-        function fetchEntities(page, pageSize, replaceRemoved) {
+        function fetchEntities(page, pageSize, replaceRemoved, refresh) {
+            if (refresh) {
+                vm.entities = [];
+            }
+
             entityDataSvc.getEntities(page, pageSize, vm.filter, vm.showInactive, replaceRemoved).then(function (data) {
                 _currentPage = data.page;
                 _pageSize = data.maxItems;
@@ -362,7 +366,7 @@
         function load() {
             var subject = new Rx.Subject();
             subject.distinctUntilChanged().throttle(500).subscribe(function () {
-                fetchEntities(_currentPage, _pageSize);
+                fetchEntities(_currentPage, _pageSize, null, true);
             });
 
             $scope.$watch(function () {
@@ -378,8 +382,7 @@
             $scope.$watch(function() {
                 return vm.showInactive;
             }, function () {
-                vm.entities = [];
-                fetchEntities(_currentPage, _pageSize);
+                fetchEntities(_currentPage, _pageSize, null, true);
             });
         }
 
