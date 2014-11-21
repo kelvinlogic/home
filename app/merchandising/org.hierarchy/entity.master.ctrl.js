@@ -23,7 +23,6 @@
         vm.cancelChanges = cancelChanges;
         vm.edit = edit;
         vm.getFields = getFields;
-        vm.availableFields = ["id", "code", "name", "location", "description"];
         vm.getSelectionKey = getSelectionKey;
         vm.filter = null;
         vm.fields = [];
@@ -32,12 +31,10 @@
         vm.isFieldSelected = isFieldSelected;
         vm.loadNextPage = loadNextPage;
         vm.newEntity = newEntity;
-        vm.pagination = {};
         vm.deactivate = deactivate;
         vm.saveChanges = saveChanges;
         vm.selectAll = selectAll;
         vm.selected = null;
-        vm.selectedAll = false;
         vm.showInactive = false;
         vm.entities = [];
         vm.entity = null;
@@ -346,7 +343,7 @@
         }
 
         function getFields() {
-            return ["id", "code", "name", "location", "description"];
+            return ["code", "name", "location", "description"];
         }
 
         function getSelectionKey() {
