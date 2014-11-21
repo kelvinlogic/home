@@ -6,7 +6,7 @@
         .controller('SearchCtrl', searchCtrl)
         .provider('searchSvc', searchSvcProvider);
 
-    searchCtrl.$inject = ['rx', '$scope', '$modalInstance', 'searchSvc', 'data'];
+    searchCtrl.$inject = ['rx', '$scope', '$modalInstance', 'searchSvc', "throttleValue", 'data'];
 
     /* @ngInject */
 
@@ -35,7 +35,7 @@
     });*/
     /* Remember to inject $modal */
 
-    function searchCtrl(Rx, $scope, $modalInstance, searchSvc, data) {
+    function searchCtrl(Rx, $scope, $modalInstance, searchSvc, throttleValue, data) {
         /* jshint validthis: true */
         var subject = new Rx.Subject();
         var vm = this;
@@ -66,7 +66,7 @@
                 subject.onNext(newVal);
             });
 
-            subject.throttle(500).distinctUntilChanged().subscribe(function (searchValue) {
+            subject.throttle(throttleValue).distinctUntilChanged().subscribe(function (searchValue) {
                 getData(searchValue, vm.entity);
             });
         }

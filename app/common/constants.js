@@ -4,5 +4,6 @@
     angular
         .module('fc.common')
         .constant('lodash', _)
-        .constant('rx', Rx);
+        .constant('rx', Rx)
+        .value('throttleValue', 500);
 })();

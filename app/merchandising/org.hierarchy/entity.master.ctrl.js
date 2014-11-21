@@ -6,10 +6,10 @@
         .controller('EntityMasterCtrl', entityMaster)
         .controller('EntityDetailCtrl', entityDetail);
 
-    entityMaster.$inject = ['lodash', "rx", '$modal', '$translate', '$scope', 'entityDataSvc'];
+    entityMaster.$inject = ['lodash', "rx", '$modal', '$translate', '$scope', 'entityDataSvc', 'throttleValue'];
 
     /* @ngInject */
-    function entityMaster(_, Rx, $modal, $translate, $scope, entityDataSvc) {
+    function entityMaster(_, Rx, $modal, $translate, $scope, entityDataSvc, throttleValue) {
         /* jshint validthis: true */
         var vm = this,
             _entityDetailModalOptions = null,
@@ -368,7 +368,7 @@
 
         function load() {
             var subject = new Rx.Subject();
-            subject.distinctUntilChanged().throttle(500).subscribe(function () {
+            subject.throttle(throttleValue).distinctUntilChanged().subscribe(function () {
                 fetchEntities(_currentPage, _pageSize, null, true);
             });
 
