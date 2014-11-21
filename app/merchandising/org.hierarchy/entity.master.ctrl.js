@@ -147,8 +147,11 @@
 
                     // Can't change the state.
                     if (selectedEntities.length < 1) {
+                        refreshSelection();
                         return;
                     }
+
+                    refreshSelection();
                 }
 
                 var performChange = function (entity) {
