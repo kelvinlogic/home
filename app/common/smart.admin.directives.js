@@ -535,14 +535,10 @@
                         })
                     }
 
-                    // CUSTOM SCROLL BAR FOR NAV
-                    if ($.fn.mCustomScrollbar) {
-                        element.mCustomScrollbar({
-                            theme: "minimal",
-                            setHeight: true,
-                            mouseWheel: {
-                                normalizeDelta: true
-                            }
+                    // SLIMSCROLL FOR NAV
+                    if ($.fn.slimScroll) {
+                        element.slimScroll({
+                            height: '100%'
                         });
                     }
 
