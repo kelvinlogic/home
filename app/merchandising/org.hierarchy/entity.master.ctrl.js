@@ -326,14 +326,14 @@
         }
 
         function fetchEntities(page, pageSize, replaceRemoved, refresh) {
-            if (refresh) {
-                vm.entities = [];
-            }
-
             entityDataSvc.getEntities(page, pageSize, vm.filter, vm.showInactive, replaceRemoved).then(function (data) {
                 _currentPage = data.page;
                 _pageSize = data.maxItems;
                 _totalServerItems = data.inlineCount;
+
+                if (refresh) {
+                    vm.entities = [];
+                }
 
                 updateEntities(data.results);
             }, function (error) {
