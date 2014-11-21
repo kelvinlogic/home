@@ -11,13 +11,15 @@
         var cfg = this;
         cfg.entityUrl = null;
         cfg.deactivateEndpoint = "deactivate";
+        cfg.activateEndpoint = "activate";
 
         cfg.$get = entityDataSvc;
 
-        entityDataSvc.$inject = ["$http", "$q"];
+        entityDataSvc.$inject = ["$http"];
 
-        function entityDataSvc($http, $q) {
+        function entityDataSvc($http) {
             return {
+                activateEntities: activateEntities,
                 createEntity: createEntity,
                 deactivateEntities: deactivateEntities,
                 getEntities: getEntities,
@@ -26,6 +28,18 @@
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function activateEntities(ids) {
+                // Ensure that the endpoint only gets arrays.
+                if (!angular.isArray(ids)) {
+                    ids = [ids];
+                }
+
+                var url = cfg.entityUrl + "/" + cfg.activateEndpoint;
+                return $http.post(url, ids).then(function (result) {
+                    return result.data;
+                });
+            }
 
             function createEntity(entity) {
                 return $http.post(cfg.entityUrl, entity).then(function (result) {

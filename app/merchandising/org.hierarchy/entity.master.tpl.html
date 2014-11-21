@@ -43,7 +43,7 @@
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-success" data-ng-if="vm.selected"
                                                     data-ng-click="vm.activateEntities()"
-                                                    data-tooltip="{{'fc.ACTIVATE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip="{{'fc.RESTORE_SELECTED_TEXT' | translate}}"
                                                     data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
                                                 <i class="fa fa-check"></i>
                                             </button>
@@ -100,8 +100,8 @@
                                     <ul class="fc-card-container" data-masonry data-item-selector=".fc-card-wrapper"
                                         data-load-images="false" data-reload-on-show
                                         data-masonry-options="{columnWidth: '.fc-sizer', itemSelector: 'li'}">
-                                        <li class="fc-sizer w-lg-4 w-md-3 w-sm-2 w-xs-1"></li>
-                                        <li class="fc-card-wrapper w-lg-4 w-md-3 w-sm-2 w-xs-1"
+                                        <li class="fc-sizer w-lg-3x w-md-4x w-sm-6x w-xs-12x"></li>
+                                        <li class="fc-card-wrapper w-lg-3x w-md-4x w-sm-6x w-xs-12x"
                                             data-ng-repeat="entity in vm.entities" data-masonry-brick>
                                             <div class="fc-card"
                                                  data-ng-click="vm.toggleSelection(entity)"
@@ -160,8 +160,17 @@
                                                                 data-tooltip-trigger="mouseover">
                                                             <i class="fa fa-fw fa-edit"></i>
                                                         </button>
+                                                        <button class="btn btn-success"
+                                                                data-ng-click="$event.stopPropagation(); vm.activateEntities(entity)"
+                                                                data-ng-if="!entity.active"
+                                                                data-tooltip="{{'fc.RESTORE_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-check"></i>
+                                                        </button>
                                                         <button class="btn btn-danger"
                                                                 data-ng-click="$event.stopPropagation(); vm.deactivate(entity)"
+                                                                data-ng-if="entity.active"
                                                                 data-tooltip="{{'fc.DELETE_TEXT' | translate}}"
                                                                 data-tooltip-placement="top"
                                                                 data-tooltip-trigger="mouseover">

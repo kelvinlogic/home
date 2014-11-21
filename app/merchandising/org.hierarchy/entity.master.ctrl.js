@@ -51,11 +51,6 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function activate() {
-            // Set up grid.
-            //setupGrid();
-            // Set up pagination.
-            //setupPagination();
-
             _entityDetailModalOptions = {
                 templateUrl: "fc/editModalTpl",
                 controller: "EntityDetailCtrl as vm"
@@ -81,8 +76,12 @@
             load();
         }
 
-        function activateEntities() {
-            // TODO: Enter activation logic.
+        function activateEntities(entity) {
+            // NOTE:...................................................
+            // If we passed an entity, assume the activation of the single said entity.
+            // else, assume the activation of all selected entities.
+
+            changeActivation(entity, true);
         }
 
         function cancelChanges() {
@@ -94,39 +93,70 @@
             // If we passed an entity, assume the deactivation of the single said entity.
             // else, assume the deactivation of all selected entities.
 
+            changeActivation(entity, false);
+        }
+
+        function changeActivation(entity, newStatus) {
+            // We need a status specified.
+            if (newStatus !== true && newStatus !== false) {
+                return;
+            }
+
             var toTranslate = [
                 "fc.merchandising.entity.MASTER_PAGE_TITLE",
-                "fc.DELETE_WARNING_TITLE",
-                "fc.DELETE_WARNING_MESSAGE",
-                "fc.DELETE_SELECTION_WARNING_MESSAGE",
+                "fc.ACTION_WARNING_MESSAGE_TEMPLATE",
                 "fc.SUCCESS_ALERT_TITLE",
-                "fc.DELETED_PREFIX",
+                "fc.ACTION_SUCCESS_MESSAGE_TEMPLATE",
+                "fc.FAIL_ALERT_TITLE",
+                "fc.ACTION_FAIL_MESSAGE_TEMPLATE",
+                "fc.DELETE_ACTION_PRESENT",
+                "fc.DELETE_ACTION_PAST",
+                "fc.RESTORE_ACTION_PRESENT",
+                "fc.RESTORE_ACTION_PAST",
                 "fc.NO_TEXT",
                 "fc.YES_TEXT"
             ];
 
             $translate(toTranslate).then(function (translations) {
                 var pageTitle = translations["fc.merchandising.entity.MASTER_PAGE_TITLE"],
-                    deleteTitle = translations["fc.DELETE_WARNING_TITLE"],
-                    deleteWarning = translations["fc.DELETE_WARNING_MESSAGE"],
-                    deleteSelectionWarning = translations["fc.DELETE_SELECTION_WARNING_MESSAGE"],
-                    successTitle = translations["fc.SUCCESS_ALERT_TITLE"],
-                    deletedPrefix = translations["fc.DELETED_PREFIX"],
+                    warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
+                    successAlertTitle = translations["fc.SUCCESS_ALERT_TITLE"],
+                    successTemplate = translations["fc.ACTION_SUCCESS_MESSAGE_TEMPLATE"],
+                    failAlertTitle = translations["fc.FAIL_ALERT_TITLE"],
+                    failTemplate = translations["fc.ACTION_FAIL_MESSAGE_TEMPLATE"],
+                    deleteActionPresent = translations["fc.DELETE_ACTION_PRESENT"],
+                    deleteActionPast = translations["fc.DELETE_ACTION_PAST"],
+                    restoreActionPresent = translations["fc.RESTORE_ACTION_PRESENT"],
+                    restoreActionPast = translations["fc.RESTORE_ACTION_PAST"],
                     noText = translations["fc.NO_TEXT"],
                     yesText = translations["fc.YES_TEXT"];
 
-                var selectedEntities = [];
+                var selectedEntities = [],
+                    actionPast = newStatus ? restoreActionPast : deleteActionPast,
+                    actionPresent = newStatus ? restoreActionPresent : deleteActionPresent;
 
                 if (!entity) {
-                    selectedEntities = _.filter(vm.entities, "isSelected");
+                    selectedEntities = _.filter(vm.entities, function (ent) {
+                        // Deselect items that won't be changed.
+                        if (ent.active === newStatus) {
+                            ent.isSelected = false;
+                        }
+
+                        return ent.isSelected;
+                    });
+
+                    // Can't change the state.
+                    if (selectedEntities.length < 1) {
+                        return;
+                    }
                 }
 
-                var performRemove = function (entity) {
-                    // If we get an entity, deactivate it else deactivate all selected entities.
-                    var toRemove = null;
+                var performChange = function (entity) {
+                    // If we get an entity, change it else change all selected entities.
+                    var toChange = null;
 
                     if (entity) {
-                        toRemove = entity.id;
+                        toChange = entity.id;
                     } else {
                         // Do nothing if there was no selection.
                         if (vm.selected === _selectionEnum.none) {
@@ -134,51 +164,55 @@
                         }
 
                         // Fetch the selected entities.
-                        toRemove = _.map(selectedEntities, function (entity) {
+                        toChange = _.map(selectedEntities, function (entity) {
                             return entity.id;
                         });
                     }
 
-                    entityDataSvc.deactivateEntities(toRemove).then(afterRemoveCb);
+                    if (newStatus === true) {
+                        entityDataSvc.activateEntities(toChange).then(afterChangeCb);
+                    } else {
+                        entityDataSvc.deactivateEntities(toChange).then(afterChangeCb);
+                    }
                 };
 
-                var afterRemoveCb = function(response) {
-                    var deactivatedCount = response.length;
-                    if (deactivatedCount) {
-                        var message = deletedPrefix;
+                var afterChangeCb = function(response) {
+                    var changedCount = response.length;
+                    var message = null;
+                    var title = changedCount > 0 ? successAlertTitle : failAlertTitle;
+                    var color = changedCount > 0 ? "#659265" : "#C46A69";
+                    var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
-                        if (deactivatedCount > 1) {
-                            message += " " + deactivatedCount + " "+ pageTitle.toLowerCase() + ".";
+                    if (changedCount > 0) {
+                        var msgData = {action: actionPast};
+                        if (changedCount === 1 && entity) {
+                            msgData.data = entity.name + " " + entity.location;
                         } else {
-                            message += " " + entity.name + " "+ entity.location + ".";
+                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
                         }
-                        if ($.smallBox) {
-                            $.smallBox({
-                                title : successTitle,
-                                content : "<i>" + message + "</i>",
-                                color : "#659265",
-                                iconSmall : "fa fa-check fa-2x fadeInRight animated",
-                                timeout : 4000
-                            });
-                        } else {
-                            alert(message);
-                        }
+
+                        message = _.string.sprintf(successTemplate, msgData);
 
                         var updateItem = function (ent) {
-                            // If we are not showing inactive items, remove the item.
+                            // If we are not showing inactive items, add the newly activated item.
                             if (!vm.showInactive) {
-                                updateEntities(ent, true);
+                                updateEntities(ent, !newStatus);
                             } else {
                                 var idx = vm.entities.indexOf(ent);
 
                                 // Replace with new from data store.
                                 if (idx >= 0) {
-                                    vm.entities.splice(idx, 1, _.first(response, {id: ent.id}));
+                                    var match = _(response).filter(function (resp) {
+                                        return resp.id === ent.id;
+                                    }).first();
+
+                                    // Damn...we can't use splice here...
+                                    angular.extend(vm.entities[idx], match);
                                 }
                             }
                         };
 
-                        if (deactivatedCount && deactivatedCount <= 1) {
+                        if (changedCount === 1 && entity) {
                             updateItem(entity);
                         } else {
                             _(selectedEntities).filter(function (entity) {
@@ -188,32 +222,60 @@
                             });
                         }
 
-                        // If we are not showing inactive, load extra items to fill up the remaining slots.
                         if (!vm.showInactive) {
-                            fetchEntities(_currentPage, _pageSize, deactivatedCount);
+                            if (newStatus) {
+                                // If we are not showing inactive, remove extra items.
+                                var startIndex = vm.entities.length - (1 + changedCount);
+                                vm.entities.splice(startIndex, changedCount);
+                            } else {
+                                // If we are not showing inactive, load extra items to fill up the remaining slots.
+                                fetchEntities(_currentPage, _pageSize, changedCount);
+                            }
                         }
+                    } else {
+                        message = _.string.sprintf(failTemplate, {action: actionPresent, data: pageTitle.toLowerCase()});
+                    }
+
+
+                    if ($.smallBox) {
+                        $.smallBox({
+                            title : title,
+                            content : "<i>" + message + "</i>",
+                            color : color,
+                            iconSmall : icon,
+                            timeout : 4000
+                        });
+                    } else {
+                        alert(message);
                     }
                 };
 
+                var content = null;
+
                 // Show message box.
                 if ($.SmartMessageBox) {
-                    var title = "<i class='fa fa-trash-o txt-color-red'></i> ";
-                    title += deleteTitle;
+                    var textColor = newStatus ? "txt-color-green" : "txt-color-red";
+                    var title = "<i class='fa fa-trash-o " + textColor + "'></i> ";
+                    title += _.string.humanize(actionPresent);
 
-                    var content = null;
-
-                    // Set the messages depending on whether we're deleting a single entity or a selection.
+                    // Set the messages depending on whether we're restoring a single entity or a selection.
                     if (entity) {
-                        title += " <span class='txt-color-red'><strong>" + entity.name;
+                        title += " <span class='" + textColor + "'><strong>" + entity.name;
                         title += "</strong> <span>"+ entity.location +"</span></span>?";
 
-                        content = deleteWarning;
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            data: pageTitle.toLowerCase()
+                        });
                     } else {
-                        title += " <span class='txt-color-red'><strong>";
+                        title += " <span class='" + textColor + "'><strong>";
                         title += selectedEntities.length;
                         title += "</strong> <span>"+ pageTitle.toLowerCase() +"</span></span>?";
 
-                        content = _.string.sprintf(deleteSelectionWarning, selectedEntities.length);
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            data: selectedEntities.length + " " + pageTitle.toLowerCase()
+                        });
                     }
 
                     $.SmartMessageBox({
@@ -222,14 +284,13 @@
                         buttons : '[' + noText + '][' + yesText + ']'
                     }, function(button) {
                         if (button === yesText) {
-                            performRemove(entity);
+                            performChange(entity);
                         }
                     });
                 } else {
-                    var dynamicTxt = entity ? entity.name + " " + entity.location : selectedEntities.length + " " + pageTitle.toLowerCase();
-                    var msg = deleteTitle + " " + dynamicTxt + ".";
-                    if (confirm(msg)) {
-                        performRemove(entity);
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
+                    if (confirm(content)) {
+                        performChange(entity);
                     }
                 }
             });
@@ -316,7 +377,7 @@
 
             $scope.$watch(function() {
                 return vm.showInactive;
-            }, function (newValue) {
+            }, function () {
                 vm.entities = [];
                 fetchEntities(_currentPage, _pageSize);
             });
@@ -344,72 +405,6 @@
                 vm.selected = _selectionEnum.none;
             }
         }
-
-        //function removeSelection() {
-        //    $translate(toTranslate).then(function (translations) {
-        //
-        //        var afterCompleteCb = function (count) {
-        //            var message = deletedPrefix + " " + count + " "+ pageTitle.toLowerCase() + ".";
-        //            if ($.smallBox) {
-        //                $.smallBox({
-        //                    title : successTitle,
-        //                    content : "<i>" + message + "</i>",
-        //                    color : "#659265",
-        //                    iconSmall : "fa fa-check fa-2x fadeInRight animated",
-        //                    timeout : 4000
-        //                });
-        //            } else {
-        //                alert(message);
-        //            }
-        //
-        //            entityDataSvc.getEntities(_currentPage, count, vm.filter).then(function (data) {
-        //                _currentPage = data.page;
-        //                _totalServerItems = data.inlineCount;
-        //                updateEntities(data.results);
-        //            }, function (error) {
-        //
-        //            });
-        //        };
-        //
-        //        var performRemove = function (entities) {
-        //            var combinedStream = null;
-        //            var deleted = 0;
-        //            _.forEach(entities, function (entity) {
-        //                var stream = Rx.Observable.fromPromise(entityDataSvc.deactivateEntities(entity.id));
-        //
-        //                if (combinedStream) {
-        //                    combinedStream.concat(stream);
-        //                } else {
-        //                    combinedStream = stream;
-        //                    combinedStream.subscribe(function(response) {
-        //                        if (response) {
-        //                            deleted++;
-        //                            updateEntities(entity, true);
-        //                        }
-        //                    }, function () {}, afterCompleteCb(deleted));
-        //                }
-        //            });
-        //        };
-        //
-        //        if ($.SmartMessageBox) {
-        //            var title = "<i class='fa fa-trash-o txt-color-orangeDark'></i> ";
-        //            title += deleteTitle;
-        //            $.SmartMessageBox({
-        //                title : title,
-        //                content : _.string.sprintf(deleteWarning, selectedEntities.length),
-        //                buttons : '[' + noText + '][' + yesText + ']'
-        //            }, function(button) {
-        //                if (button === yesText) {
-        //                    performRemove(selectedEntities);
-        //                }
-        //            });
-        //        } else {
-        //            if (confirm(deleteTitle + " " + selectedEntities.length + " " + pageTitle.toLowerCase())) {
-        //                performRemove(selectedEntities);
-        //            }
-        //        }
-        //    });
-        //}
 
         function saveChanges() {
             // TODO: Enter save logic

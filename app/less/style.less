@@ -382,6 +382,7 @@ hr {
 .fc-card-container {
     position: relative;
     display: block;
+    width: 100%;
     overflow: hidden;
     margin: 0 auto;
     padding: 0;
@@ -594,12 +595,15 @@ hr {
 }
 
 /* Responsive sizing */
-@max-card-columns: 4;
+@max-card-columns: 12;
 .calc-card-column(@index, @class) when (@index <= @max-card-columns) {
+    @size-fraction: (@index * (1 / @max-card-columns));
+    @sizer-class: ~".w-@{class}-@{index}x";
+
     float: left;
 
-    &.w-@{class}-@{index} {
-        width: percentage(1 / @index);
+    &@{sizer-class} {
+        width: percentage(@size-fraction);
     }
 }
 
