@@ -11,7 +11,7 @@ var morgan      = require('morgan');
 var bodyParser  = require('body-parser');
 var _           = require('lodash');
 
-var entitiesRt = require('./api/entities-api.js');
+var entitiesRt = require('./api/entities.api.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
