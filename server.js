@@ -11,7 +11,11 @@ var morgan      = require('morgan');
 var bodyParser  = require('body-parser');
 var _           = require('lodash');
 
+// Our DB object.
+global.inMemDatabase = {};
+
 var hierarchiesRt = require('./api/org.hierarchies.api.js');
+var menuRt = require('./api/menu.api.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -28,7 +32,7 @@ app.use(morgan("dev"));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', [hierarchiesRt]);
+app.use('/api', [hierarchiesRt, menuRt]);
 
 // START THE SERVER
 // =============================================================================

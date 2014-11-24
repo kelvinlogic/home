@@ -8,7 +8,10 @@
 var express     = require('express'); 		// call express
 var _           = require('lodash');
 
-var db = {};
+global.inMemDatabase.hierarchies = {};
+
+var db = global.inMemDatabase.hierarchies;
+
 var params = {
     search: "_search",
     sortField: "orderBy"
@@ -177,7 +180,7 @@ router.get("/hierarchies/:hierarchyId/data", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 
@@ -282,7 +285,7 @@ router.get("/hierarchies/:hierarchyId/data/:id", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 
@@ -296,7 +299,7 @@ router.post("/hierarchies/:hierarchyId/data", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 
@@ -316,7 +319,7 @@ router.put("/hierarchies/:hierarchyId/data/:id", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 
@@ -338,7 +341,7 @@ router.post("/hierarchies/:hierarchyId/data/activate", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 
@@ -365,7 +368,7 @@ router.post("/hierarchies/:hierarchyId/data/deactivate", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
-        resp.status(404).send('Resource not found.');
+        resp.status(400).send('Hierarchy not found.');
         return;
     }
 

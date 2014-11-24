@@ -28,8 +28,7 @@
         langSvcProvider.languagesUrl = "data/languages.json";
         langSvcProvider.languageConfigUrl = "data/language.config.json";
 
-        menuSvcProvider.menuUrlPrefix = "data";
-        menuSvcProvider.menuUrlSuffix = ".menu.json";
+        menuSvcProvider.menuUrlPrefix = "api/menu";
 
         searchSvcProvider.searchUrl = "search";
     }

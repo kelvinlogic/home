@@ -10,9 +10,8 @@
         // Available in config.
         var cfg = this;
         cfg.menuUrlPrefix = null;
-        cfg.menuUrlSuffix = null;
         cfg.getMenuUrl = function (name) {
-            return cfg.menuUrlPrefix + '/' + name + cfg.menuUrlSuffix;
+            return cfg.menuUrlPrefix + '/' + name;
         };
 
         cfg.$get = menuSvc;
@@ -26,8 +25,8 @@
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function getMenuData(page) {
-                var menuUrl = cfg.getMenuUrl(page);
+            function getMenuData(name) {
+                var menuUrl = cfg.getMenuUrl(name);
                 return $http.get(menuUrl).then(function (res) {
                     return res.data;
                 });
