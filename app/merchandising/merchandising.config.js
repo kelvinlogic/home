@@ -2,13 +2,12 @@
  * Created by Caleb on 9/25/2014.
  */
 (function () {
-    angular.module('fc.merchandising').config([
-        '$stateProvider',
-        '$urlRouterProvider',
+    angular.module("fc.merchandising").config([
+        "$stateProvider",
+        "$urlRouterProvider",
         routeConfig
     ]).config([
-        "entityDataSvcProvider",
-        "hierarchyDataSvcProvider",
+        "orgHierarchyDataSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -25,7 +24,7 @@
             templateUrl: 'common/footer.tpl.html'
         };
 
-        $urlRouterProvider.otherwise('/entity-master');
+        $urlRouterProvider.otherwise('/hierarchy-master/1');
 
         $stateProvider.state('root', {
             abstract: true,
@@ -40,13 +39,8 @@
             }
         });
 
-        $stateProvider.state('root.entity-master', {
-            url: '/entity-master',
-            templateUrl: 'merchandising/org.hierarchy/entity.master.tpl.html'
-        });
-
         $stateProvider.state('root.hierarchy-master', {
-            url: '/hierarchy-master',
+            url: '/hierarchy-master/:id',
             templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
         });
 
@@ -141,9 +135,9 @@
         });
     }
 
-    function svcConfig(entityDataSvcProvider, hierarchyDataSvcProvider) {
-        entityDataSvcProvider.entityUrl = 'api/entities';
-        hierarchyDataSvcProvider.hierarchyMappingUrl = null;
+    function svcConfig(orgHierarchyDataSvcProvider) {
+        orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/hierarchies/{hierarchyId}/data";
+        orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/hierarchies/config";
     }
 
     function buildMerchandisingConstants() {

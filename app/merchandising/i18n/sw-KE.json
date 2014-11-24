@@ -1,54 +1,32 @@
 {
     "fc.merchandising": {
-        "entity": {
-            "DETAIL_PAGE_TITLE": "Entity",
-            "MASTER_PAGE_TITLE": "Entities",
-
-            "input": {
-                "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "DESCRIPTION_LABEL": "@:fc.input.DESCRIPTION_LABEL",
-                "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL",
-                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this entity.",
-                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this entity.",
-                "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
-                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this entity."
-            },
-
-            "table": {
-                "ID_HEADER": "@:fc.input.ID_LABEL",
-                "CODE_HEADER": "@:fc.input.CODE_LABEL",
-                "DESCRIPTION_HEADER": "@:fc.input.DESCRIPTION_LABEL",
-                "LOCATION_HEADER": "@:fc.input.LOCATION_LABEL",
-                "NAME_HEADER": "@:fc.input.NAME_LABEL",
-                "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
-                "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "DESCRIPTION_FILTER_TEXT": "@:fc.table.DESCRIPTION_FILTER_TEXT",
-                "LOCATION_FILTER_TEXT": "@:fc.table.LOCATION_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
-                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
-            }
-        },
-
         "hierarchy": {
             "DETAIL_PAGE_TITLE": "Hierarchy",
             "MASTER_PAGE_TITLE": "Hierarchies",
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
+                "DESCRIPTION_LABEL": "@:fc.input.DESCRIPTION_LABEL",
                 "FIELD_LABEL": "@:fc.input.FIELD_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this hierarchy.",
+                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this hierarchy.",
+                "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
+                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this hierarchy."
             },
 
             "table": {
                 "ID_HEADER": "@:fc.input.ID_LABEL",
                 "CODE_HEADER": "@:fc.input.CODE_LABEL",
                 "FIELD_HEADER": "@:fc.input.FIELD_LABEL",
+                "LOCATION_HEADER": "@:fc.input.LOCATION_LABEL",
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
                 "FIELD_FILTER_TEXT": "@:fc.table.FIELD_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
             }
         },
 

@@ -16,28 +16,34 @@
         ]
     },
     {
-        "id": 3,
+        "id": 2,
         "name": "Merchandising",
         "items": [
             {
-                "id": 3,
-                "name": "Entity Master",
-                "href": "merchandising.html#/entity-master"
-            },
-            {
-                "id": 4,
-                "name": "Hierarchy",
-                "href": "merchandising.html#/hierarchy-master"
-            },
-            {
-                "id": 5,
-                "name": "Branch Master",
-                "href": "merchandising.html#/branch-master"
-            },
-            {
-                "id": 6,
-                "name": "Sub Branch Master",
-                "href": "merchandising.html#/sub-branch-master"
+                "id": 1,
+                "name": "Org. Hierarchy",
+                "items": [
+                    {
+                        "id": 3,
+                        "name": "Entity Master",
+                        "href": "merchandising.html#/hierarchy-master/1"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Hierarchy",
+                        "href": "merchandising.html#/hierarchy-master/2"
+                    },
+                    {
+                        "id": 5,
+                        "name": "Branch Master",
+                        "href": "merchandising.html#/branch-master"
+                    },
+                    {
+                        "id": 6,
+                        "name": "Sub Branch Master",
+                        "href": "merchandising.html#/sub-branch-master"
+                    }
+                ]
             },
             {
                 "id": 7,

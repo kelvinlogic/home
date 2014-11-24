@@ -18,8 +18,6 @@
                     config.headers.FC_Authorization = $window.sessionStorage.token;
                 }
 
-
-
                 return config;
             },
             response: function (response) {

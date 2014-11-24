@@ -9,6 +9,9 @@
     ]).config([
         "$httpProvider",
         httpConfig
+    ]).config([
+        "hierarchyConfigSvcProvider",
+        svcConfig
     ]);
 
     function routeConfig($stateProvider, $urlRouterProvider) {
@@ -57,6 +60,11 @@
     }
 
     function httpConfig($httpProvider) {
-//        $httpProvider.interceptors.push("authInterceptor");
+        $httpProvider.interceptors.push("authInterceptor");
+        $httpProvider.interceptors.push("languageInterceptor");
+    }
+
+    function svcConfig(hierarchyConfigSvcProvider) {
+        hierarchyConfigSvcProvider.hierarchyConfigUrl = "api/hierarchies/config"
     }
 })();

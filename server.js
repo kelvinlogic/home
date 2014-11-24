@@ -11,7 +11,7 @@ var morgan      = require('morgan');
 var bodyParser  = require('body-parser');
 var _           = require('lodash');
 
-var entitiesRt = require('./api/entities.api.js');
+var hierarchiesRt = require('./api/org.hierarchies.api.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', entitiesRt);
+app.use('/api', [hierarchiesRt]);
 
 // START THE SERVER
 // =============================================================================

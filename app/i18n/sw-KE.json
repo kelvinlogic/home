@@ -82,7 +82,8 @@
             "PACKABLE_LABEL": "Packable",
             "PERCENTAGE_LABEL": "Percentage",
             "VAT_NUMBER_LABEL": "VAT Number",
-            "EXTRA_INFO_LABEL": "Extra Information"
+            "EXTRA_INFO_LABEL": "Extra Information",
+            "REQUIRED_VALIDATION_TEXT": "Please enter the {{object}} {{field}}."
         }
     }
 }

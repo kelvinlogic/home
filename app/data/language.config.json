@@ -1,0 +1,15 @@
+[
+    {
+        "code": "en-US",
+        "default": true,
+        "name": "English"
+    },
+    {
+        "code": "sw-KE",
+        "name": "Swahili"
+    },
+    {
+        "code": "ar-AE",
+        "name": "Arabic"
+    }
+]

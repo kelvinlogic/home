@@ -1,0 +1,49 @@
+[
+    {
+        "pin": 1,
+        "description": "Entity",
+        "id": 1,
+        "active": true,
+        "data": {
+            "code": "CLL",
+            "name": "Compulynx Limited",
+            "location": "Parklands",
+            "id": 1,
+            "active": true,
+            "customFields": [ ]
+        }
+    },
+    {
+        "description": "Country",
+        "id": 2,
+        "active": true,
+        "parentId": 1,
+        "data": {
+            "code": "KE",
+            "name": "Kenya",
+            "id": 1,
+            "active": true,
+            "field_1_Value": "English",
+            "customFields": [
+                {
+                    "name": "Language",
+                    "value": "English"
+                }
+            ]
+        }
+    },
+    {
+        "pin": 2,
+        "description": "Branch",
+        "id": 3,
+        "active": true,
+        "parentId": 2,
+        "data": {
+            "code": "CLL001",
+            "name": "Compulynx Limited Parklands",
+            "id": 1,
+            "active": true,
+            "customFields": [ ]
+        }
+    }
+]
