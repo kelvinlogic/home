@@ -20,11 +20,11 @@ app.use(bodyParser.json());
 
 var port = 4000;
 
-// Enable serving static files.
-app.use(express.static(__dirname + '/app'));
-
 // Turn on logging.
 app.use(morgan("dev"));
+
+// Enable serving static files.
+app.use(express.static(__dirname + '/app'));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
