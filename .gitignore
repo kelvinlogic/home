@@ -55,3 +55,6 @@ com_crashlytics_export_strings.xml
 # Minified javascripts & maps
 *.min.js
 *.min.map
+
+# style.css is generated
+app/css/style.css
