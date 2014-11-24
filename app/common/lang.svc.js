@@ -10,12 +10,13 @@
         // Available in config.
         var cfg = this;
         cfg.languagesUrl = null;
+        cfg.languageConfigUrl = null;
 
         cfg.$get = langSvc;
 
-        langSvc.$inject = ['$http', "configSvc"];
+        langSvc.$inject = ['$http'];
 
-        function langSvc($http, configSvc) {
+        function langSvc($http) {
             return {
                 getActiveLanguages: getActiveLanguages,
                 getLanguages: getLanguages
@@ -25,8 +26,8 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             function getActiveLanguages() {
-                return configSvc.getConfig().then(function (result) {
-                    return result.language.languages;
+                return $http.get(cfg.languageConfigUrl).then(function (result) {
+                    return result.data;
                 });
             }
 

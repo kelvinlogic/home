@@ -26,6 +26,7 @@
         configSvcProvider.configUrl = "data/config.json";
 
         langSvcProvider.languagesUrl = "data/languages.json";
+        langSvcProvider.languageConfigUrl = "data/language.config.json";
 
         menuSvcProvider.menuUrlPrefix = "data";
         menuSvcProvider.menuUrlSuffix = ".menu.json";
