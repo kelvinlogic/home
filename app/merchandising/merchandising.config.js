@@ -84,8 +84,8 @@
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
         });
 
-        $stateProvider.state('root.currencies-master', {
-            url: '/currencies-master',
+        $stateProvider.state('root.currency-master', {
+            url: '/currency-master',
             templateUrl: 'merchandising/currencies.master.tpl.html'
         });
 
