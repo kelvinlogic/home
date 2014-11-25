@@ -2,7 +2,7 @@
     <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in vm.levels">
         <div data-accordion-heading>
             <h4>
-                <span data-ng-bind="level.description || 'Level ' + ($index + 1)"></span>
+                <span data-ng-bind="level.name || 'Level ' + ($index + 1)"></span>
 
                 <!-- Produces output in the form of [a - b] or [a] or [b]. -->
                 <small data-ng-if="level.data.name || level.data.code">[</small>
@@ -11,27 +11,27 @@
                 <small data-ng-bind="level.data.code" data-ng-if="level.data.code"></small>
                 <small data-ng-if="level.data.name || level.data.code">]</small>
 
-                                                <span class="text-success pull-right animated fadeInRight fast"
-                                                      title="{{'fc.common.hierarchy.item.DATA_VALID_TITLE' | translate}}"
-                                                      data-ng-if="vm.validLevel(level)">
-                                                    <i class="fa fa-check"></i>
-                                                </span>
-                                                <span class="text-danger pull-right animated fadeInRight fast"
-                                                      title="{{'fc.common.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
-                                                      data-ng-if="!vm.validLevel(level)">
-                                                    <i class="fa fa-times"></i>
-                                                </span>
+                <span class="text-success pull-right animated fadeInRight fast"
+                      title="{{'fc.common.hierarchy.item.DATA_VALID_TITLE' | translate}}"
+                      data-ng-if="vm.validLevel(level)">
+                    <i class="fa fa-check"></i>
+                </span>
+                <span class="text-danger pull-right animated fadeInRight fast"
+                      title="{{'fc.common.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
+                      data-ng-if="!vm.validLevel(level)">
+                    <i class="fa fa-times"></i>
+                </span>
             </h4>
         </div>
         <div class="fc-block">
             <form class="form-horizontal">
                 <div class="form-group" data-ng-if="!level.pin && !level.id">
                     <label class="control-label col-md-2" for="{{'description' + $index}}"
-                           data-translate="fc.common.hierarchy.input.DESCRIPTION_LABEL"></label>
+                           data-translate="fc.common.hierarchy.input.HIERARCHY_NAME_LABEL"></label>
                     <div class="col-md-10">
                         <input id="{{'description' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
-                               data-ng-model="level.description" data-vt-keyboard/>
+                               placeholder="{{'fc.common.hierarchy.input.HIERARCHY_NAME_PLACEHOLDER' | translate}}"
+                               data-ng-model="level.name" data-vt-keyboard/>
                     </div>
                 </div>
 

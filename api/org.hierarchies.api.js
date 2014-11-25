@@ -70,8 +70,8 @@ router.get("/hierarchies/config", function (req, resp) {
     // Return default configuration.
     if (!_.any(results)){
         results = [
-            {pin: 1, active: true, description: "Entity"},
-            {pin: 2, active: true, description: "Branch"}
+            {pin: 1, active: true, name: "Entity"},
+            {pin: 2, active: true, name: "Branch"}
         ]
     }
 

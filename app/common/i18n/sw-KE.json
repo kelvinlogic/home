@@ -62,8 +62,8 @@
             "ADD_CUSTOM_FIELD_BUTTON_TEXT": "Add Custom Field",
 
             "input": {
-                "DESCRIPTION_LABEL": "Description",
-                "DESCRIPTION_PLACEHOLDER": "Description e.g. Region",
+                "HIERARCHY_NAME_LABEL": "Hierarchy Name",
+                "HIERARCHY_NAME_PLACEHOLDER": "Hierarchy Name e.g. Entity",
                 "NAME_LABEL": "Name",
                 "NAME_PLACEHOLDER": "Name e.g. Europe",
                 "CODE_LABEL": "Code",

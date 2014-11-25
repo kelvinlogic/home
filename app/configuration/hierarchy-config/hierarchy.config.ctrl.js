@@ -191,7 +191,7 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.description && level.data && level.data.name && level.data.code);
+            return Boolean(level.name && level.data && level.data.name && level.data.code);
         }
     }
 })();
