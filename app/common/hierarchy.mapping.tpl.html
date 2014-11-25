@@ -26,10 +26,10 @@
         <div class="fc-block">
             <form class="form-horizontal">
                 <div class="form-group" data-ng-if="!level.pin && !level.id">
-                    <label class="control-label col-md-2" for="{{'description' + $index}}"
+                    <label class="control-label col-md-2" for="{{'hier_name' + $index}}"
                            data-translate="fc.common.hierarchy.input.HIERARCHY_NAME_LABEL"></label>
                     <div class="col-md-10">
-                        <input id="{{'description' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                        <input id="{{'hier_name' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
                                placeholder="{{'fc.common.hierarchy.input.HIERARCHY_NAME_PLACEHOLDER' | translate}}"
                                data-ng-model="level.name" data-vt-keyboard/>
                     </div>

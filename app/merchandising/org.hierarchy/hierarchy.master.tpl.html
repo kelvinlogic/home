@@ -223,6 +223,28 @@
 
 <script id="fc/hierarchyFormTpl" type="text/ng-template">
     <form name="hierarchyForm" role="form" data-ng-submit="vm.saveChanges()">
+        <div class="form-group" data-ng-if="vm.hasParent()"
+             data-ng-class="{'has-error has-feedback': !hierarchyForm.parent.$valid && !hierarchyForm.parent.$pristine}">
+            <label class="control-label" for="parent"
+                   data-translate="fc.merchandising.hierarchy.input.PARENT_LABEL"></label>
+            <input id="parent" type="text" class="fc-input-full-width form-control"
+                   name="parent"
+                   placeholder="{{'fc.merchandising.hierarchy.input.PARENT_LABEL' | translate}}"
+                   data-ng-disabled="vm.hierarchy.parentId && !vm.hierarchy.parent"
+                   data-ng-required="::vm.validationData.parent.required"
+                   data-ng-model="vm.hierarchy.parent" data-sf-typeahead
+                   data-options="vm.typeaheadOptions"
+                   data-datasets="vm.parentDataset" />
+            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+               data-ng-if="!hierarchyForm.parent.$valid && !hierarchyForm.parent.$pristine"></i>
+            <span class="help-block" data-ng-messages="hierarchyForm.parent.$error"
+                  data-ng-show="!hierarchyForm.parent.$valid && !hierarchyForm.parent.$pristine">
+                <span data-ng-if="::vm.validationData.parent.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.hierarchy.input.REQUIRED_PARENT_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+        </div>
         <div class="form-group" data-ng-class="{'has-error has-feedback': !hierarchyForm.code.$valid && !hierarchyForm.code.$pristine}">
             <label class="control-label" for="code"
                    data-translate="fc.merchandising.hierarchy.input.CODE_LABEL"></label>
@@ -297,14 +319,14 @@
                 </span>
             </span>
         </div>
-        <div class="form-group" data-ng-repeat="(key, value) in vm.hierarchy.fields"
-             data-ng-class="{'has-error has-feedback': !hierarchyForm[key].$valid && !hierarchyForm[key].$pristine}">
-            <label class="control-label col-md-2" for="field_{{$index}}"
-                   data-ng-bind="key | string:'capitalize'"></label>
-            <input id="field_{{$index}}" type="text" name="key"
+        <div class="form-group" data-ng-repeat="custField in vm.customFields"
+             data-ng-class="{'has-error has-feedback': !hierarchyForm[custField.name].$valid && !hierarchyForm[custField.name].$pristine}">
+            <label class="control-label" for="field_{{$index}}"
+                   data-ng-bind="custField.label | string:'humanize'"></label>
+            <input id="field_{{$index}}" type="text" name="{{custField.name}}"
                    class="fc-input-full-width form-control"
-                   placeholder="{{key | string: 'capitalize'}}"
-                   data-ng-model="value" data-vt-keyboard />
+                   placeholder="{{custField.label | string: 'humanize'}}"
+                   data-ng-model="vm.hierarchy[custField.name]" data-vt-keyboard />
         </div>
         <div class="form-actions">
             <button class="btn btn-success" type="submit" data-ng-disabled="hierarchyForm.$invalid">

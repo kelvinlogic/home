@@ -148,6 +148,25 @@
     function buildMerchandisingConstants() {
         return {
             suggestions: {
+                hierarchy: {
+                    displayKey: "name",
+                    remote: {
+                        url: "api/hierarchies/@{hierarchyId}/data?_search=true&_noPage=true&q=%QUERY",
+                        wildcard: "%QUERY"
+                    },
+                    templates: {
+                        suggestion: function (suggestion) {
+                            var html = "<div class='fc-compound-suggestion'>";
+                            html += "<div class='fc-compound-main'>" + suggestion["name"] + "</div>";
+                            if (suggestion["code"]) {
+                                html += "<span class='fc-compound-hint text-muted'>" + suggestion["code"] + "</span>";
+                            }
+
+                            html += "</div>";
+                            return html;
+                        }
+                    }
+                },
                 products: {
                     displayKey: "name",
                     remote: {

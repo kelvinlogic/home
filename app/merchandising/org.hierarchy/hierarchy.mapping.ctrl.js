@@ -5,10 +5,10 @@
         .module("fc.merchandising")
         .controller("HierarchyMappingCtrl", hierarchyMappingCtrl);
 
-    hierarchyMappingCtrl.$inject = ["lodash", "$modal", "$scope", "appConfig", "orgHierarchyDataSvc", "reloadMenuEventValue"];
+    hierarchyMappingCtrl.$inject = ["lodash", "$scope", "appConfig", "orgHierarchyDataSvc", "reloadMenuEventValue"];
 
     /* @ngInject */
-    function hierarchyMappingCtrl(_, $modal, $scope, config, hierarchyDataSvc, reloadMenuEventValue) {
+    function hierarchyMappingCtrl(_, $scope, config, hierarchyDataSvc, reloadMenuEventValue) {
         /* jshint validthis: true */
         var vm = this;
         var maxLevels = 9;

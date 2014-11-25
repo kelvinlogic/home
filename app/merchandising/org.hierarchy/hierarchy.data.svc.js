@@ -27,6 +27,7 @@
                 deactivateHierarchiesData: deactivateHierarchiesData,
                 getHierarchiesData: getHierarchiesData,
                 getHierarchyConfig: getHierarchyConfig,
+                getHierarchyData: getHierarchyData,
                 updateHierarchyData: updateHierarchyData
             };
 
@@ -137,6 +138,18 @@
 
             function getHierarchyConfig() {
                 var url = cfg.hierarchyConfigUrl;
+                return $http.get(url).then(function (result) {
+                    return result.data;
+                });
+            }
+
+            function getHierarchyData(hierarchyId, id) {
+                if (!hierarchyId) {
+                    return $q.reject("No hierarchy id.");
+                }
+
+                var url = cfg.hierarchyDataUrlTpl.replace("{hierarchyId}", hierarchyId) + "/" + id;
+
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });

@@ -10,8 +10,10 @@
                 "FIELD_LABEL": "@:fc.input.FIELD_LABEL",
                 "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
                 "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "PARENT_LABEL": "@:fc.input.PARENT_LABEL",
                 "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this hierarchy.",
                 "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this hierarchy.",
+                "REQUIRED_PARENT_VALIDATION_TEXT": "Please select a parent for this hierarchy.",
                 "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
                 "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this hierarchy."
             },

@@ -173,7 +173,7 @@ router.get("/menu/navbar", function (req, resp) {
 
                     var navData = {
                         id: lastId + count,
-                        name: h.description,
+                        name: h.name,
                         href: "merchandising.html#/hierarchy-master/" + h.id,
                         parentId: orgHierarchy.id
                     };
@@ -213,7 +213,7 @@ router.get("/menu/navbar", function (req, resp) {
 
                     var navData = {
                         id: lastId + count,
-                        name: p.description,
+                        name: p.name,
                         href: "merchandising.html#/product-master/" + p.id,
                         parentId: prodHierarchy.id
                     };

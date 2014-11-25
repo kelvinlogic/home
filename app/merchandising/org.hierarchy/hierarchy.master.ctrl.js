@@ -6,10 +6,20 @@
         .controller('HierarchyMasterCtrl', hierarchyMaster)
         .controller('HierarchyDetailCtrl', hierarchyDetail);
 
-    hierarchyMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$stateParams', '$translate', 'orgHierarchyDataSvc', 'throttleValue'];
+    hierarchyMaster.$inject = [
+        "lodash",
+        "rx",
+        "$modal",
+        "$scope",
+        "$stateParams",
+        "$translate",
+        "orgHierarchyDataSvc",
+        "throttleValue",
+        "merchandisingConstants"
+    ];
 
     /* @ngInject */
-    function hierarchyMaster(_, Rx, $modal, $scope, $stateParams, $translate, hierarchyDataSvc, throttleValue) {
+    function hierarchyMaster(_, Rx, $modal, $scope, $stateParams, $translate, hierarchyDataSvc, throttleValue, constants) {
         /* jshint validthis: true */
         var vm = this,
             _hierarchyDetailModalOptions = null,
@@ -18,12 +28,15 @@
             _pageSize = null,
             _pin = null,
             _totalServerItems = null,
-            _hierarchyId = null;
+            _hierarchyId = null,
+            _parentHierId = null,
+            _parentEngine = null;
 
         vm.activate = activate;
         vm.activateHierarchies = activateHierarchies;
         vm.cancelChanges = cancelChanges;
         vm.createHierarchy = createHierarchy;
+        vm.customFields = [];
         vm.edit = edit;
         vm.getFields = getFields;
         vm.getSelectionKey = getSelectionKey;
@@ -31,6 +44,7 @@
         vm.fields = [];
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
+        vm.hasParent = hasParent;
         vm.isBranch = isBranch;
         vm.isEntity = isEntity;
         vm.isFieldSelected = isFieldSelected;
@@ -311,14 +325,24 @@
             // Use extend to prevent reference copying so we can edit the item in isolation.
             var hierarchy = angular.extend({}, item);
 
+            if (_parentHierId) {
+                hierarchyDataSvc.getHierarchyData(_parentHierId, hierarchy.parentId).then(function (data) {
+                    hierarchy.parent = data;
+                });
+            }
+
             // Setup modal options.
             _hierarchyDetailModalOptions.resolve = {
                 data: function () {
                     return {
+                        customFields: vm.customFields,
+                        hasParent: hasParent,
                         hierarchy: hierarchy,
                         hierarchyId: _hierarchyId,
                         isBranch: isBranch,
-                        isEntity: isEntity
+                        isEntity: isEntity,
+                        parentDataset: vm.parentDataset,
+                        validationData: vm.validationData
                     };
                 }
             };
@@ -341,14 +365,22 @@
                     _currentPage = data.page;
                     _pageSize = data.maxItems;
                     _pin = data.pin;
+                    _parentHierId = data.parentId;
                     _totalServerItems = data.inlineCount;
 
-                    if (data.description && vm.title !== data.description) {
-                        vm.title = data.description;
+                    vm.customFields = data.customFields;
+
+                    if (data.name && vm.title !== data.name) {
+                        vm.title = data.name;
                     }
 
                     if (refresh) {
                         vm.hierarchies = [];
+                    }
+
+                    if (_parentHierId) {
+                        vm.validationData.parent = {required: true};
+                        initTypeahead();
                     }
 
                     updateHierarchies(data.results);
@@ -373,6 +405,37 @@
             var alreadyLoadedItems = ((_currentPage - 1) * _pageSize) + vm.hierarchies.length;
 
             return alreadyLoadedItems < _totalServerItems;
+        }
+
+        function hasParent() {
+            return _parentHierId;
+        }
+
+        function initTypeahead() {
+            var engineRemote = constants.suggestions.hierarchy.remote;
+            engineRemote.url = engineRemote.url.replace("@{hierarchyId}", _parentHierId);
+
+            _parentEngine = new Bloodhound({
+                datumTokenizer: function(d) {
+                    return Bloodhound.tokenizers.whitespace(d[constants.suggestions.hierarchy.displayKey]);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: engineRemote
+            });
+
+            _parentEngine.initialize();
+
+            vm.typeaheadOptions = {
+                hint: true,
+                highlight: true,
+                minLength: 1
+            };
+            vm.parentDataset = {
+                name: "parent",
+                displayKey: constants.suggestions.hierarchy.displayKey,
+                source: _parentEngine.ttAdapter(),
+                templates: constants.suggestions.hierarchy.templates
+            };
         }
 
         function isBranch() {
@@ -510,26 +573,20 @@
             _hierarchyId = data.hierarchyId;
 
         vm.cancelChanges = cancelChanges;
+        vm.customFields = data.customFields;
+        vm.hasParent = data.hasParent;
         vm.hierarchy = data.hierarchy;
         vm.isBranch = data.isBranch;
         vm.isEntity = data.isEntity;
+        vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
-        vm.validationData = null;
+        vm.validationData = data.validationData;
 
         activate();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function activate() {
-            vm.validationData = {
-                code: {
-                    required: true
-                },
-                name: {
-                    required: true
-                }
-            };
-        }
+        function activate() {}
 
         function cancelChanges() {
             $modalInstance.dismiss();
