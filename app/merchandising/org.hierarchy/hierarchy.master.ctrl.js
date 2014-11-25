@@ -18,7 +18,6 @@
         "merchandisingConstants"
     ];
 
-    /* @ngInject */
     function hierarchyMaster(_, Rx, $modal, $scope, $stateParams, $translate, hierarchyDataSvc, throttleValue, constants) {
         /* jshint validthis: true */
         var vm = this,
@@ -497,6 +496,12 @@
 
         function saveChanges() {
             vm.isSaving = true;
+
+            if (vm.hierarchy.parent && vm.hierarchy.parent.id) {
+                vm.hierarchy.parentId = vm.hierarchy.parent.id;
+                delete vm.hierarchy.parent;
+            }
+
             hierarchyDataSvc.createHierarchyData(_hierarchyId, vm.hierarchy).then(function (data) {
                 updateHierarchies(data);
                 vm.hierarchy = null;
@@ -594,6 +599,12 @@
 
         function saveChanges() {
             vm.isSaving = true;
+
+            if (vm.hierarchy.parent && vm.hierarchy.parent.id) {
+                vm.hierarchy.parentId = vm.hierarchy.parent.id;
+                delete vm.hierarchy.parent;
+            }
+
             hierarchyDataSvc.updateHierarchyData(_hierarchyId, vm.hierarchy.id, vm.hierarchy).then(function (data) {
                 $modalInstance.close(data);
                 vm.hierarchy = null;

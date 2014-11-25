@@ -365,10 +365,6 @@ router.post("/hierarchies/:hierarchyId/data", function (req, resp) {
         delete hierarchy.parent;
     }
 
-    if (hierarchy.fields) {
-
-    }
-
     hierData[id] = hierarchy;
     resp.json(hierarchy);
 });
