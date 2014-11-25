@@ -137,7 +137,7 @@
 
             function getHierarchyConfig() {
                 var url = cfg.hierarchyConfigUrl;
-                return $http.put(url).then(function (result) {
+                return $http.get(url).then(function (result) {
                     return result.data;
                 });
             }

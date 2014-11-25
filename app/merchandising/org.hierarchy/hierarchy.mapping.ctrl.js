@@ -2,13 +2,13 @@
     "use strict";
 
     angular
-        .module("fc.configuration")
-        .controller("HierarchyConfigCtrl", hierarchyConfigCtrl);
+        .module("fc.merchandising")
+        .controller("HierarchyMappingCtrl", hierarchyMappingCtrl);
 
-    hierarchyConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "hierarchyConfigSvc", "reloadMenuEventValue"];
+    hierarchyMappingCtrl.$inject = ["lodash", "$modal", "$scope", "appConfig", "orgHierarchyDataSvc", "reloadMenuEventValue"];
 
     /* @ngInject */
-    function hierarchyConfigCtrl(_, $modal, $scope, $state, config, hierarchyConfigSvc, reloadMenuEventValue) {
+    function hierarchyMappingCtrl(_, $modal, $scope, config, hierarchyDataSvc, reloadMenuEventValue) {
         /* jshint validthis: true */
         var vm = this;
         var maxLevels = 9;
@@ -24,7 +24,7 @@
         vm.removeField = removeField;
         vm.removeLevel = removeLevel;
         vm.save = save;
-        vm.titleKey = "fc.configuration.hierarchy.PAGE_TITLE";
+        vm.titleKey = "fc.merchandising.hierarchyMapping.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;
 
@@ -115,45 +115,14 @@
 
         function load() {
             // Check if the hierarchy configuration has been performed.
-            hierarchyConfigSvc.getHierarchyConfig().then(function (data) {
+            hierarchyDataSvc.getHierarchyConfig().then(function (data) {
                 function populateData(data) {
                     vm.levels = data;
                     // By default, open the first item.
                     vm.levels[0].open = true;
                 }
 
-                // If it has been done, show a modal to ask whether to modify the existing configuration.
-                var configWasDone = _.any(data) && _.all(data, function (dat) {
-                    return dat.id;
-                });
-
-                if (configWasDone){
-                    var modalInstance = $modal.open({
-                        templateUrl: "common/modal.tpl.html",
-                        controller: "ModalTemplateCtrl as modalCtrl",
-                        resolve: {
-                            data: function () {
-                                return {
-                                    bodyTextKey: "fc.configuration.hierarchy.configCompleteModal.COMPLETE_MODAL_CONTENT",
-                                    cancelKey: "fc.NO_TEXT",
-                                    okKey: "fc.YES_TEXT",
-                                    titleKey: "fc.configuration.hierarchy.configCompleteModal.COMPLETE_MODAL_TITLE"
-                                };
-                            }
-                        }
-                    });
-
-                    modalInstance.result.then(function () {
-                        // We want to modify...
-                        populateData(data);
-                    }, function () {
-                        // We don't want to modify...go to hierarchy configuration.
-                        // Go to the next state...
-                        $state.go("root.language-config");
-                    });
-                } else {
-                    populateData(data);
-                }
+                populateData(data);
             });
         }
 
@@ -176,10 +145,9 @@
         }
 
         function save() {
-            hierarchyConfigSvc.createHierarchyConfig(vm.levels).then(function () {
+            hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
                 // Finished saving...yay!!!
                 $scope.$emit(reloadMenuEventValue);
-                $state.go("root.language-config");
             });
         }
 

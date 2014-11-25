@@ -114,6 +114,11 @@
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.mapping.tpl.html'
         });
 
+        $stateProvider.state('root.organisational-hierarchy-mapping', {
+            url: '/organisational-hierarchy-mapping',
+            templateUrl: 'merchandising/org.hierarchy/hierarchy.mapping.tpl.html'
+        });
+
         $stateProvider.state('root.product-brand-master', {
             url: '/product-brand-master',
             templateUrl: 'merchandising/product.brand.master.tpl.html'

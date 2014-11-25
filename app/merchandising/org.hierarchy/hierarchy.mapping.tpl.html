@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="HierarchyConfigCtrl as vm">
+<section id="widget-grid" data-widget-grid data-ng-controller="HierarchyMappingCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -15,20 +15,10 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <div class="row">
-                            <div class="col-md-12">
-                                <h4 data-translate="fc.configuration.hierarchy.WELCOME_TEXT"></h4>
-
-                                <p></p>
-
-                                <p data-translate="fc.configuration.hierarchy.HELP_TEXT"></p>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 center-block">
                                 <div data-ng-include="'common/hierarchy.mapping.tpl.html'"></div>
                                 <button class="btn btn-primary pull-right"
-                                        data-translate="fc.configuration.hierarchy.SUBMIT_BUTTON_TEXT"
+                                        data-translate="fc.SAVE_TEXT"
                                         data-ng-disabled="!vm.validate()" data-ng-click="vm.save()"></button>
                             </div>
                         </div>

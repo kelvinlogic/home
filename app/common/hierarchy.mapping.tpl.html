@@ -1,0 +1,100 @@
+<div data-accordion data-close-others="true">
+    <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in vm.levels">
+        <div data-accordion-heading>
+            <h4>
+                <span data-ng-bind="level.description || 'Level ' + ($index + 1)"></span>
+
+                <!-- Produces output in the form of [a - b] or [a] or [b]. -->
+                <small data-ng-if="level.data.name || level.data.code">[</small>
+                <small data-ng-bind="level.data.name" data-ng-if="level.data.name"></small>
+                <small data-ng-if="level.data.name && level.data.code">-</small>
+                <small data-ng-bind="level.data.code" data-ng-if="level.data.code"></small>
+                <small data-ng-if="level.data.name || level.data.code">]</small>
+
+                                                <span class="text-success pull-right animated fadeInRight fast"
+                                                      title="{{'fc.common.hierarchy.item.DATA_VALID_TITLE' | translate}}"
+                                                      data-ng-if="vm.validLevel(level)">
+                                                    <i class="fa fa-check"></i>
+                                                </span>
+                                                <span class="text-danger pull-right animated fadeInRight fast"
+                                                      title="{{'fc.common.hierarchy.item.DATA_INVALID_TITLE' | translate}}"
+                                                      data-ng-if="!vm.validLevel(level)">
+                                                    <i class="fa fa-times"></i>
+                                                </span>
+            </h4>
+        </div>
+        <div class="fc-block">
+            <form class="form-horizontal">
+                <div class="form-group" data-ng-if="!level.pin && !level.id">
+                    <label class="control-label col-md-2" for="{{'description' + $index}}"
+                           data-translate="fc.common.hierarchy.input.DESCRIPTION_LABEL"></label>
+                    <div class="col-md-10">
+                        <input id="{{'description' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                               placeholder="{{'fc.common.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
+                               data-ng-model="level.description" data-vt-keyboard/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="{{'name' + $index}}"
+                           data-translate="fc.common.hierarchy.input.NAME_LABEL"></label>
+                    <div class="col-md-10">
+                        <input id="{{'name' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                               placeholder="{{'fc.common.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
+                               data-ng-model="level.data.name" data-vt-keyboard/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="{{'code' + $index}}"
+                           data-translate="fc.common.hierarchy.input.CODE_LABEL"></label>
+                    <div class="col-md-10">
+                        <input id="{{'code' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                               placeholder="{{'fc.common.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
+                               data-ng-model="level.data.code" data-vt-keyboard/>
+                    </div>
+                </div>
+                <hr data-ng-if="level.data.customFields.length"/>
+                <div class="form-group" data-ng-repeat="field in level.data.customFields">
+                    <div class="col-md-4">
+                        <input id="{{'custom_field' + $index + 'name'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                               placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                               title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                               data-ng-model="field.name" data-vt-keyboard/>
+                    </div>
+                    <div class="input-group col-md-8">
+                        <input id="{{'custom_field' + $index + 'value'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                               placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                               title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                               data-ng-model="field.value" data-vt-keyboard/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-danger"
+                                    data-ng-click="vm.removeField(level, field)">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-ng-if="vm.canAddCustomField(level)">
+                    <button class="btn btn-primary" data-ng-click="vm.addCustomField(level)"
+                            data-translate="fc.common.hierarchy.ADD_CUSTOM_FIELD_BUTTON_TEXT"></button>
+                </div>
+
+                <hr data-ng-if="vm.canAddLevelAfter(level) || vm.canRemoveLevel(level)"/>
+                <div class="fc-centered">
+                    <button class="btn btn-circle" type="submit" style="transition: 200ms all ease-in"
+                            data-ng-class="{'btn-primary': vm.validLevel(level)}"
+                            data-ng-if="vm.canAddLevelAfter(level)"
+                            data-ng-click="vm.addLevelAfter(level)"
+                            data-ng-disabled="!vm.validLevel(level)">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-circle" data-ng-if="vm.canRemoveLevel(level)"
+                            data-ng-click="vm.removeLevel(level)">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -56,6 +56,26 @@
                 "NAME_FILTER_TEXT": "Filter Name",
                 "NAME_HEADER": "Name"
             }
+        },
+
+        "hierarchy": {
+            "ADD_CUSTOM_FIELD_BUTTON_TEXT": "Add Custom Field",
+
+            "input": {
+                "DESCRIPTION_LABEL": "Description",
+                "DESCRIPTION_PLACEHOLDER": "Description e.g. Region",
+                "NAME_LABEL": "Name",
+                "NAME_PLACEHOLDER": "Name e.g. Europe",
+                "CODE_LABEL": "Code",
+                "CODE_PLACEHOLDER": "Code e.g. EU",
+                "CUSTOM_FIELD_NAME_PLACEHOLDER": "Custom Field {{number}} Name",
+                "CUSTOM_FIELD_VALUE_PLACEHOLDER": "Custom Field {{number}} Value"
+            },
+
+            "item": {
+                "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
+                "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
+            }
         }
     }
 }

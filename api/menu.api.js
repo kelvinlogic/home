@@ -120,6 +120,12 @@ global.inMemDatabase.navbarMenu = {
     "20": {
         "id": 20,
         "name": "Mapping",
+        "href": "merchandising.html#/organisational-hierarchy-mapping",
+        "parentId": 5
+    },
+    "21": {
+        "id": 21,
+        "name": "Mapping",
         "href": "merchandising.html#/product-hierarchy-mapping",
         "parentId": 6
     }
@@ -156,11 +162,11 @@ router.get("/menu/navbar", function (req, resp) {
         if (orgHierarchy) {
             // Populate the org. hierarchy.
             var hierarchies = _.values(global.inMemDatabase.hierarchies);
-            if (hierarchies && hierarchies.length > 0) {
-                var last = _.last(allCloned);
-                var lastId = (last && last.id) ? last.id : 1;
-                orgHierarchy.items = [];
+            var last = _.last(allCloned);
+            var lastId = (last && last.id) ? last.id : 1;
+            orgHierarchy.items = _.isArray(orgHierarchy.items) ? orgHierarchy.items : [];
 
+            if (hierarchies && hierarchies.length > 0) {
                 _.forEach(hierarchies, function (hierarchy) {
                     count++;
                     var h = _.extend({}, hierarchy);
@@ -185,14 +191,6 @@ router.get("/menu/navbar", function (req, resp) {
                 } else {
                     results.push(orgHierarchy);
                 }
-            } else {
-                var index = results.indexOf(orgHierarchy);
-                if (index < 0) {
-                    index = childMenus.indexOf(orgHierarchy);
-                    childMenus.splice(index, 1);
-                } else {
-                    results.splice(index, 1);
-                }
             }
         }
     }
@@ -203,12 +201,12 @@ router.get("/menu/navbar", function (req, resp) {
 
         if (prodHierarchy) {
             // Populate the org. hierarchy.
-            var products = [];
-            if (products && products.length > 0) {
-                var last = _.last(allCloned);
-                var lastId = (last && last.id) ? last.id : 1;
-                prodHierarchy.items = [];
+            var products = global.inMemDatabase.prodHierarchies;
+            var last = _.last(allCloned);
+            var lastId = (last && last.id) ? last.id : 1;
+            prodHierarchy.items = _.isArray(prodHierarchy.items) ? prodHierarchy.items : [];
 
+            if (products && products.length > 0) {
                 _.forEach(products, function (product) {
                     count++;
                     var p = _.extend({}, product);
@@ -232,14 +230,6 @@ router.get("/menu/navbar", function (req, resp) {
                     }
                 } else {
                     results.push(prodHierarchy);
-                }
-            } else {
-                var index = results.indexOf(prodHierarchy);
-                if (index < 0) {
-                    index = childMenus.indexOf(prodHierarchy);
-                    childMenus.splice(index, 1);
-                } else {
-                    results.splice(index, 1);
                 }
             }
         }

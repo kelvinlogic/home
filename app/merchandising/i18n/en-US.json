@@ -30,6 +30,10 @@
             }
         },
 
+        "hierarchyMapping": {
+            "PAGE_TITLE": "Organisational Hierarchy Mapping"
+        },
+
         "branch": {
             "DETAIL_PAGE_TITLE": "Branch",
             "MASTER_PAGE_TITLE": "Branches",
