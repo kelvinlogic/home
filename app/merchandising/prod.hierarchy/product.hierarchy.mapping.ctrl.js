@@ -116,8 +116,11 @@
         }
 
         function save() {
+            vm.isSaving = true;
             hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
                 // Finished saving...yay!!!
+                vm.isSaving = false;
+                load();
                 $scope.$emit(reloadMenuEventValue);
             });
         }
@@ -130,7 +133,7 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.name && level.data.name);
+            return Boolean(level.name && level.data && level.data.name && level.data.code);
         }
     }
 })();

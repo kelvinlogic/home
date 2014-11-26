@@ -41,7 +41,7 @@
         });
 
         $stateProvider.state('root.hierarchy-master', {
-            url: '/hierarchy-master/:id',
+            url: '/hierarchy-master/{id:int}',
             templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
         });
 
@@ -81,7 +81,7 @@
         });
 
         $stateProvider.state('root.product-hierarchy-master', {
-            url: '/product-hierarchy-master?id',
+            url: '/product-hierarchy-master/{id:int}',
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
         });
 

@@ -161,7 +161,7 @@ router.get("/menu/navbar", function (req, resp) {
 
         if (orgHierarchy) {
             // Populate the org. hierarchy.
-            var hierarchies = _.values(global.inMemDatabase.hierarchies);
+            var hierarchies = _.values(global.inMemDatabase.orgHierarchies);
             var last = _.last(allCloned);
             var lastId = (last && last.id) ? last.id : 1;
             orgHierarchy.items = _.isArray(orgHierarchy.items) ? orgHierarchy.items : [];
@@ -201,7 +201,7 @@ router.get("/menu/navbar", function (req, resp) {
 
         if (prodHierarchy) {
             // Populate the org. hierarchy.
-            var products = global.inMemDatabase.prodHierarchies;
+            var products = _.values(global.inMemDatabase.prodHierarchies);
             var last = _.last(allCloned);
             var lastId = (last && last.id) ? last.id : 1;
             prodHierarchy.items = _.isArray(prodHierarchy.items) ? prodHierarchy.items : [];
@@ -214,7 +214,7 @@ router.get("/menu/navbar", function (req, resp) {
                     var navData = {
                         id: lastId + count,
                         name: p.name,
-                        href: "merchandising.html#/product-master/" + p.id,
+                        href: "merchandising.html#/product-hierarchy-master/" + p.id,
                         parentId: prodHierarchy.id
                     };
 

@@ -25,7 +25,8 @@
         </div>
         <div>
             <form name="hierarchyMappingForm">
-                <div class="form-group" data-ng-if="vm.formFields.name && !level.pin && !level.id">
+                <div class="form-group" data-ng-if="vm.formFields.name && !level.pin && !level.id"
+                     data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.hierName.$valid && !hierarchyMappingForm.hierName.$pristine}">
                     <label class="control-label" for="{{'hier_name' + $index}}"
                            data-translate="fc.common.hierarchy.input.HIERARCHY_NAME_LABEL"></label>
                     <input id="{{'hier_name' + $index}}" type="text" name="hierName"

@@ -450,7 +450,7 @@
         }
 
         function load() {
-            _hierarchyId = _.string.toNumber($stateParams.id);
+            _hierarchyId = $stateParams.id;
             var subject = new Rx.Subject();
             subject.throttle(throttleValue).distinctUntilChanged().subscribe(function () {
                 fetchHierarchies(_currentPage, _pageSize, null, true);

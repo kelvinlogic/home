@@ -161,8 +161,11 @@
         }
 
         function save() {
+            vm.isSaving = true;
             hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
                 // Finished saving...yay!!!
+                vm.isSaving = false;
+                load();
                 $scope.$emit(reloadMenuEventValue);
             });
         }
