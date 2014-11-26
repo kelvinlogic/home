@@ -5,39 +5,56 @@
         .module("fc.merchandising")
         .controller("ProductHierarchyMappingCtrl", productHierarchyMappingCtrl);
 
-    productHierarchyMappingCtrl.$inject = ["$modal", "$scope", "$state", "appConfig", "hierarchyDataSvc", "lodash"];
+    productHierarchyMappingCtrl.$inject = ["lodash", "$scope", "appConfig", "prodHierarchyDataSvc", "reloadMenuEventValue"];
 
     /* @ngInject */
-    function productHierarchyMappingCtrl($modal, $scope, $state, config, hierarchyDataSvc, _) {
+    function productHierarchyMappingCtrl(_, $scope, config, hierarchyDataSvc, reloadMenuEventValue) {
         /* jshint validthis: true */
         var vm = this;
         var maxLevels = 5;
 
         vm.activate = activate;
-        vm.addFirstLevel = addFirstLevel;
         vm.addLevelAfter = addLevelAfter;
-        vm.canAddFirstLevel = canAddFirstLevel;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
-        vm.levels = [];
+        vm.formFields = {name: true, data: {code: true, name: true, description: true, extraInfo: true}};
+        vm.levels = null;
         vm.removeLevel = removeLevel;
         vm.save = save;
         vm.titleKey = "fc.merchandising.productHierarchyMapping.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;
+        vm.validationData = null;
 
         activate();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function activate() {
-            load();
-        }
+            // Register an event listener for language changes.
+            // This event helps us know what language is in use.
+            vm.validationData = {
+                name: {
+                    required: true
+                },
+                data: {
+                    code: {
+                        required: true
+                    },
+                    name: {
+                        required: true
+                    },
+                    description: {
+                        required: false
+                    },
+                    extraInfo: {
+                        required: false
+                    }
+                }
+            };
 
-        function addFirstLevel() {
-            // Create the level.
-            var newLevel = {open: true, data: {}};
-            vm.levels.push(newLevel);
+            load();
+            $scope.$on(config.languageChanged, load);
         }
 
         function addLevelAfter(level) {
@@ -56,19 +73,17 @@
             vm.levels.splice(index, 0, newLevel);
         }
 
-        function canAddFirstLevel() {
-            return vm.levels && vm.levels.length < 1;
-        }
-
         function canAddLevelAfter(level) {
             var canAdd = false;
 
-            // If we don't have a level to add after. Return false.
+            // If we don't have a level to add after or if the level to add after is pinned to the bottom, we can't add
+            // a level. Return false.
             if (!level) {
                 return canAdd;
             }
 
-            // Check that we haven't exceeded the maximum number of levels allowed.
+            // Check that we haven't exceeded the maximum number of levels allowed and that the level to add our new
+            // level after is not pinned to the bottom.
             canAdd = vm.levels.length < maxLevels;
 
             return canAdd;
@@ -78,17 +93,16 @@
             return true;
         }
 
-        function load(language) {
-            hierarchyDataSvc.getHierarchyMapping().then(function (data) {
-                vm.levels = data || [];
-                // By default, open the first item.
-                vm.levels[0].open = true;
+        function load() {
+            // Check if the hierarchy configuration has been performed.
+            hierarchyDataSvc.getHierarchyConfig().then(function (data) {
+                function populateData(data) {
+                    vm.levels = data;
+                    // By default, open the first item.
+                    vm.levels[0].open = true;
+                }
 
-                // Register an event listener for language changes.
-                // This event helps us know what language is in use.
-                $scope.$on(config.languageChanged, function (event, language) {
-                    load(language);
-                });
+                populateData(data);
             });
         }
 
@@ -102,7 +116,10 @@
         }
 
         function save() {
-            // TODO: Add save logic here.
+            hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
+                // Finished saving...yay!!!
+                $scope.$emit(reloadMenuEventValue);
+            });
         }
 
         function validate() {
@@ -113,7 +130,7 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.description && level.data && level.data.name && level.data.code);
+            return Boolean(level.name && level.data.name);
         }
     }
 })();

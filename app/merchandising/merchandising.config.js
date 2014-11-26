@@ -8,6 +8,7 @@
         routeConfig
     ]).config([
         "orgHierarchyDataSvcProvider",
+        "prodHierarchyDataSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -140,9 +141,12 @@
         });
     }
 
-    function svcConfig(orgHierarchyDataSvcProvider) {
-        orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/hierarchies/{hierarchyId}/data";
-        orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/hierarchies/config";
+    function svcConfig(orgHierarchyDataSvcProvider, prodHierarchyDataSvcProvider) {
+        orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/organisational-hierarchies/{hierarchyId}/data";
+        orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/organisational-hierarchies/config";
+
+        prodHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/product-hierarchies/{hierarchyId}/data";
+        prodHierarchyDataSvcProvider.hierarchyConfigUrl = "api/product-hierarchies/config";
     }
 
     function buildMerchandisingConstants() {

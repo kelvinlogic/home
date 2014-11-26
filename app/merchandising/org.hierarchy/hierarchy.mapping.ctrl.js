@@ -20,6 +20,7 @@
         vm.canAddCustomField = canAddCustomField;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
+        vm.formFields = {name: true, data: {code: true, name: true, customFields: true}};
         vm.levels = null;
         vm.removeField = removeField;
         vm.removeLevel = removeLevel;
@@ -27,6 +28,7 @@
         vm.titleKey = "fc.merchandising.hierarchyMapping.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;
+        vm.validationData = null;
 
         activate();
 
@@ -35,6 +37,20 @@
         function activate() {
             // Register an event listener for language changes.
             // This event helps us know what language is in use.
+            vm.validationData = {
+                name: {
+                    required: true
+                },
+                data: {
+                    code: {
+                        required: true
+                    },
+                    name: {
+                        required: true
+                    }
+                }
+            };
+
             load();
             $scope.$on(config.languageChanged, load);
         }

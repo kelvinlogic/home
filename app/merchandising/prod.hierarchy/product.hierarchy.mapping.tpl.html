@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="ProductHierarchyMappingCtrl as hierarchyCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="ProductHierarchyMappingCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::hierarchyCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::vm.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,96 +15,11 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <div class="row">
-                            <div class="col-md-12">
-                                <h4 data-translate="fc.merchandising.productHierarchyMapping.WELCOME_TEXT"></h4>
-
-                                <p></p>
-
-                                <p data-translate="fc.merchandising.productHierarchyMapping.HELP_TEXT"></p>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row" data-ng-if="hierarchyCtrl.canAddFirstLevel()">
-                            <div class="col-md-12 fc-block">
-                                <div class="fc-centered">
-                                    <button class="btn btn-circle btn-primary" type="submit" style="transition: 200ms all ease-in"
-                                            data-ng-if="hierarchyCtrl.canAddFirstLevel()"
-                                            data-ng-click="hierarchyCtrl.addFirstLevel()">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 center-block">
-                                <div data-accordion data-close-others="true">
-                                    <div data-accordion-group data-is-open="level.open" data-ng-repeat="level in hierarchyCtrl.levels">
-                                        <div data-accordion-heading>
-                                            <h4>
-                                                <span data-ng-bind="level.description || 'Level ' + ($index + 1)"></span>
-
-                                                <!-- Produces output in the form of [a - b] or [a] or [b]. -->
-                                                <small data-ng-if="level.data.name || level.data.code">[</small>
-                                                <small data-ng-bind="level.data.name" data-ng-if="level.data.name"></small>
-                                                <small data-ng-if="level.data.name && level.data.code">-</small>
-                                                <small data-ng-bind="level.data.code" data-ng-if="level.data.code"></small>
-                                                <small data-ng-if="level.data.name || level.data.code">]</small>
-
-                                                <span class="text-success pull-right animated fadeInRight fast"
-                                                      title="{{'fc.merchandising.productHierarchyMapping.item.DATA_VALID_TITLE' | translate}}"
-                                                      data-ng-if="hierarchyCtrl.validLevel(level)">
-                                                    <i class="fa fa-check"></i>
-                                                </span>
-                                                <span class="text-danger pull-right animated fadeInRight fast"
-                                                      title="{{'fc.merchandising.productHierarchyMapping.item.DATA_INVALID_TITLE' | translate}}"
-                                                      data-ng-if="!hierarchyCtrl.validLevel(level)">
-                                                    <i class="fa fa-times"></i>
-                                                </span>
-                                            </h4>
-                                        </div>
-                                        <div class="fc-block">
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-2" for="{{'name' + $index}}"
-                                                           data-translate="fc.merchandising.productHierarchyMapping.input.NAME_LABEL"></label>
-                                                    <div class="col-md-10">
-                                                        <input id="{{'name' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                                                               placeholder="{{'fc.merchandising.productHierarchyMapping.input.NAME_PLACEHOLDER' | translate}}"
-                                                               data-ng-model="level.data.name" data-vt-keyboard/>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-2" for="{{'code' + $index}}"
-                                                           data-translate="fc.merchandising.productHierarchyMapping.input.CODE_LABEL"></label>
-                                                    <div class="col-md-10">
-                                                        <input id="{{'code' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                                                               placeholder="{{'fc.merchandising.productHierarchyMapping.input.CODE_PLACEHOLDER' | translate}}"
-                                                               data-ng-model="level.data.code" data-vt-keyboard/>
-                                                    </div>
-                                                </div>
-
-                                                <hr data-ng-if="hierarchyCtrl.canAddLevelAfter(level) || hierarchyCtrl.canRemoveLevel(level)"/>
-                                                <div class="fc-centered">
-                                                    <button class="btn btn-circle" type="submit" style="transition: 200ms all ease-in"
-                                                            data-ng-class="{'btn-primary': hierarchyCtrl.validLevel(level)}"
-                                                            data-ng-if="hierarchyCtrl.canAddLevelAfter(level)"
-                                                            data-ng-click="hierarchyCtrl.addLevelAfter(level)"
-                                                            data-ng-disabled="!hierarchyCtrl.validLevel(level)">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                    <button class="btn btn-circle" data-ng-if="hierarchyCtrl.canRemoveLevel(level)"
-                                                            data-ng-click="hierarchyCtrl.removeLevel(level)">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div data-ng-include="'common/hierarchy.mapping.tpl.html'"></div>
                                 <button class="btn btn-primary pull-right"
                                         data-translate="fc.SAVE_TEXT"
-                                        data-ng-disabled="!hierarchyCtrl.validate()"
-                                        data-ng-click="hierarchyCtrl.save()"></button>
+                                        data-ng-disabled="!vm.validate()" data-ng-click="vm.save()"></button>
                             </div>
                         </div>
                     </div>

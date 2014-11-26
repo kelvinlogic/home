@@ -1,8 +1,8 @@
 {
     "fc.common": {
         "COPYRIGHT_TEXT": "Future CoRe © 2014",
-        "SIGN_OUT_TEXT": "Toka",
-        "SIGN_OUT_WARNING_TITLE": "Toka katika kipindi cha",
+        "SIGN_OUT_TEXT": "Sign Out",
+        "SIGN_OUT_WARNING_TITLE": "Sign out",
         "SIGN_OUT_WARNING_MESSAGE": "Are you sure you want to sign out?",
         "COLLAPSE_MENU_TEXT": "Collapse Menu",
         "CANCEL_SEARCH_TEXT": "Cancel Search",
@@ -11,7 +11,7 @@
         "SEARCH_PLACEHOLDER": "Find stuff...",
 
         "errors": {
-            "REMOTE_ACCESS_DENIED": "Upatikanaji wa rasilimali lilikataliwa. Tafadhali ingia na sifa tofauti au wasiliana na mtawala wako kwa msaada."
+            "REMOTE_ACCESS_DENIED": "Access to a resource was denied. Login with different credentials or contact your system administrator."
         },
 
         "users": {
@@ -60,16 +60,27 @@
 
         "hierarchy": {
             "ADD_CUSTOM_FIELD_BUTTON_TEXT": "Add Custom Field",
+            "HIERARCHY_INFORMATION_SECTION_LABEL": "Hierarchy Information",
+            "HIERARCHY_DATA_SECTION_LABEL": "Initial Hierarchy Data",
 
             "input": {
                 "HIERARCHY_NAME_LABEL": "Hierarchy Name",
-                "HIERARCHY_NAME_PLACEHOLDER": "Hierarchy Name e.g. Entity",
+                "HIERARCHY_NAME_PLACEHOLDER": "Please enter a name for your hierarchy...",
                 "NAME_LABEL": "Name",
-                "NAME_PLACEHOLDER": "Name e.g. Europe",
+                "NAME_PLACEHOLDER": "Please enter a name for your first record...",
                 "CODE_LABEL": "Code",
-                "CODE_PLACEHOLDER": "Code e.g. EU",
+                "CODE_PLACEHOLDER": "Please enter a code for your first record...",
+                "DESCRIPTION_LABEL": "Description",
+                "DESCRIPTION_PLACEHOLDER": "Please enter a short description for your first record...",
+                "EXTRA_INFO_LABEL": "Extra Information",
+                "EXTRA_INFO_PLACEHOLDER": "You can enter any extra information for your first record...",
                 "CUSTOM_FIELD_NAME_PLACEHOLDER": "Custom Field {{number}} Name",
-                "CUSTOM_FIELD_VALUE_PLACEHOLDER": "Custom Field {{number}} Value"
+                "CUSTOM_FIELD_VALUE_PLACEHOLDER": "Please enter the custom field's value.",
+                "REQUIRED_HIERARCHY_NAME_VALIDATION_TEXT": "Please enter a name for your hierarchy.",
+                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for your first record.",
+                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for your first record.",
+                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a description for your first record.",
+                "REQUIRED_EXTRA_INFO_VALIDATION_TEXT": "Please enter any extra information for your first record."
             },
 
             "item": {

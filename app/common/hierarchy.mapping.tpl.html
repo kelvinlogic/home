@@ -23,76 +23,168 @@
                 </span>
             </h4>
         </div>
-        <div class="fc-block">
-            <form class="form-horizontal">
-                <div class="form-group" data-ng-if="!level.pin && !level.id">
-                    <label class="control-label col-md-2" for="{{'hier_name' + $index}}"
+        <div>
+            <form name="hierarchyMappingForm">
+                <div class="form-group" data-ng-if="vm.formFields.name && !level.pin && !level.id">
+                    <label class="control-label" for="{{'hier_name' + $index}}"
                            data-translate="fc.common.hierarchy.input.HIERARCHY_NAME_LABEL"></label>
-                    <div class="col-md-10">
-                        <input id="{{'hier_name' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.HIERARCHY_NAME_PLACEHOLDER' | translate}}"
-                               data-ng-model="level.name" data-vt-keyboard/>
-                    </div>
+                    <input id="{{'hier_name' + $index}}" type="text" name="hierName"
+                           class="fc-input-full-width fc-input-empty form-control"
+                           placeholder="{{'fc.common.hierarchy.input.HIERARCHY_NAME_PLACEHOLDER' | translate}}"
+                           data-ng-model="level.name" data-vt-keyboard
+                           data-ng-required="::vm.validationData.name.required"/>
+
+                    <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                       data-ng-if="!hierarchyMappingForm.hierName.$valid && !hierarchyMappingForm.hierName.$pristine"></i>
+                    <span class="help-block" data-ng-messages="hierarchyMappingForm.hierName.$error"
+                          data-ng-class="{'fc-invisible': hierarchyMappingForm.hierName.$valid || hierarchyMappingForm.hierName.$pristine}">
+                        <span data-ng-if="::vm.validationData.name.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.common.hierarchy.input.REQUIRED_HIERARCHY_NAME_VALIDATION_TEXT"></span>
+                        </span>
+                        <span data-ng-if="hierarchyMappingForm.hierName.$valid || hierarchyMappingForm.hierName.$pristine">PlaceHolder</span>
+                    </span>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-2" for="{{'name' + $index}}"
-                           data-translate="fc.common.hierarchy.input.NAME_LABEL"></label>
-                    <div class="col-md-10">
-                        <input id="{{'name' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
-                               data-ng-model="level.data.name" data-vt-keyboard/>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group" data-ng-if="vm.formFields.data.name"
+                             data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.name.$valid && !hierarchyMappingForm.name.$pristine}">
+                            <label class="control-label" for="{{'name' + $index}}"
+                                   data-translate="fc.common.hierarchy.input.NAME_LABEL"></label>
+                            <input id="{{'name' + $index}}" type="text" name="name"
+                                   class="fc-input-full-width fc-input-empty form-control"
+                                   placeholder="{{'fc.common.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
+                                   data-ng-model="level.data.name" data-vt-keyboard
+                                   data-ng-required="::vm.validationData.data.name.required"/>
+
+                            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                               data-ng-if="!hierarchyMappingForm.name.$valid && !hierarchyMappingForm.name.$pristine"></i>
+                            <span class="help-block" data-ng-messages="hierarchyMappingForm.name.$error"
+                                  data-ng-class="{'fc-invisible': hierarchyMappingForm.name.$valid || hierarchyMappingForm.name.$pristine}">
+                                <span data-ng-if="::vm.validationData.data.name.required"
+                                      data-ng-message="required">
+                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                                </span>
+                                <span data-ng-if="hierarchyMappingForm.name.$valid || hierarchyMappingForm.name.$pristine">PlaceHolder</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" data-ng-if="vm.formFields.data.code"
+                             data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.code.$valid && !hierarchyMappingForm.code.$pristine}">
+                            <label class="control-label" for="{{'code' + $index}}"
+                                   data-translate="fc.common.hierarchy.input.CODE_LABEL"></label>
+                            <input id="{{'code' + $index}}" type="text" name="code"
+                                   class="fc-input-full-width fc-input-empty form-control"
+                                   placeholder="{{'fc.common.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
+                                   data-ng-model="level.data.code" data-vt-keyboard
+                                   data-ng-required="::vm.validationData.data.code.required"/>
+
+                            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                               data-ng-if="!hierarchyMappingForm.code.$valid && !hierarchyMappingForm.code.$pristine"></i>
+                            <span class="help-block" data-ng-messages="hierarchyMappingForm.code.$error"
+                                  data-ng-class="{'fc-invisible': hierarchyMappingForm.code.$valid || hierarchyMappingForm.code.$pristine}">
+                                <span data-ng-if="::vm.validationData.data.code.required"
+                                      data-ng-message="required">
+                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
+                                </span>
+                                <span data-ng-if="hierarchyMappingForm.code.$valid || hierarchyMappingForm.code.$pristine">PlaceHolder</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" data-ng-if="vm.formFields.data.description"
+                             data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.description.$valid && !hierarchyMappingForm.description.$pristine}">
+                            <label class="control-label" for="{{'description' + $index}}"
+                                   data-translate="fc.common.hierarchy.input.DESCRIPTION_LABEL"></label>
+                            <input id="{{'description' + $index}}" type="text" name="description"
+                                   class="fc-input-full-width fc-input-empty form-control"
+                                   placeholder="{{'fc.common.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
+                                   data-ng-model="level.data.description" data-vt-keyboard
+                                   data-ng-required="::vm.validationData.data.description.required"/>
+
+                            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                               data-ng-if="!hierarchyMappingForm.description.$valid && !hierarchyMappingForm.description.$pristine"></i>
+                            <span class="help-block" data-ng-messages="hierarchyMappingForm.description.$error"
+                                  data-ng-class="{'fc-invisible': hierarchyMappingForm.description.$valid || hierarchyMappingForm.description.$pristine}">
+                                <span data-ng-if="::vm.validationData.data.description.required"
+                                      data-ng-message="required">
+                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_DESCRIPTION_VALIDATION_TEXT"></span>
+                                </span>
+                                <span data-ng-if="hierarchyMappingForm.description.$valid || hierarchyMappingForm.description.$pristine">PlaceHolder</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group" data-ng-if="vm.formFields.data.extraInfo"
+                             data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.extraInfo.$valid && !hierarchyMappingForm.extraInfo.$pristine}">
+                            <label class="control-label" for="{{'extraInfo' + $index}}"
+                                   data-translate="fc.common.hierarchy.input.EXTRA_INFO_LABEL"></label>
+                            <input id="{{'extraInfo' + $index}}" type="text" name="extraInfo"
+                                   class="fc-input-full-width fc-input-empty form-control"
+                                   placeholder="{{'fc.common.hierarchy.input.EXTRA_INFO_PLACEHOLDER' | translate}}"
+                                   data-ng-model="level.data.extraInfo" data-vt-keyboard
+                                   data-ng-required="::vm.validationData.data.extraInfo.required"/>
+
+                            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                               data-ng-if="!hierarchyMappingForm.extraInfo.$valid && !hierarchyMappingForm.extraInfo.$pristine"></i>
+                            <span class="help-block" data-ng-messages="hierarchyMappingForm.extraInfo.$error"
+                                  data-ng-class="{'fc-invisible': hierarchyMappingForm.extraInfo.$valid || hierarchyMappingForm.extraInfo.$pristine}">
+                                <span data-ng-if="::vm.validationData.data.extraInfo.required"
+                                      data-ng-message="required">
+                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_EXTRA_INFO_VALIDATION_TEXT"></span>
+                                </span>
+                                <span data-ng-if="hierarchyMappingForm.extraInfo.$valid || hierarchyMappingForm.extraInfo.$pristine">PlaceHolder</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-2" for="{{'code' + $index}}"
-                           data-translate="fc.common.hierarchy.input.CODE_LABEL"></label>
-                    <div class="col-md-10">
-                        <input id="{{'code' + $index}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
-                               data-ng-model="level.data.code" data-vt-keyboard/>
-                    </div>
-                </div>
-                <hr data-ng-if="level.data.customFields.length"/>
-                <div class="form-group" data-ng-repeat="field in level.data.customFields">
-                    <div class="col-md-4">
-                        <input id="{{'custom_field' + $index + 'name'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
-                               title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
-                               data-ng-model="field.name" data-vt-keyboard/>
-                    </div>
-                    <div class="input-group col-md-8">
-                        <input id="{{'custom_field' + $index + 'value'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
-                               placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
-                               title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
-                               data-ng-model="field.value" data-vt-keyboard/>
-                        <div class="input-group-btn">
-                            <button class="btn btn-danger"
-                                    data-ng-click="vm.removeField(level, field)">
-                                <i class="fa fa-trash-o"></i>
-                            </button>
+                <hr data-ng-if="vm.formFields.data.customFields && level.data.customFields.length"/>
+                <div class="row" data-ng-if="vm.formFields.data.customFields">
+                    <div class="col-sm-6" data-ng-repeat="field in level.data.customFields">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <input id="{{'custom_field' + $index + 'name'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                                       placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                                       title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_NAME_PLACEHOLDER' | translate}}"
+                                       data-ng-model="field.name" data-vt-keyboard/>
+                            </div>
+                            <div class="input-group col-md-8">
+                                <input id="{{'custom_field' + $index + 'value'}}" type="text" class="fc-input-full-width fc-input-empty form-control"
+                                       placeholder="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                                       title="{{'fc.common.hierarchy.input.CUSTOM_FIELD_VALUE_PLACEHOLDER' | translate: '{number: '+ ($index + 1) + '}'}}"
+                                       data-ng-model="field.value" data-vt-keyboard/>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-danger"
+                                            data-ng-click="vm.removeField(level, field)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div data-ng-if="vm.canAddCustomField(level)">
+                <div class="fc-block" data-ng-if="vm.formFields.data.customFields && vm.canAddCustomField(level)">
                     <button class="btn btn-primary" data-ng-click="vm.addCustomField(level)"
                             data-translate="fc.common.hierarchy.ADD_CUSTOM_FIELD_BUTTON_TEXT"></button>
                 </div>
 
-                <hr data-ng-if="vm.canAddLevelAfter(level) || vm.canRemoveLevel(level)"/>
-                <div class="fc-centered">
-                    <button class="btn btn-circle" type="submit" style="transition: 200ms all ease-in"
-                            data-ng-class="{'btn-primary': vm.validLevel(level)}"
-                            data-ng-if="vm.canAddLevelAfter(level)"
-                            data-ng-click="vm.addLevelAfter(level)"
-                            data-ng-disabled="!vm.validLevel(level)">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                    <button class="btn btn-circle" data-ng-if="vm.canRemoveLevel(level)"
-                            data-ng-click="vm.removeLevel(level)">
-                        <i class="fa fa-trash-o"></i>
-                    </button>
+                <div class="form-actions fc-block" data-ng-if="vm.canAddLevelAfter(level) || vm.canRemoveLevel(level)">
+                    <div class="fc-centered">
+                        <button class="btn btn-circle" type="submit" style="transition: 200ms all ease-in"
+                                data-ng-class="{'btn-primary': vm.validLevel(level)}"
+                                data-ng-if="vm.canAddLevelAfter(level)"
+                                data-ng-click="vm.addLevelAfter(level)"
+                                data-ng-disabled="!vm.validLevel(level)">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button class="btn btn-circle" data-ng-if="vm.canRemoveLevel(level)"
+                                data-ng-click="vm.removeLevel(level)">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
