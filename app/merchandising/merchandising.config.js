@@ -7,7 +7,7 @@
         "$urlRouterProvider",
         routeConfig
     ]).config([
-        "orgHierarchyDataSvcProvider",
+        "orgHierarchyDataSvcProvider", "supplierDataSvcProvider","servingDataSvcProvider","reasonDataSvcProvider","vatDataSvcProvider","salesmanDataSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -135,9 +135,14 @@
         });
     }
 
-    function svcConfig(orgHierarchyDataSvcProvider) {
+    function svcConfig(orgHierarchyDataSvcProvider,supplierDataSvcProvider,servingDataSvcProvider,reasonDataSvcProvider,vatDataSvcProvider,salesmanDataSvcProvider) {
         orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/hierarchies/{hierarchyId}/data";
         orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/hierarchies/config";
+        supplierDataSvcProvider.supplierUrl = "api/suppliers";
+        servingDataSvcProvider.servingUrl = "api/serving";
+        reasonDataSvcProvider.reasonUrl = "api/reasons";
+        vatDataSvcProvider.vatUrl = "api/vat";
+        salesmanDataSvcProvider.salesmanUrl = "api/salesman";
     }
 
     function buildMerchandisingConstants() {

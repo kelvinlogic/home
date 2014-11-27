@@ -58,10 +58,10 @@
 
         function load() {
             vm.branches = [
-                {id: 1, code: "CLL", name: "Compulynx Limited", address1: "Address", phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com"},
-                {id: 2, code: "CLL", name: "Compulynx Limited", address2: "Address 2", phone2: "33333333", fax1: "33333345"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+                {id: 1, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone: "22222222",phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 2, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone: "22222222",phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 3, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone: "22222222",phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 4, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone: "22222222",phone1: "22222222", email1: "cl@mail.com", email2: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"}
             ];
 
             $scope.$watchCollection(function () {

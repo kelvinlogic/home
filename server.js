@@ -16,7 +16,11 @@ global.inMemDatabase = {};
 
 var hierarchiesRt = require('./api/org.hierarchies.api.js');
 var menuRt = require('./api/menu.api.js');
-
+var supplierRt = require('./api/supplier.api.js');
+var servingRt = require('./api/serving_uom.api.js');
+var reasonsRt = require('./api/reasons.api.js');
+var vatRt = require('./api/vat.master.api.js');
+var salesmanRT= require('./api/salesman.api.js');
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +36,7 @@ app.use(morgan("dev"));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', [hierarchiesRt, menuRt]);
+app.use('/api', [hierarchiesRt, menuRt,supplierRt,servingRt,reasonsRt,vatRt,salesmanRT]);
 
 // START THE SERVER
 // =============================================================================

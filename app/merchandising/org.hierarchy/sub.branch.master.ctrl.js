@@ -58,10 +58,10 @@
 
         function load() {
             vm.subBranches = [
-                {id: 1, code: "CLL", name: "Compulynx Limited"},
-                {id: 2, code: "CLL", name: "Compulynx Limited"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+                {id: 1, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone1: "22222222",phone2: "22222222", email: "cl@mail.com", email1: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 2, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone1: "22222222",phone2: "22222222", email: "cl@mail.com", email1: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 3, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone1: "22222222",phone2: "22222222", email: "cl@mail.com", email1: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"},
+                {id: 4, code: "CLL", name: "Compulynx Limited", address1: "Address",address2: "Address", phone1: "22222222",phone2: "22222222", email: "cl@mail.com", email1: "cl2@mail.com",fax1: "22222222",fax2: "22222222",pin: "22222222",registration: "22222222"}
             ];
 
             $scope.$watchCollection(function () {

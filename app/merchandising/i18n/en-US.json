@@ -38,9 +38,13 @@
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
                 "NAME_LABEL": "@:fc.input.NAME_LABEL",
                 "ADDRESS_LABEL": "@:fc.input.ADDRESS_LABEL",
+                "ADDRESS_LABEL1": "Address 2",
                 "PHONE_LABEL": "@:fc.input.PHONE_LABEL",
+                "PHONE_LABEL1": "Phone 2",
                 "FAX_LABEL": "@:fc.input.FAX_LABEL",
+                "FAX_LABEL1": "fax 2",
                 "EMAIL_LABEL": "@:fc.input.EMAIL_LABEL",
+                "EMAIL_LABEL1": "Email 2",
                 "PIN_LABEL": "@:fc.input.PIN_LABEL",
                 "REGISTRATION_LABEL": "@:fc.input.REGISTRATION_LABEL"
             },
@@ -170,7 +174,8 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "UOM_LABEL": "@:fc.input.NAME_LABEL"
             },
 
             "table": {
@@ -287,7 +292,9 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "SDATE_LABEL": "@:fc.input.SDATE_LABEL",
+                "EDATE_LABEL": "@:fc.input.EDATE_LABEL"
             },
 
             "table": {

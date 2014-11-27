@@ -259,6 +259,116 @@
                 </span>
             </span>
         </div>
+        <div class="row">
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="address1"
+                       data-translate="fc.merchandising.branch.input.ADDRESS_LABEL"></label>
+                <div >
+                    <input id="address1" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.ADDRESS_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.address1" data-vt-keyboard/>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="address2"
+                       data-translate="fc.merchandising.branch.input.ADDRESS_LABEL1"></label>
+                <div>
+                    <input id="address2" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.ADDRESS_LABEL1' | translate}}"
+                           data-ng-model="vm.hierarchy.address2" data-vt-keyboard/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="phone"
+                       data-translate="fc.merchandising.branch.input.PHONE_LABEL"></label>
+                <div >
+                    <input id="phone" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.PHONE_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.phone" data-vt-keyboard/>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="phone1"
+                       data-translate="fc.merchandising.branch.input.PHONE_LABEL1"></label>
+                <div >
+                    <input id="phone1" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.PHONE_LABEL1' | translate}}"
+                           data-ng-model="vm.hierarchy.phone1" data-vt-keyboard/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="email"
+                       data-translate="fc.merchandising.branch.input.EMAIL_LABEL"></label>
+                <div >
+                    <input id="email" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.EMAIL_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.email" data-vt-keyboard/>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="email1"
+                       data-translate="fc.merchandising.branch.input.EMAIL_LABEL1"></label>
+                <div >
+                    <input id="email1" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.EMAIL_LABEL1' | translate}}"
+                           data-ng-model="vm.hierarchy.email1" data-vt-keyboard/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="fax"
+                       data-translate="fc.merchandising.branch.input.FAX_LABEL"></label>
+                <div >
+                    <input id="fax" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.FAX_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.fax" data-vt-keyboard/>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="email1"
+                       data-translate="fc.merchandising.branch.input.FAX_LABEL1"></label>
+                <div >
+                    <input id="fax1" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.FAX_LABEL1' | translate}}"
+                           data-ng-model="vm.hierarchy.fax1" data-vt-keyboard/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="pin"
+                       data-translate="fc.merchandising.branch.input.PIN_LABEL"></label>
+                <div >
+                    <input id="pin" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.PIN_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.pin" data-vt-keyboard/>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label class="control-label " for="registration"
+                       data-translate="fc.merchandising.branch.input.REGISTRATION_LABEL"></label>
+                <div >
+                    <input id="registration" type="text"
+                           class="fc-input-full-width form-control"
+                           placeholder="{{'fc.merchandising.branch.input.REGISTRATION_LABEL' | translate}}"
+                           data-ng-model="vm.hierarchy.registration" data-vt-keyboard/>
+                </div>
+            </div>
+        </div>
         <div class="form-group" data-ng-if="vm.isEntity()"
              data-ng-class="{'has-error has-feedback': !hierarchyForm.location.$valid && !hierarchyForm.location.$pristine}">
             <label class="control-label" for="location"
