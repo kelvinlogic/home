@@ -3,175 +3,547 @@
 
     angular
         .module('fc.merchandising')
-        .controller('CreditCardMasterCtrl', creditCardMaster);
+        .controller('CreditCardMasterCtrl', creditCardMaster)
+        .controller('CreditCardDetailCtrl', creditCardDetail);
 
-    creditCardMaster.$inject = ['lodash', '$scope', '$translate', 'DTOptionsBuilder'];
-
+    creditCardMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$stateParams', '$translate', 'creditCardSvc', 'throttleValue'];
     /* @ngInject */
-    function creditCardMaster(_, $scope, $translate, DTOptionsBuilder) {
-        /* jshint validthis: true */
-        var vm = this;
+    function creditCardMaster(_, Rx, $modal, $scope, $stateParams, $translate, creditCardSvc, throttleValue) {
+        /* jshint valid this: true */
+        var vm = this,
+            _creditCardDetailModalOptions = null,
+            _selectionEnum = {"none": 0, "some": 1, "all": 2},
+            _currentPage = null,
+            _pageSize = null,
+            _totalServerItems = null,
+            _creditCardId = null;
 
         vm.activate = activate;
+        vm.activateCreditCards = activateCreditCards;
         vm.cancelChanges = cancelChanges;
-        vm.creditCards = [];
+        vm.createCreditCard = createCreditCard;
         vm.edit = edit;
-        vm.filters = {};
-        vm.gridOptions = {};
-        vm.pageChanged = pageChanged;
-        vm.pagination = {};
+        vm.getFields = getFields;
+        vm.getSelectionKey = getSelectionKey;
+
+        vm.newCreditCard = newCreditCard;
         vm.saveChanges = saveChanges;
-        vm.selectedAll = false;
-        vm.selectedCreditCards = [];
-        vm.selectedCreditCard = null;
+        vm.fetchCreditCards  = fetchCreditCards ;
+
+        vm.filter = null;
+        vm.fields = [];
+        vm.getStatusToggleKey = getStatusToggleKey;
+        vm.hasNextPage = hasNextPage;
+        vm.isBranch = isBranch;
+        vm.isEntity = isEntity;
+        vm.isFieldSelected = isFieldSelected;
+        vm.loadNextPage = loadNextPage;
+        vm.deactivateCreditCards = deactivateCreditCards;
+
+        vm.selectAll = selectAll;
+        vm.selected = null;
+        vm.showInactive = false;
+        vm.creditCards = [];
         vm.creditCard = null;
+        vm.title = null;
         vm.titleKey = 'fc.merchandising.creditCard.MASTER_PAGE_TITLE';
+        vm.toggleFilterField = toggleFilterField;
         vm.toggleSelection = toggleSelection;
+        vm.validationData = null;
 
         activate();
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        /*
+         *   functions to perform crud functionality
+         */
         function activate() {
-            // Set up grid.
-            setupGrid();
-            // Set up pagination.
-            setupPagination();
+            _creditCardDetailModalOptions = {
+                templateUrl: "fc/editModalTpl",
+                controller: "CreditCardDetailCtrl as vm"
+            };
 
-            // TODO: Load user data here.
+            vm.validationData = {
+                //validation for the local fields
+                status: {
+                    required: false
+                },
+                code: {
+                    required: true
+                },
+                description: {
+                    required: false
+                }
+            };
+
             load();
+        }
+
+        function activateCreditCards(creditCard) {
+            // NOTE:...................................................
+            // If we passed a creditCard, assume the activation of the single said creditCard.
+            // else, assume the activation of all selected creditCards.
+
+            changeActivation(creditCard, true);
         }
 
         function cancelChanges() {
             vm.creditCard = null;
         }
 
-        function edit() {
-            // Use extend to prevent reference copying.
-            vm.creditCard = angular.extend({}, vm.selectedCreditCard);
-
-            // Clear table selection
-            delete vm.selectedCreditCard.isSelected;
-            vm.selectedCreditCards = [];
-            vm.selectedCreditCard = null;
+        function newCreditCard() {
+            vm.creditCard = {};
         }
 
-        function load() {
-            vm.creditCards = [
-                {id: 1, code: "CLL", name: "Compulynx Limited"},
-                {id: 2, code: "CLL", name: "Compulynx Limited"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+        function changeActivation(creditCard, newStatus) {
+            // We need a status specified.
+            if (newStatus !== true && newStatus !== false) {
+                return;
+            }
+
+            var toTranslate = [
+                "fc.merchandising.creditCard.MASTER_PAGE_TITLE",
+                "fc.ACTION_WARNING_MESSAGE_TEMPLATE",
+                "fc.SUCCESS_ALERT_TITLE",
+                "fc.ACTION_SUCCESS_MESSAGE_TEMPLATE",
+                "fc.FAIL_ALERT_TITLE",
+                "fc.ACTION_FAIL_MESSAGE_TEMPLATE",
+                "fc.DELETE_ACTION_PRESENT",
+                "fc.DELETE_ACTION_PAST",
+                "fc.RESTORE_ACTION_PRESENT",
+                "fc.RESTORE_ACTION_PAST",
+                "fc.NO_TEXT",
+                "fc.YES_TEXT"
             ];
 
-            $scope.$watchCollection(function () {
-                return vm.filters;
-            }, function (newCollection) {
-                if (newCollection.all) {
-                    // Search on all fields.
+            $translate(toTranslate).then(function (translations) {
+                var pageTitle = translations["fc.merchandising.creditCard.MASTER_PAGE_TITLE"],
+                    warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
+                    successAlertTitle = translations["fc.SUCCESS_ALERT_TITLE"],
+                    successTemplate = translations["fc.ACTION_SUCCESS_MESSAGE_TEMPLATE"],
+                    failAlertTitle = translations["fc.FAIL_ALERT_TITLE"],
+                    failTemplate = translations["fc.ACTION_FAIL_MESSAGE_TEMPLATE"],
+                    deleteActionPresent = translations["fc.DELETE_ACTION_PRESENT"],
+                    deleteActionPast = translations["fc.DELETE_ACTION_PAST"],
+                    restoreActionPresent = translations["fc.RESTORE_ACTION_PRESENT"],
+                    restoreActionPast = translations["fc.RESTORE_ACTION_PAST"],
+                    noText = translations["fc.NO_TEXT"],
+                    yesText = translations["fc.YES_TEXT"];
+
+                var selectedCreditCards = [],
+                    actionPast = newStatus ? restoreActionPast : deleteActionPast,
+                    actionPresent = newStatus ? restoreActionPresent : deleteActionPresent;
+
+                if (!creditCard) {
+                    selectedCreditCards = _.filter(vm.creditCards, function (ent) {
+                        // Deselect items that won't be changed.
+                        if (ent.active === newStatus) {
+                            ent.isSelected = false;
+                        }
+
+                        return ent.isSelected;
+                    });
+
+                    // Can't change the state.
+                    if (selectedCreditCards.length < 1) {
+                        refreshSelection();
+                        return;
+                    }
+
+                    refreshSelection();
                 }
 
-                if (newCollection.id) {
-                    // Search on id field.
-                }
+                var performChange = function (creditCard) {
+                    // If we get an creditCard, change it else change all selected creditCards.
+                    var toChange = null;
 
-                if (newCollection.code) {
-                    // Search on code field.
-                }
+                    if (creditCard) {
+                        toChange = creditCard.id;
+                    } else {
+                        // Do nothing if there was no selection.
+                        if (vm.selected === _selectionEnum.none) {
+                            return;
+                        }
 
-                if (newCollection.name) {
-                    // Search on name field.
+                        // Fetch the selected creditCards.
+                        toChange = _.map(selectedCreditCards, function (creditCard) {
+                            return creditCard.id;
+                        });
+                    }
+
+                    if (newStatus === true) {
+                        creditCardSvc.activateCreditCards(toChange).then(afterChangeCb);
+                    } else {
+                        creditCardSvc.deactivateCreditCards(toChange).then(afterChangeCb);
+                    }
+                };
+
+                var afterChangeCb = function(response) {
+                    var changedCount = response.length;
+                    var message = null;
+                    var title = changedCount > 0 ? successAlertTitle : failAlertTitle;
+                    var color = changedCount > 0 ? "#659265" : "#C46A69";
+                    var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
+
+                    if (changedCount > 0) {
+                        var msgData = {action: actionPast};
+                        if (changedCount === 1 && creditCard) {
+                            msgData.data = creditCard.code + " " + creditCard.status;
+                        } else {
+                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
+                        }
+
+                        message = _.string.sprintf(successTemplate, msgData);
+
+                        var updateItem = function (ent) {
+                            // If we are not showing inactive items, add the newly activated item.
+                            if (!vm.showInactive) {
+                                updateCreditCards(ent, !newStatus);
+                            } else {
+                                var idx = vm.creditCards.indexOf(ent);
+
+                                // Replace with new from data store.
+                                if (idx >= 0) {
+                                    var match = _(response).filter(function (resp) {
+                                        return resp.id === ent.id;
+                                    }).first();
+
+                                    // Damn...we can't use splice here...
+                                    angular.extend(vm.creditCards[idx], match);
+                                }
+                            }
+                        };
+
+                        if (changedCount === 1 && creditCard) {
+                            updateItem(creditCard);
+                        } else {
+                            _(selectedCreditCards).filter(function (creditCard) {
+                                return _.any(response, {id: creditCard.id});
+                            }).forEach(function (creditCard) {
+                                updateItem(creditCard);
+                            });
+                        }
+
+                        if (!vm.showInactive) {
+                            if (newStatus) {
+                                // If we are not showing inactive, remove extra items.
+                                var startIndex = vm.creditCards.length - (1 + changedCount);
+                                vm.creditCards.splice(startIndex, changedCount);
+                            } else {
+                                // If we are not showing inactive, load extra items to fill up the remaining slots.
+                                fetchCreditCards(_currentPage, _pageSize, changedCount);
+                            }
+                        }
+                    } else {
+                        message = _.string.sprintf(failTemplate, {action: actionPresent, data: pageTitle.toLowerCase()});
+                    }
+
+
+                    if ($.smallBox) {
+                        $.smallBox({
+                            title : title,
+                            content : "<i>" + message + "</i>",
+                            color : color,
+                            iconSmall : icon,
+                            timeout : 4000
+                        });
+                    } else {
+                        alert(message);
+                    }
+                };
+
+                var content = null;
+
+                // Show message box.
+                if ($.SmartMessageBox) {
+                    var textColor = newStatus ? "txt-color-green" : "txt-color-red";
+                    var title = "<i class='fa fa-trash-o " + textColor + "'></i> ";
+                    title += _.string.humanize(actionPresent);
+
+                    // Set the messages depending on whether we're restoring a single creditCard or a selection.
+                    if (creditCard) {
+                        title += " <span class='" + textColor + "'><strong>" + creditCard.code;
+                        title += "</strong> <span>"+ creditCard.status +"</span></span>?";
+
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            data: pageTitle.toLowerCase()
+                        });
+                    } else {
+                        title += " <span class='" + textColor + "'><strong>";
+                        title += selectedCreditCards.length;
+                        title += "</strong> <span>"+ pageTitle.toLowerCase() +"</span></span>?";
+
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            data: selectedCreditCards.length + " " + pageTitle.toLowerCase()
+                        });
+                    }
+
+                    $.SmartMessageBox({
+                        title : title,
+                        content : content,
+                        buttons : '[' + noText + '][' + yesText + ']'
+                    }, function(button) {
+                        if (button === yesText) {
+                            performChange(creditCard);
+                        }
+                    });
+                } else {
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
+                    if (confirm(content)) {
+                        performChange(creditCard);
+                    }
                 }
             });
         }
 
-        function pageChanged() {
-            // TODO: Enter page change logic.
-            var currentPage = vm.pagination.page;
+        function createCreditCard() {
+            vm.creditCard = {};
+        }
+
+        function deactivateCreditCards(creditCard) {
+            // NOTE:...................................................
+            // If we passed an creditCard, assume the deactivation of the single said creditCard.
+            // else, assume the deactivation of all selected creditCards.
+
+            changeActivation(creditCard, false);
+        }
+
+        function edit(item) {
+            if (!item) {
+                return;
+            }
+
+            // Use extend to prevent reference copying so we can edit the item in isolation.
+            var creditCard = angular.extend({}, item);
+
+            // Setup modal options.
+            _creditCardDetailModalOptions.resolve = {
+                data: function () {
+                    return {
+                        creditCard: creditCard,
+                        creditCardId: _creditCardId,
+                        isBranch: isBranch,
+                        isEntity: isEntity
+                    };
+                }
+            };
+
+            // Open modal popup.
+            var modalInstance = $modal.open(_creditCardDetailModalOptions);
+
+            modalInstance.result.then(function (editedEntity) {
+                // We selected ok...
+                angular.extend(item, editedEntity);
+            }, function () {
+                // We cancelled the search...
+                // Do nothing...
+            });
+        }
+
+        function fetchCreditCards(page, pageSize, replaceRemoved, refresh) {
+            creditCardSvc.getCreditCards(page, pageSize, vm.filter, vm.showInactive, replaceRemoved).then(function (data) {
+                _currentPage = data.page;
+                _pageSize = data.maxItems;
+                _totalServerItems = data.inlineCount;
+
+                if (refresh) {
+                    vm.creditCards = [];
+                }
+                updateCreditCards(data.results);
+            }, function (error) {
+
+            });
+        }
+
+        function getFields() {
+            return ["code", "description"];
+
+        }
+
+        function getSelectionKey() {
+            return vm.selected ? "fc.CLEAR_SELECTION_TEXT" : "fc.SELECT_ALL_TEXT";
+        }
+
+        function getStatusToggleKey() {
+            return vm.showInactive ? 'fc.HIDE_INACTIVE_TEXT' : 'fc.SHOW_INACTIVE_TEXT';
+        }
+
+        function hasNextPage() {
+            var alreadyLoadedItems = ((_currentPage - 1) * _pageSize) + vm.creditCards.length;
+
+            return alreadyLoadedItems < _totalServerItems;
+        }
+
+        function isBranch() {
+            return _pin && _pin === 2;
+        }
+
+        function isEntity() {
+            return _pin && _pin === 1;
+        }
+
+        function isFieldSelected(field) {
+            return _.contains(vm.fields, field);
+        }
+
+        function load() {
+            var subject = new Rx.Subject();
+            subject.throttle(throttleValue).distinctUntilChanged().subscribe(function () {
+                fetchCreditCards(_currentPage, _pageSize, null, true);
+            });
+
+            $scope.$watch(function () {
+                return vm.filter;
+            }, function (newValues) {
+                /* TODO: Filter on all the properties in vm.fields.
+                 ** If no field is selected, search on all fields.
+                 */
+
+                subject.onNext(newValues);
+
+            });
+
+            $scope.$watch(function() {
+                return vm.showInactive;
+            }, function () {
+                fetchCreditCards(_currentPage, _pageSize, null, true);
+            });
+        }
+
+        function loadNextPage() {
+            fetchCreditCards(_currentPage + 1, _pageSize);
+        }
+
+        function refreshSelection() {
+            // Use _.pluck style callback shorthand...
+            var someSelected = _.any(vm.creditCards, "isSelected");
+
+            // NOTE: lodash always returns true when all is an empty array. Bug or by design?
+            var allSelected = someSelected && _.all(vm.creditCards, "isSelected");
+            if (allSelected) {
+                vm.selected = _selectionEnum.all;
+            } else if (someSelected) {
+                vm.selected = _selectionEnum.some;
+            } else {
+                vm.selected = _selectionEnum.none;
+            }
+        }
+
+        function saveChanges() {
+            console.log('saving data')
+            vm.isSaving = true;
+            creditCardSvc.createCreditCard(vm.creditCard).then(function (data) {
+                updateCreditCards(data);
+                vm.creditCard = null;
+                vm.isSaving = false;
+
+            });
+
+        }
+
+        function selectAll() {
+            if (!vm.selected || vm.selected === _selectionEnum.none) {
+                _.forEach(vm.creditCards, function(creditCard) {
+                    creditCard.isSelected = true;
+                });
+            } else {
+                _.forEach(vm.creditCards, function(creditCard) {
+                    creditCard.isSelected = false;
+                });
+            }
+
+            refreshSelection();
+        }
+
+        function toggleFilterField(field) {
+            var index = vm.fields.indexOf(field);
+
+            if (index >= 0) {
+                vm.fields.splice(index, 1)
+            } else {
+                vm.fields.push(field);
+            }
+        }
+
+        function toggleSelection(item) {
+            item.isSelected = !item.isSelected;
+
+            refreshSelection();
+        }
+
+        function updateCreditCards(data, remove) {
+            if (!_.isArray(vm.creditCards)) {
+                vm.creditCards = [];
+            }
+
+            var index = -1;
+
+            var updateSingle = function (item) {
+                if (remove) {
+                    index = vm.creditCards.indexOf(item);
+
+                    if (index >= 0) {
+                        vm.creditCards.splice(index, 1);
+                    }
+                } else {
+                    vm.creditCards.push(item);
+                }
+            };
+
+
+            if (_.isArray(data)) {
+                _.forEach(data, function (item) {
+                    updateSingle(item);
+                });
+            } else {
+                updateSingle(data);
+            }
+
+            refreshSelection();
+        }
+    }
+
+    creditCardDetail.$inject = ["$modalInstance", "creditCardSvc", "data"];
+
+    function creditCardDetail($modalInstance, creditCardSvc, data) {
+        var vm = this;
+
+        vm.cancelChanges = cancelChanges;
+        vm.creditCard = data.creditCard;
+        vm.saveChanges = saveChanges;
+        vm.validationData = null;
+
+        activate();
+
+        function activate() {
+            vm.validationData = {
+                //validation for the local fields
+                status: {
+                    required: false
+                },
+                code: {
+                    required: true
+                },
+                description: {
+                    required: false
+                }
+            };
+        }
+
+        function cancelChanges() {
+            $modalInstance.dismiss();
         }
 
         function saveChanges() {
             // TODO: Enter save logic
-            vm.creditCard = null;
-        }
-
-        function setupGrid() {
-            var sDom = "<'dt-toolbar'<'col-xs-12 col-sm-6'T><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-12 col-xs-12'i>>";
-
-            // ColVis specified in sDom as 'C'. Don't need withColVis option.
-            vm.gridOptions = DTOptionsBuilder
-                .newOptions()
-                .withDOM(sDom)
-                .withBootstrap()
-                .withOption("paging", false)
-                .withOption("autoWidth", true)
-                .withOption('responsive', true);
-
-            $translate([
-                "fc.table.COL_VIS_TEXT",
-                "fc.table.COPY_TOOL_TEXT",
-                "fc.table.PRINT_TOOL_TEXT",
-                "fc.table.SAVE_AS_TOOL_TEXT"
-            ]).then(function (translations) {
-                var colVisText = translations["fc.table.COL_VIS_TEXT"];
-                vm.gridOptions.withColVisOption("buttonText", colVisText);
-
-                var ttBtnCfg = [
-                    {
-                        "sExtends": "copy",
-                        "sButtonText": translations["fc.table.COPY_TOOL_TEXT"]
-                    },
-                    {
-                        "sExtends": "print",
-                        "sButtonText": translations["fc.table.PRINT_TOOL_TEXT"]
-                    },
-                    {
-                        "sExtends": "collection",
-                        "sButtonText": translations["fc.table.SAVE_AS_TOOL_TEXT"],
-                        "aButtons": [
-                            "csv",
-                            "xls",
-                            "pdf"
-                        ]
-                    }
-                ];
-
-                vm.gridOptions.withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf");
-                vm.gridOptions.withTableToolsButtons(ttBtnCfg);
+            console.log('saving data')
+            vm.isSaving = true;
+            creditCardSvc.updateCreditCard(vm.creditCard.id, vm.creditCard).then(function (data) {
+                $modalInstance.close(data);
+                vm.creditCard = null;
+                vm.isSaving = false;
             });
-
-            // TODO: Add external filtering and sorting.
-        }
-
-        function setupPagination() {
-            vm.pagination.page = 1;
-            vm.pagination.total = 100;
-            vm.pagination.maxSize = 5;
-        }
-
-        function toggleSelection(item) {
-            var index = vm.selectedCreditCards.indexOf(item);
-            item.isSelected = !item.isSelected;
-
-            if (item.isSelected) {
-                vm.selectedCreditCard = item;
-
-                // If item isn't in the selected items array...
-                if (index < 0) {
-                    // add it.
-                    vm.selectedCreditCards.push(item);
-                }
-            } else {
-                // If item isn't in the selected items array...
-                if (index > -1) {
-                    // remove it.
-                    vm.selectedCreditCards.splice(index, 1);
-                }
-
-                vm.selectedCreditCard = _.last(vm.selectedCreditCards);
-            }
         }
     }
 })();

@@ -8,6 +8,11 @@
         routeConfig
     ]).config([
         "orgHierarchyDataSvcProvider",
+        "currencyDataSvcProvider",
+        "instructionDataSvcProvider",
+        "uomDataSvcProvider",
+        "brandDataSvcProvider",
+        "creditCardSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -135,9 +140,17 @@
         });
     }
 
-    function svcConfig(orgHierarchyDataSvcProvider) {
+    function svcConfig(orgHierarchyDataSvcProvider,currencyDataSvcProvider,
+                       instructionDataSvcProvider,uomDataSvcProvider,
+                       brandDataSvcProvider,creditCardSvcProvider){
         orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/hierarchies/{hierarchyId}/data";
         orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/hierarchies/config";
+        currencyDataSvcProvider.currencyConfigUrl = "api/currencies";
+        instructionDataSvcProvider.instructionConfigUrl = "api/instructions";
+        uomDataSvcProvider.uomConfigUrl = "api/uoms";
+        brandDataSvcProvider.brandConfigUrl = "api/brands";
+        creditCardSvcProvider.creditCardConfigUrl = "api/credits";
+
     }
 
     function buildMerchandisingConstants() {

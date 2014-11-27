@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="ProductBrandMasterCtrl as productBrandCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="BrandMasterCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::productBrandCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::vm.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,119 +15,174 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!productBrandCtrl.productBrand">
+                        <div data-ng-if="!vm.brand">
+                            <!-- Button bar -->
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input type="search" class="form-control"
-                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="productBrandCtrl.filters.all" data-vt-keyboard />
-                                    </div>
-                                    <hr class="visible-xs"/>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary">
-                                            <i class="fa fa-plus"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.NEW_TEXT"></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="productBrandCtrl.edit()"
-                                                data-ng-disabled="!productBrandCtrl.selectedProductBrand || productBrandCtrl.selectedProductBrands.length > 1">
-                                            <i class="fa fa-edit"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
-                                        </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!productBrandCtrl.selectedProductBrand">
-                                            <i class="fa fa-trash-o"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
-                                        </button>
+                                <div class="col-md-12">
+                                    <!-- NOTE: Tooltips don't work without trigger & placements specified. -->
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary col-xs-12"
+                                                    data-ng-click="vm.newBrand()">
+                                                <i class="fa fa-plus"></i>
+                                                <span data-translate="fc.NEW_TEXT"></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-ng-click="vm.selectAll()"
+                                                    data-tooltip="{{vm.getSelectionKey() | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa" data-ng-class="{'fa-check-square-o': vm.selected === 2, 'fa-minus-square-o': vm.selected === 1, 'fa-square-o': !vm.selected}"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" data-ng-click="vm.showInactive = !vm.showInactive"
+                                                    data-tooltip="{{vm.getStatusToggleKey() | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa" data-ng-class="{'fa-eye': vm.showInactive, 'fa-eye-slash': !vm.showInactive}"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success" data-ng-if="vm.selected"
+                                                    data-ng-click="vm.activateBrands()"
+                                                    data-tooltip="{{'fc.RESTORE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-ng-if="vm.selected"
+                                                    data-ng-click="vm.deactivate()"
+                                                    data-tooltip="{{'fc.DELETE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <hr/>
 
                             <div class="row">
-                                <div class="col-md-12">
-                                    <table id="table" class="table table-striped table-bordered table-hover"
-                                           data-datatable="ng"
-                                           data-dt-options="productBrandCtrl.gridOptions">
-                                        <thead>
-                                        <tr>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.productBrand.table.ID_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="productBrandCtrl.filters.id" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.productBrand.table.CODE_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="productBrandCtrl.filters.code" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.productBrand.table.NAME_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="productBrandCtrl.filters.name" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th data-translate="fc.merchandising.productBrand.table.ID_HEADER"></th>
-                                            <th data-translate="fc.merchandising.productBrand.table.CODE_HEADER"></th>
-                                            <th data-translate="fc.merchandising.productBrand.table.NAME_HEADER"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr data-ng-repeat="productBrand in productBrandCtrl.productBrands"
-                                            data-ng-click="productBrandCtrl.toggleSelection(productBrand)"
-                                            data-ng-class="{'fc-selected': productBrand.isSelected}">
-                                            <td>{{productBrand.id}}</td>
-                                            <td>{{productBrand.code}}</td>
-                                            <td>{{productBrand.name}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control"
+                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                               data-ng-model="vm.filter" data-vt-keyboard
+                                               data-tooltip="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="btn-group btn-group-justified" data-dropdown>
+                                        <button type="button" class="btn btn-default dropdown-toggle" style="width: 100%">
+                                            <span data-translate="fc.merchandising.productBrand.table.FIELD_LABEL_TEXT"></span>
+                                            <span data-ng-if="vm.fields.length <= 0">
+                                                <span data-translate="fc.ALL_FIELDS_TEXT"></span>
+                                            </span>
+                                            <span data-ng-if="vm.fields.length > 0">
+                                                {{vm.fields.join(', ') | string: 'titleize'}}
+                                            </span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" style="width: 100%">
+                                            <li role="presentation" data-ng-repeat="f in vm.getFields()">
+                                                <a role="menuitem" tabindex="-1" href=""
+                                                   data-ng-click="vm.toggleFilterField(f)">
+                                                    <i class="fa fa-fw" data-ng-class="{'fa-check': vm.isFieldSelected(f)}"></i>
+                                                    {{f | string: 'humanize'}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="productBrandCtrl.pagination.page"
-                                         data-ng-change="productBrandCtrl.pageChanged()" data-pagination
-                                         data-total-items="productBrandCtrl.pagination.total"
-                                         data-max-size="productBrandCtrl.pagination.maxSize"></div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <!-- If we have an image in the card, we should set 'data-load-images' to true. -->
+                                    <ul class="fc-card-container" data-masonry data-item-selector=".fc-card-wrapper"
+                                        data-load-images="false" data-reload-on-show
+                                        data-masonry-options="{columnWidth: '.fc-sizer', itemSelector: 'li'}">
+                                        <li class="fc-sizer w-lg-3x w-md-4x w-sm-6x w-xs-12x"></li>
+                                        <li class="fc-card-wrapper w-lg-3x w-md-4x w-sm-6x w-xs-12x"
+                                            data-ng-repeat="brand in vm.brands" data-masonry-brick>
+                                            <div class="fc-card"
+                                                 data-ng-click="vm.toggleSelection(brand)"
+                                                 data-ng-class="{'fc-selected': brand.isSelected, 'fc-inactive': !brand.active}">
+                                                <div class="fc-content-wrapper">
+                                                    <!-- We can put an image here. e.g. a logo. I thank Paul for that -->
+                                                    <!-- idea... -->
+                                                    <!--<div class="fc-card-image">-->
+                                                    <!--<img src="http://tympanus.net/Blueprints/GridGallery/img/thumb/1.png"-->
+                                                    <!--alt=""/>-->
+                                                    <!--</div>-->
+                                                    <div class="fc-card-title">
+                                                        <span>
+                                                            {{brand.code}}
+                                                        </span>
+                                                    </div>
+                                                    <!--card to display the information to the user-->
+                                                    <div class="fc-card-body">
+                                                        <div class="row" data-ng-if="brand.status">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                            <span class="text-muted">
+                                                                <span data-translate="fc.merchandising.productBrand.table.STATUS"></span>:
+                                                            </span>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <span>{{brand.status}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" data-ng-if="brand.description">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                            <span class="text-muted">
+                                                                <span data-translate="fc.merchandising.productBrand.table.DESCRIPTION"></span>:
+                                                            </span>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <span>{{brand.description}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fc-card-actions">
+                                                        <button class="btn btn-default"
+                                                                data-ng-click="$event.stopPropagation(); vm.edit(brand)"
+                                                                data-tooltip="{{'fc.EDIT_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-success"
+                                                                data-ng-click="$event.stopPropagation(); vm.activateBrands(brand)"
+                                                                data-ng-if="!brand.active"
+                                                                data-tooltip="{{'fc.RESTORE_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-check"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger"
+                                                                data-ng-click="$event.stopPropagation(); vm.deactivateBrands(brand)"
+                                                                data-ng-if="brand.active"
+                                                                data-tooltip="{{'fc.DELETE_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-trash-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-12 fc-block" data-ng-if="vm.hasNextPage()">
+                                    <div class="fc-centered">
+                                        <button class="btn btn-default btn-sm" data-translate="fc.LOAD_MORE_TEXT"
+                                                data-ng-click="vm.loadNextPage()"></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="productBrandCtrl.productBrand">
-                            <form class="form-horizontal" name="productBrandForm" data-ng-submit="productBrandCtrl.saveChanges()">
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="code"
-                                           data-translate="fc.merchandising.productBrand.input.CODE_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="code" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.productBrand.input.CODE_LABEL' | translate}}"
-                                               data-ng-model="productBrandCtrl.productBrand.code" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="name"
-                                           data-translate="fc.merchandising.productBrand.input.NAME_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="name" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.productBrand.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="productBrandCtrl.productBrand.name" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    <button class="btn btn-success" type="submit"
-                                            data-translate="fc.SAVE_TEXT"></button>
-                                    <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="productBrandCtrl.cancelChanges()"></button>
-                                </div>
-                            </form>
+                        <div data-ng-if="vm.brand">
+                            <div data-ng-include="'fc/brandFormTpl'"></div>
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -141,3 +196,73 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
+
+<script id="fc/editModalTpl" type="text/ng-template">
+    <div class="modal-header">
+        <h3 class="modal-title" data-translate="fc.merchandising.productBrand.DETAIL_PAGE_TITLE"></h3>
+    </div>
+    <div class="modal-body">
+        <div data-ng-include="'fc/brandFormTpl'"></div>
+    </div>
+</script>
+
+<script id="fc/brandFormTpl" type="text/ng-template">
+    <form name="brandForm" role="form" data-ng-submit="vm.saveChanges()">
+
+        <div class="row form-group">
+            <div class="col-lg-4 col-md-4 " data-ng-class="{'has-error has-feedback': !brandForm.status.$valid && !brandForm.status.$pristine}">
+                <label class="control-label " for="status-1"
+                       data-translate="fc.merchandising.productBrand.table.STATUS"></label><br/>
+                <span class="onoffswitch">
+                    <input type="checkbox" name="status"
+                           class="onoffswitch-checkbox" id="status-1"
+                           data-ng-model="vm.brand.status" />
+                    <label class="onoffswitch-label" for="status-1">
+                        <span class="onoffswitch-inner"
+                              data-swchon-text="{{'fc.ACTIVE_TEXT' | translate}}"
+                              data-swchoff-text="{{'fc.INACTIVE_TEXT' | translate}}"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </span>
+            </div>
+            <div class="col-lg-8 col-md-8" data-ng-class="{'has-error has-feedback': !brandForm.code.$valid && !brandForm.code.$pristine}">
+                <label class="control-label" for="code-1"
+                       data-translate="fc.merchandising.productBrand.table.CODE"></label>
+                <input id="code-1" type="text" name="code"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.productBrand.table.CODE' | translate}}"
+                       data-ng-model="vm.brand.code" data-vt-keyboard
+                       data-ng-required="::vm.validationData.code.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!brandForm.code.$valid && !brandForm.code.$pristine"></i>
+            <span class="help-block" data-ng-messages="brandForm.code.$error"
+                  data-ng-show="!brandForm.code.$valid && !brandForm.code.$pristine">
+                <span data-ng-if="::vm.validationData.code.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.productBrand.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+            </div>
+        </div><!-- end of the precision, scale, order  div -->
+
+        <div class="form-group">
+            <label class="control-label" for="description-1"
+                   data-translate="fc.merchandising.productBrand.table.DESCRIPTION"></label><br/>
+            <textarea id="description-1"  name="description"
+                      class="form-control"
+                      placeholder="{{'fc.merchandising.productBrand.table.DESCRIPTION' | translate}}"
+                      data-ng-model="vm.brand.description" data-vt-keyboard
+                      data-ng-required="::vm.validationData.description.required"></textarea>
+        </div><!-- end of abbreviation and brand name form -->
+
+        <div class="form-actions">
+            <button class="btn btn-success" type="submit" data-ng-disabled="brandForm.$invalid">
+                <i class="fa fa-save" data-ng-if="!vm.isSaving"></i>
+                <i class="fa fa-spinner fa-spin" data-ng-if="vm.isSaving"></i>
+                <span data-translate="fc.SAVE_TEXT"></span>
+            </button>
+            <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
+                    data-ng-click="vm.cancelChanges()"></button>
+        </div>
+    </form>
+</script>

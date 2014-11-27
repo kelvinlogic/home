@@ -41,6 +41,9 @@
         "ACTION_SUCCESS_MESSAGE_TEMPLATE": "Successfully %(action)s %(data)s.",
         "ACTION_WARNING_MESSAGE_TEMPLATE": "Are you sure you want to %(action)s these %(data)s?",
 
+        "ACTIVE_TEXT":"Yes",
+        "INACTIVE_TEXT":"No",
+
         "table": {
             "ID_FILTER_TEXT": "Filter Id",
             "CODE_FILTER_TEXT": "Filter Code",
@@ -62,7 +65,9 @@
             "COL_VIS_TEXT": "Show/Hide Columns",
             "COPY_TOOL_TEXT": "Copy",
             "PRINT_TOOL_TEXT": "Print",
-            "SAVE_AS_TOOL_TEXT": "Save As"
+            "SAVE_AS_TOOL_TEXT": "Save As",
+
+            "ACTIVATE_LABEL":"Active"
         },
 
         "input": {
@@ -83,7 +88,9 @@
             "PERCENTAGE_LABEL": "Percentage",
             "VAT_NUMBER_LABEL": "VAT Number",
             "EXTRA_INFO_LABEL": "Extra Information",
-            "REQUIRED_VALIDATION_TEXT": "Please enter the {{object}} {{field}}."
+            "REQUIRED_VALIDATION_TEXT": "Please enter the {{object}} {{field}}.",
+
+            "ACTIVATE_LABEL":"Active"
         }
     }
 }
