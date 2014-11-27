@@ -66,7 +66,8 @@
         function activate() {
             _hierarchyDetailModalOptions = {
                 templateUrl: "merchandising/templates/modal.tpl.html",
-                controller: "ProductHierarchyDetailCtrl as vm"
+                controller: "ProductHierarchyDetailCtrl as vm",
+                size: 'lg'
             };
 
             vm.validationData = {
@@ -342,7 +343,7 @@
                     };
                 }
             };
-
+            
             // Open modal popup.
             var modalInstance = $modal.open(_hierarchyDetailModalOptions);
 
@@ -380,7 +381,7 @@
                     }
 
                     // Setup dynamic form fields.
-                    vm.formFields.customFields = data.customFields.length > 0;
+                    vm.formFields.customFields = data.customFields && data.customFields.length > 0;
                     vm.formFields.description = true;
 
                     // Fields in hierarchies with parents i.e. with a parentHierId.

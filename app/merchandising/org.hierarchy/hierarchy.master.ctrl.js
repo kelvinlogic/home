@@ -66,7 +66,8 @@
         function activate() {
             _hierarchyDetailModalOptions = {
                 templateUrl: "merchandising/templates/modal.tpl.html",
-                controller: "OrganisationalHierarchyDetailCtrl as vm"
+                controller: "OrganisationalHierarchyDetailCtrl as vm",
+                size: 'lg'
             };
 
             vm.validationData = {
@@ -401,7 +402,7 @@
                     }
 
                     // Setup dynamic form fields.
-                    vm.formFields.customFields = data.customFields.length > 0;
+                    vm.formFields.customFields = data.customFields && data.customFields.length > 0;
 
                     // Entity fields.
                     vm.formFields.description = _pin === 1;
