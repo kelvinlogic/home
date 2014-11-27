@@ -33,15 +33,15 @@
 
         vm.activate = activate;
         vm.activateItems = activateItems;
+        vm.allFields = [];
         vm.cancelChanges = cancelChanges;
         vm.createHierarchy = createHierarchy;
         vm.customFields = [];
         vm.edit = edit;
-        vm.getFields = getFields;
         vm.getSelectionKey = getSelectionKey;
         vm.filter = null;
         vm.fields = [];
-        vm.formFields = null;
+        vm.formFields = {};
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
         vm.hasParent = hasParent;
@@ -104,11 +104,6 @@
                 registration: {
                     required: true
                 }
-            };
-
-            vm.formFields = {
-                code: true,
-                name: true
             };
 
             load();
@@ -378,7 +373,9 @@
         }
 
         function fetchHierarchies(page, pageSize, replaceRemoved, refresh) {
-            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, vm.filter, vm.showInactive, replaceRemoved, refresh)
+            var filterOptions = {_search: vm.filter && vm.filter.length > 0, query: vm.filter, fields: vm.fields};
+
+            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, filterOptions, vm.showInactive, replaceRemoved, refresh)
                 .then(function (data) {
                     _currentPage = data.page;
                     _pageSize = data.maxItems;
@@ -402,40 +399,54 @@
                     }
 
                     // Setup dynamic form fields.
-                    vm.formFields.customFields = data.customFields && data.customFields.length > 0;
+                    vm.formFields.code = true;
+                    vm.formFields.name = true;
+                    vm.allFields.push("code", "name");
 
                     // Entity fields.
-                    vm.formFields.description = _pin === 1;
-                    vm.formFields.location = _pin === 1;
+                    if (_pin === 1) {
+                        vm.formFields.description = true;
+                        vm.formFields.location = true;
+                        vm.allFields.push("location", "description");
+                    }
+
+                    // Middle hierarchy fields
+                    if (!_pin) {
+                        vm.formFields.customFields = data.customFields && data.customFields.length > 0;
+                    }
 
                     // Fields in hierarchies with parents i.e. with a parentHierId.
                     vm.formFields.parent = _parentHierId;
 
                     // Branch fields
-                    vm.formFields.address1 = _pin === 2;
-                    vm.formFields.address2 = _pin === 2;
-                    vm.formFields.address3 = _pin === 2;
-                    vm.formFields.address4 = _pin === 2;
-                    vm.formFields.phone1 = _pin === 2;
-                    vm.formFields.phone2 = _pin === 2;
-                    vm.formFields.phone3 = _pin === 2;
-                    vm.formFields.phone4 = _pin === 2;
-                    vm.formFields.fax1 = _pin === 2;
-                    vm.formFields.fax2 = _pin === 2;
-                    vm.formFields.email1 = _pin === 2;
-                    vm.formFields.email2 = _pin === 2;
-                    vm.formFields.branchIsWarehouse = _pin === 2;
-                    vm.formFields.pin = _pin === 2;
-                    vm.formFields.registration = _pin === 2;
+                    if (_pin === 2) {
+                        vm.formFields.address1 = true;
+                        vm.formFields.address2 = true;
+                        vm.formFields.address3 = true;
+                        vm.formFields.address4 = true;
+                        vm.formFields.phone1 = true;
+                        vm.formFields.phone2 = true;
+                        vm.formFields.phone3 = true;
+                        vm.formFields.phone4 = true;
+                        vm.formFields.fax1 = true;
+                        vm.formFields.fax2 = true;
+                        vm.formFields.email1 = true;
+                        vm.formFields.email2 = true;
+                        vm.formFields.branchIsWarehouse = true;
+                        vm.formFields.pin = true;
+                        vm.formFields.registration = true;
+
+                        vm.allFields.push("address1", "address2", "address3", "address4");
+                        vm.allFields.push("phone1", "phone2", "phone3", "phone4");
+                        vm.allFields.push("email1", "email2");
+                        vm.allFields.push("fax1", "fax2");
+                        vm.allFields.push("pin", "registration");
+                    }
 
                     updateHierarchies(data.results);
                 }, function (error) {
 
                 });
-        }
-
-        function getFields() {
-            return ["code", "name", "location", "description"];
         }
 
         function getSelectionKey() {
@@ -497,8 +508,12 @@
             $scope.$watch(function () {
                 return vm.filter;
             }, function (newValues) {
-                /* If no field is selected, search on all fields. */
+                subject.onNext(newValues);
+            });
 
+            $scope.$watchCollection(function () {
+                return vm.fields;
+            }, function (newValues) {
                 subject.onNext(newValues);
             });
 

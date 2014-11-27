@@ -33,15 +33,15 @@
 
         vm.activate = activate;
         vm.activateItems = activateItems;
+        vm.allFields = [];
         vm.cancelChanges = cancelChanges;
         vm.createHierarchy = createHierarchy;
         vm.customFields = [];
         vm.edit = edit;
-        vm.getFields = getFields;
         vm.getSelectionKey = getSelectionKey;
         vm.filter = null;
         vm.fields = [];
-        vm.formFields = null;
+        vm.formFields = {};
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
         vm.hasParent = hasParent;
@@ -83,11 +83,6 @@
                 name: {
                     required: true
                 }
-            };
-
-            vm.formFields = {
-                code: true,
-                name: true
             };
 
             load();
@@ -343,7 +338,7 @@
                     };
                 }
             };
-            
+
             // Open modal popup.
             var modalInstance = $modal.open(_hierarchyDetailModalOptions);
 
@@ -357,7 +352,9 @@
         }
 
         function fetchHierarchies(page, pageSize, replaceRemoved, refresh) {
-            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, vm.filter, vm.showInactive, replaceRemoved, refresh)
+            var filterOptions = {_search: vm.filter && vm.filter.length > 0, query: vm.filter, fields: vm.fields};
+
+            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, filterOptions, vm.showInactive, replaceRemoved, refresh)
                 .then(function (data) {
                     _currentPage = data.page;
                     _pageSize = data.maxItems;
@@ -381,8 +378,10 @@
                     }
 
                     // Setup dynamic form fields.
-                    vm.formFields.customFields = data.customFields && data.customFields.length > 0;
+                    vm.formFields.code = true;
                     vm.formFields.description = true;
+                    vm.formFields.extraInfo = true;
+                    vm.allFields.push("code", "description", "extraInfo");
 
                     // Fields in hierarchies with parents i.e. with a parentHierId.
                     vm.formFields.parent = _parentHierId;
@@ -391,10 +390,6 @@
                 }, function (error) {
 
                 });
-        }
-
-        function getFields() {
-            return ["code", "name", "location", "description"];
         }
 
         function getSelectionKey() {
@@ -456,8 +451,12 @@
             $scope.$watch(function () {
                 return vm.filter;
             }, function (newValues) {
-                /* If no field is selected, search on all fields. */
+                subject.onNext(newValues);
+            });
 
+            $scope.$watchCollection(function () {
+                return vm.fields;
+            }, function (newValues) {
                 subject.onNext(newValues);
             });
 

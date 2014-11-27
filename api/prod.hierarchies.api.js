@@ -140,7 +140,8 @@ router.put("/product-hierarchies/config/:id", function (req, resp) {
 
 // Data.
 router.get("/product-hierarchies/:hierarchyId/data", function (req, resp) {
-    var fields = ["q", "code", "name", "description", "location"];
+    var fields = [params.typeAhead];
+    fields.push("code", "description", "extraInfo");
 
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
@@ -185,23 +186,35 @@ router.get("/product-hierarchies/:hierarchyId/data", function (req, resp) {
     if (isTrueRegEx.test(req.query[params.search])) {
         var filter_on_fields = _.intersection(_.keys(req.query), fields);
         if (filter_on_fields) {
-            _.forEach(filter_on_fields, function (field) {
-                // This is for the typeahead directive...
-                if (field === "q") {
-                    // Search on code and name fields.
-                    var searchable = ["name"];
-                    _.forEach(searchable, function (f) {
-                        hierarchies = hierarchies.filter(function (hierarchy) {
-                            var regex = new RegExp(req.query[f], "i");
-                            return regex.test(hierarchy[f]);
-                        });
+            // This is for the typeahead directive...
+            var isTypeAhead = _.any(filter_on_fields, function (field) {
+                return field === params.typeAhead;
+            });
+
+            if (isTypeAhead) {
+                // Search on code and name fields.
+                var searchable = ["code", "description"];
+                hierarchies = hierarchies.filter(function (hierarchy) {
+                    return _.any(searchable, function (field) {
+                        var regex = new RegExp(req.query[params.typeAhead], "i");
+                        return regex.test(hierarchy[field]);
                     });
-                } else if (_.has(req.query, field)) {
-                    hierarchies = hierarchies.filter(function (hierarchy) {
+                });
+            } else if(_.any(filter_on_fields)) {
+                hierarchies = hierarchies.filter(function (hierarchy) {
+                    return _.any(filter_on_fields, function (field) {
                         var regex = new RegExp(req.query[field], "i");
                         return regex.test(hierarchy[field]);
                     });
-                }
+                });
+            }
+        }
+
+        if (req.query._all) {
+            hierarchies = hierarchies.filter(function (hierarchy) {
+                var joinedRecords = _.values(hierarchy).join(",");
+                var regex = new RegExp(req.query._all, "i");
+                return regex.test(joinedRecords);
             });
         }
     }

@@ -155,7 +155,7 @@
                 hierarchy: {
                     displayKey: "name",
                     remote: {
-                        url: "api/@{type}-hierarchies/@{hierarchyId}/data?_search=true&_noPage=true&q=%QUERY",
+                        url: "api/@{type}-hierarchies/@{hierarchyId}/data?_search=true&_noPage=true&_q=%QUERY",
                         wildcard: "%QUERY"
                     },
                     templates: {

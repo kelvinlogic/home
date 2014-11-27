@@ -85,7 +85,7 @@
                 });
             }
 
-            function getHierarchiesData(hierarchyId, page, pageSize, filter, showInactive, replaceRemoved, refresh) {
+            function getHierarchiesData(hierarchyId, page, pageSize, filterOptions, showInactive, replaceRemoved, refresh) {
                 if (!hierarchyId) {
                     return $q.reject("No hierarchy id.");
                 }
@@ -100,15 +100,20 @@
 
                 var config = {
                     params: {
-                        hierarchyId: hierarchyId,
                         page: page,
                         pageSize: pageSize
                     }
                 };
 
-                if (filter) {
-                    if (filter) {
-                        config.params.filter = filter;
+                if (filterOptions._search) {
+                    config.params._search = filterOptions._search;
+
+                    if (filterOptions.fields.length > 0) {
+                        _.forEach(filterOptions.fields, function (field) {
+                            config.params[field] = filterOptions.query;
+                        });
+                    } else {
+                        config.params._all = filterOptions.query;
                     }
                 }
 
