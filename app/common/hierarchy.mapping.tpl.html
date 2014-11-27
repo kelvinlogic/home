@@ -41,7 +41,8 @@
                           data-ng-class="{'fc-invisible': hierarchyMappingForm.hierName.$valid || hierarchyMappingForm.hierName.$pristine}">
                         <span data-ng-if="::vm.validationData.name.required"
                               data-ng-message="required">
-                            <span data-translate="fc.common.hierarchy.input.REQUIRED_HIERARCHY_NAME_VALIDATION_TEXT"></span>
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.HIERARCHY_NAME_LABEL' | translate | lowercase}}'}"></span>
                         </span>
                         <span data-ng-if="hierarchyMappingForm.hierName.$valid || hierarchyMappingForm.hierName.$pristine">PlaceHolder</span>
                     </span>
