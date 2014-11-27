@@ -3,8 +3,8 @@
 
     angular
         .module('fc.merchandising')
-        .controller('HierarchyMasterCtrl', hierarchyMaster)
-        .controller('HierarchyDetailCtrl', hierarchyDetail);
+        .controller('OrganisationalHierarchyMasterCtrl', hierarchyMaster)
+        .controller('OrganisationalHierarchyDetailCtrl', hierarchyDetail);
 
     hierarchyMaster.$inject = [
         "lodash",
@@ -32,7 +32,7 @@
             _parentEngine = null;
 
         vm.activate = activate;
-        vm.activateHierarchies = activateHierarchies;
+        vm.activateItems = activateItems;
         vm.cancelChanges = cancelChanges;
         vm.createHierarchy = createHierarchy;
         vm.customFields = [];
@@ -41,14 +41,13 @@
         vm.getSelectionKey = getSelectionKey;
         vm.filter = null;
         vm.fields = [];
+        vm.formFields = null;
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
         vm.hasParent = hasParent;
-        vm.isBranch = isBranch;
-        vm.isEntity = isEntity;
         vm.isFieldSelected = isFieldSelected;
         vm.loadNextPage = loadNextPage;
-        vm.deactivateHierarchies = deactivateHierarchies;
+        vm.deactivateItems = deactivateItems;
         vm.saveChanges = saveChanges;
         vm.selectAll = selectAll;
         vm.selected = null;
@@ -56,7 +55,6 @@
         vm.hierarchies = [];
         vm.hierarchy = null;
         vm.title = null;
-        vm.titleKey = 'fc.merchandising.hierarchy.MASTER_PAGE_TITLE';
         vm.toggleFilterField = toggleFilterField;
         vm.toggleSelection = toggleSelection;
         vm.validationData = null;
@@ -67,11 +65,14 @@
 
         function activate() {
             _hierarchyDetailModalOptions = {
-                templateUrl: "fc/editModalTpl",
-                controller: "HierarchyDetailCtrl as vm"
+                templateUrl: "merchandising/templates/modal.tpl.html",
+                controller: "OrganisationalHierarchyDetailCtrl as vm"
             };
 
             vm.validationData = {
+                parent:{
+                    required: true
+                },
                 code: {
                     required: true
                 },
@@ -83,18 +84,41 @@
                 },
                 name: {
                     required: true
+                },
+                address1: {
+                    required: true
+                },
+                phone1: {
+                    required: true
+                },
+                fax1: {
+                    required: true
+                },
+                email1: {
+                    required: true
+                },
+                pin: {
+                    required: true
+                },
+                registration: {
+                    required: true
                 }
+            };
+
+            vm.formFields = {
+                code: true,
+                name: true
             };
 
             load();
         }
 
-        function activateHierarchies(hierarchy) {
+        function activateItems(item) {
             // NOTE:...................................................
             // If we passed a hierarchy, assume the activation of the single said hierarchy.
             // else, assume the activation of all selected hierarchies.
 
-            changeActivation(hierarchy, true);
+            changeActivation(item, true);
         }
 
         function cancelChanges() {
@@ -108,7 +132,6 @@
             }
 
             var toTranslate = [
-                "fc.merchandising.hierarchy.MASTER_PAGE_TITLE",
                 "fc.ACTION_WARNING_MESSAGE_TEMPLATE",
                 "fc.SUCCESS_ALERT_TITLE",
                 "fc.ACTION_SUCCESS_MESSAGE_TEMPLATE",
@@ -123,8 +146,7 @@
             ];
 
             $translate(toTranslate).then(function (translations) {
-                var pageTitle = translations["fc.merchandising.hierarchy.MASTER_PAGE_TITLE"],
-                    warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
+                var warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
                     successAlertTitle = translations["fc.SUCCESS_ALERT_TITLE"],
                     successTemplate = translations["fc.ACTION_SUCCESS_MESSAGE_TEMPLATE"],
                     failAlertTitle = translations["fc.FAIL_ALERT_TITLE"],
@@ -135,6 +157,8 @@
                     restoreActionPast = translations["fc.RESTORE_ACTION_PAST"],
                     noText = translations["fc.NO_TEXT"],
                     yesText = translations["fc.YES_TEXT"];
+
+                var pageTitle = vm.title;
 
                 var selectedHierarchies = [],
                     actionPast = newStatus ? restoreActionPast : deleteActionPast,
@@ -192,12 +216,7 @@
                     var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
                     if (changedCount > 0) {
-                        var msgData = {action: actionPast};
-                        if (changedCount === 1 && hierarchy) {
-                            msgData.data = hierarchy.name + " " + hierarchy.location;
-                        } else {
-                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
-                        }
+                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
 
                         message = _.string.sprintf(successTemplate, msgData);
 
@@ -273,7 +292,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            data: pageTitle.toLowerCase()
+                            count: 1
                         });
                     } else {
                         title += " <span class='" + textColor + "'><strong>";
@@ -282,7 +301,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            data: selectedHierarchies.length + " " + pageTitle.toLowerCase()
+                            count: selectedHierarchies.length
                         });
                     }
 
@@ -296,7 +315,7 @@
                         }
                     });
                 } else {
-                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent, count: selectedHierarchies.length || 1});
                     if (confirm(content)) {
                         performChange(hierarchy);
                     }
@@ -308,12 +327,12 @@
             vm.hierarchy = {};
         }
 
-        function deactivateHierarchies(hierarchy) {
+        function deactivateItems(item) {
             // NOTE:...................................................
             // If we passed an hierarchy, assume the deactivation of the single said hierarchy.
             // else, assume the deactivation of all selected hierarchies.
 
-            changeActivation(hierarchy, false);
+            changeActivation(item, false);
         }
 
         function edit(item) {
@@ -335,11 +354,10 @@
                 data: function () {
                     return {
                         customFields: vm.customFields,
+                        formFields: vm.formFields,
                         hasParent: hasParent,
                         hierarchy: hierarchy,
                         hierarchyId: _hierarchyId,
-                        isBranch: isBranch,
-                        isEntity: isEntity,
                         parentDataset: vm.parentDataset,
                         validationData: vm.validationData
                     };
@@ -382,6 +400,33 @@
                         initTypeahead();
                     }
 
+                    // Setup dynamic form fields.
+                    vm.formFields.customFields = data.customFields.length > 0;
+
+                    // Entity fields.
+                    vm.formFields.description = _pin === 1;
+                    vm.formFields.location = _pin === 1;
+
+                    // Fields in hierarchies with parents i.e. with a parentHierId.
+                    vm.formFields.parent = _parentHierId;
+
+                    // Branch fields
+                    vm.formFields.address1 = _pin === 2;
+                    vm.formFields.address2 = _pin === 2;
+                    vm.formFields.address3 = _pin === 2;
+                    vm.formFields.address4 = _pin === 2;
+                    vm.formFields.phone1 = _pin === 2;
+                    vm.formFields.phone2 = _pin === 2;
+                    vm.formFields.phone3 = _pin === 2;
+                    vm.formFields.phone4 = _pin === 2;
+                    vm.formFields.fax1 = _pin === 2;
+                    vm.formFields.fax2 = _pin === 2;
+                    vm.formFields.email1 = _pin === 2;
+                    vm.formFields.email2 = _pin === 2;
+                    vm.formFields.branchIsWarehouse = _pin === 2;
+                    vm.formFields.pin = _pin === 2;
+                    vm.formFields.registration = _pin === 2;
+
                     updateHierarchies(data.results);
                 }, function (error) {
 
@@ -401,7 +446,7 @@
         }
 
         function hasNextPage() {
-            var alreadyLoadedItems = ((_currentPage - 1) * _pageSize) + vm.hierarchies.length;
+            var alreadyLoadedItems = (Math.max((_currentPage - 1), 0) * _pageSize) + vm.hierarchies.length;
 
             return alreadyLoadedItems < _totalServerItems;
         }
@@ -412,7 +457,7 @@
 
         function initTypeahead() {
             var engineRemote = constants.suggestions.hierarchy.remote;
-            engineRemote.url = engineRemote.url.replace("@{hierarchyId}", _parentHierId);
+            engineRemote.url = engineRemote.url.replace("@{type}", "organisational").replace("@{hierarchyId}", _parentHierId);
 
             _parentEngine = new Bloodhound({
                 datumTokenizer: function(d) {
@@ -435,14 +480,6 @@
                 source: _parentEngine.ttAdapter(),
                 templates: constants.suggestions.hierarchy.templates
             };
-        }
-
-        function isBranch() {
-            return _pin && _pin === 2;
-        }
-
-        function isEntity() {
-            return _pin && _pin === 1;
         }
 
         function isFieldSelected(field) {
@@ -581,10 +618,10 @@
         vm.customFields = data.customFields;
         vm.hasParent = data.hasParent;
         vm.hierarchy = data.hierarchy;
-        vm.isBranch = data.isBranch;
-        vm.isEntity = data.isEntity;
+        vm.formFields = data.formFields;
         vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
+        vm.title = data.hierarchy.name;
         vm.validationData = data.validationData;
 
         activate();

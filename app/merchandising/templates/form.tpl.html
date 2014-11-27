@@ -1,0 +1,333 @@
+<form name="formTpl" role="form" data-ng-submit="vm.saveChanges()">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.parent && vm.hasParent()">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.parent.$valid && !formTpl.parent.$pristine}">
+                <label class="control-label" for="parent"
+                       data-translate="fc.input.PARENT_LABEL"></label>
+                <input id="parent" type="text" class="fc-input-full-width form-control"
+                       name="parent"
+                       placeholder="{{'fc.input.PARENT_LABEL' | translate}}"
+                       data-ng-disabled="vm.hierarchy.parentId && !vm.hierarchy.parent"
+                       data-ng-required="::vm.validationData.parent.required"
+                       data-ng-model="vm.hierarchy.parent" data-sf-typeahead
+                       data-options="vm.typeaheadOptions"
+                       data-datasets="vm.parentDataset" />
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.parent.$valid && !formTpl.parent.$pristine"></i>
+                <span class="help-block"
+                      data-ng-class="{'fc-invisible': formTpl.parent.$valid || formTpl.parent.$pristine}">
+                    <span data-ng-if="!formTpl.parent.$valid && !formTpl.parent.$pristine"
+                          data-ng-messages="formTpl.parent.$error">
+                            <span data-ng-if="::vm.validationData.parent.required"
+                                  data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.PARENT_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+
+                    <span data-ng-if="formTpl.parent.$valid || formTpl.parent.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.code">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.code.$valid && !formTpl.code.$pristine}">
+                <label class="control-label" for="code"
+                       data-translate="fc.input.CODE_LABEL"></label>
+                <input id="code" type="text" name="code"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.CODE_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.code" data-vt-keyboard
+                       data-ng-required="::vm.validationData.code.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.code.$valid && !formTpl.code.$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl.code.$valid || formTpl.code.$pristine}">
+                    <span data-ng-if="!formTpl.code.$valid && !formTpl.code.$pristine" data-ng-messages="formTpl.code.$error">
+                        <span data-ng-if="::vm.validationData.code.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.CODE_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl.code.$valid || formTpl.code.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.name">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.name.$valid && !formTpl.name.$pristine}">
+                <label class="control-label" for="name"
+                       data-translate="fc.input.NAME_LABEL"></label>
+                <input id="name" type="text" name="name"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.NAME_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.name" data-vt-keyboard
+                       data-ng-required="::vm.validationData.name.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.name.$valid && !formTpl.name.$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl.name.$valid || formTpl.name.$pristine}">
+                    <span data-ng-if="!formTpl.name.$valid && !formTpl.name.$pristine"
+                          data-ng-messages="formTpl.name.$error">
+                        <span data-ng-if="::vm.validationData.name.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.NAME_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl.name.$valid || formTpl.name.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.pin">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.pin.$valid && !formTpl.pin.$pristine}">
+                <label class="control-label" for="pin"
+                       data-translate="fc.input.PIN_LABEL"></label>
+                <input id="pin" type="text" name="pin"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.PIN_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.pin" data-vt-keyboard
+                       data-ng-required="::vm.validationData.pin.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.pin.$valid && !formTpl.pin.$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl.pin.$valid || formTpl.pin.$pristine}">
+                    <span data-ng-if="!formTpl.pin.$valid && !formTpl.pin.$pristine"
+                          data-ng-messages="formTpl.pin.$error">
+                        <span data-ng-if="::vm.validationData.pin.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.PIN_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl.pin.$valid || formTpl.pin.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.registration">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.registration.$valid && !formTpl.registration.$pristine}">
+                <label class="control-label" for="registration"
+                       data-translate="fc.input.REGISTRATION_LABEL"></label>
+                <input id="registration" type="text" name="registration"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.REGISTRATION_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.registration" data-vt-keyboard
+                       data-ng-required="::vm.validationData.registration.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.registration.$valid && !formTpl.registration.$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl.registration.$valid || formTpl.registration.$pristine}">
+                    <span data-ng-if="!formTpl.registration.$valid && !formTpl.registration.$pristine"
+                          data-ng-messages="formTpl.registration.$error">
+                        <span data-ng-if="::vm.validationData.registration.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.REGISTRATION_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl.registration.$valid || formTpl.registration.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.location">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.location.$valid && !formTpl.location.$pristine}">
+                <label class="control-label" for="location"
+                       data-translate="fc.input.LOCATION_LABEL"></label>
+                <input id="location" type="text" name="location"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.LOCATION_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.location" data-vt-keyboard
+                       data-ng-required="::vm.validationData.location.required"/>
+
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.location.$valid && !formTpl.location.$pristine"></i>
+                <span class="help-block"
+                      data-ng-class="{'fc-invisible': formTpl.location.$valid || formTpl.location.$pristine}">
+                    <span data-ng-if="!formTpl.location.$valid && !formTpl.location.$pristine"
+                          data-ng-messages="formTpl.location.$error">
+                        <span data-ng-if="::vm.validationData.location.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.LOCATION_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+
+                    <span data-ng-if="formTpl.location.$valid || formTpl.location.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields.description">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.description.$valid && !formTpl.description.$pristine}">
+                <label class="control-label" for="description"
+                       data-translate="fc.input.DESCRIPTION_LABEL"></label>
+                <input id="description" type="text" name="description"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.DESCRIPTION_LABEL' | translate}}"
+                       data-ng-model="vm.hierarchy.description" data-vt-keyboard
+                       data-ng-required="::vm.validationData.description.required"/>
+
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl.description.$valid && !formTpl.description.$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl.description.$valid || formTpl.description.$pristine}">
+                    <span data-ng-if="!formTpl.description.$valid && !formTpl.description.$pristine"
+                          data-ng-messages="formTpl.description.$error">
+                        <span data-ng-if="::vm.validationData.description.required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.DESCRIPTION_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+
+                    <span data-ng-if="formTpl.description.$valid || formTpl.description.$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields['address'+ num]" data-ng-repeat="num in [1, 2, 3, 4]">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl['address'+num].$valid && !formTpl['address'+ num].$pristine}">
+                <label class="control-label" for="address{{num}}">
+                    <span data-translate="fc.input.ADDRESS_LABEL"></span>
+                    <span>{{num}}</span>
+                </label>
+                <input id="address{{num}}" type="text" name="address{{num}}"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.ADDRESS_LABEL' | translate}} {{num}}"
+                       data-ng-model="vm.hierarchy['address'+ num]" data-vt-keyboard
+                       data-ng-required="::vm.validationData['address'+num].required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl['address'+ num].$valid && !formTpl['address'+ num].$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl['address'+ num].$valid || formTpl['address'+ num].$pristine}">
+                    <span data-ng-if="!formTpl['address'+ num].$valid && !formTpl['address'+ num].$pristine" data-ng-messages="formTpl['address'+ num].$error">
+                        <span data-ng-if="::vm.validationData['address'+ num].required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.ADDRESS_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl['address'+ num].$valid || formTpl['address'+ num].$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields['phone'+ num]" data-ng-repeat="num in [1, 2, 3, 4]">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl['phone'+num].$valid && !formTpl['phone'+ num].$pristine}">
+                <label class="control-label" for="phone{{num}}">
+                    <span data-translate="fc.input.PHONE_LABEL"></span>
+                    <span>{{num}}</span>
+                </label>
+                <input id="phone{{num}}" type="text" name="phone{{num}}"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.PHONE_LABEL' | translate}} {{num}}"
+                       data-ng-model="vm.hierarchy['phone'+ num]" data-vt-keyboard
+                       data-ng-required="::vm.validationData['phone'+num].required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl['phone'+ num].$valid && !formTpl['phone'+ num].$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl['phone'+ num].$valid || formTpl['phone'+ num].$pristine}">
+                    <span data-ng-if="!formTpl['phone'+ num].$valid && !formTpl['phone'+ num].$pristine" data-ng-messages="formTpl['phone'+ num].$error">
+                        <span data-ng-if="::vm.validationData['phone'+ num].required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.PHONE_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl['phone'+ num].$valid || formTpl['phone'+ num].$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields['email'+ num]" data-ng-repeat="num in [1, 2]">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl['email'+num].$valid && !formTpl['email'+ num].$pristine}">
+                <label class="control-label" for="email{{num}}">
+                    <span data-translate="fc.input.EMAIL_LABEL"></span>
+                    <span>{{num}}</span>
+                </label>
+                <input id="email{{num}}" type="text" name="email{{num}}"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.EMAIL_LABEL' | translate}} {{num}}"
+                       data-ng-model="vm.hierarchy['email'+ num]" data-vt-keyboard
+                       data-ng-required="::vm.validationData['email'+num].required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl['email'+ num].$valid && !formTpl['email'+ num].$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl['email'+ num].$valid || formTpl['email'+ num].$pristine}">
+                    <span data-ng-if="!formTpl['email'+ num].$valid && !formTpl['email'+ num].$pristine" data-ng-messages="formTpl['email'+ num].$error">
+                        <span data-ng-if="::vm.validationData['email'+ num].required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.EMAIL_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl['email'+ num].$valid || formTpl['email'+ num].$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6" data-ng-if="vm.formFields['fax'+ num]" data-ng-repeat="num in [1, 2]">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl['fax'+num].$valid && !formTpl['fax'+ num].$pristine}">
+                <label class="control-label" for="fax{{num}}">
+                    <span data-translate="fc.input.FAX_LABEL"></span>
+                    <span>{{num}}</span>
+                </label>
+                <input id="fax{{num}}" type="text" name="fax{{num}}"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.input.FAX_LABEL' | translate}} {{num}}"
+                       data-ng-model="vm.hierarchy['fax'+ num]" data-vt-keyboard
+                       data-ng-required="::vm.validationData['fax'+num].required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!formTpl['fax'+ num].$valid && !formTpl['fax'+ num].$pristine"></i>
+                <span class="help-block" data-ng-class="{'fc-invisible': formTpl['fax'+ num].$valid || formTpl['fax'+ num].$pristine}">
+                    <span data-ng-if="!formTpl['fax'+ num].$valid && !formTpl['fax'+ num].$pristine" data-ng-messages="formTpl['fax'+ num].$error">
+                        <span data-ng-if="::vm.validationData['fax'+ num].required"
+                              data-ng-message="required">
+                            <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                  data-translate-values="{field: '{{'fc.input.FAX_LABEL' | translate | lowercase}}'}"></span>
+                        </span>
+                    </span>
+                    <span data-ng-if="formTpl['fax'+ num].$valid || formTpl['fax'+ num].$pristine">PlaceHolder</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" data-ng-repeat="custField in vm.customFields" data-ng-if="vm.formFields.customFields">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl[custField.name].$valid && !formTpl[custField.name].$pristine}">
+                <label class="control-label" for="field_{{$index}}"
+                       data-ng-bind="custField.label | string:'humanize'"></label>
+                <input id="field_{{$index}}" type="text" name="{{custField.name}}"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{custField.label | string: 'humanize'}}"
+                       data-ng-model="vm.hierarchy[custField.name]" data-vt-keyboard />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" data-ng-if="vm.formFields.branchIsWarehouse">
+            <div class="form-group"
+                 data-ng-class="{'has-error has-feedback': !formTpl.branchIsWarehouse.$valid && !formTpl.branchIsWarehouse.$pristine}">
+                <div class="checkbox">
+                    <label class="control-label" for="branchIsWarehouse">
+                        <input id="branchIsWarehouse" type="checkbox" name="branchIsWarehouse"
+                               data-ng-model="vm.hierarchy.branchIsWarehouse"
+                               data-ng-required="::vm.validationData.branchIsWarehouse.required"/>
+                        <span data-translate="fc.input.BRANCH_IS_WAREHOUSE_LABEL"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button class="btn btn-success" type="submit" data-ng-disabled="formTpl.$invalid">
+            <i class="fa fa-save" data-ng-if="!vm.isSaving"></i>
+            <i class="fa fa-spinner fa-spin" data-ng-if="vm.isSaving"></i>
+            <span data-translate="fc.SAVE_TEXT"></span>
+        </button>
+        <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
+                data-ng-click="vm.cancelChanges()"></button>
+    </div>
+</form>

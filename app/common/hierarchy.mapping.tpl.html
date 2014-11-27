@@ -48,14 +48,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group" data-ng-if="vm.formFields.data.name"
+                    <div class="col-sm-6" data-ng-if="level.formFields.name">
+                        <div class="form-group"
                              data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.name.$valid && !hierarchyMappingForm.name.$pristine}">
                             <label class="control-label" for="{{'name' + $index}}"
                                    data-translate="fc.common.hierarchy.input.NAME_LABEL"></label>
                             <input id="{{'name' + $index}}" type="text" name="name"
                                    class="fc-input-full-width fc-input-empty form-control"
-                                   placeholder="{{'fc.common.hierarchy.input.NAME_PLACEHOLDER' | translate}}"
+                                   placeholder="{{'fc.common.hierarchy.input.NAME_PLACEHOLDER' | translate:'{item: \''+level.name.toLowerCase()+'\'}'}}"
                                    data-ng-model="level.data.name" data-vt-keyboard
                                    data-ng-required="::vm.validationData.data.name.required"/>
 
@@ -65,20 +65,21 @@
                                   data-ng-class="{'fc-invisible': hierarchyMappingForm.name.$valid || hierarchyMappingForm.name.$pristine}">
                                 <span data-ng-if="::vm.validationData.data.name.required"
                                       data-ng-message="required">
-                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                                    <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                          data-translate-values="{field: '{{'fc.input.NAME_LABEL' | translate | lowercase}}'}"></span>
                                 </span>
                                 <span data-ng-if="hierarchyMappingForm.name.$valid || hierarchyMappingForm.name.$pristine">PlaceHolder</span>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group" data-ng-if="vm.formFields.data.code"
+                    <div class="col-sm-6" data-ng-if="level.formFields.code">
+                        <div class="form-group"
                              data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.code.$valid && !hierarchyMappingForm.code.$pristine}">
                             <label class="control-label" for="{{'code' + $index}}"
                                    data-translate="fc.common.hierarchy.input.CODE_LABEL"></label>
                             <input id="{{'code' + $index}}" type="text" name="code"
                                    class="fc-input-full-width fc-input-empty form-control"
-                                   placeholder="{{'fc.common.hierarchy.input.CODE_PLACEHOLDER' | translate}}"
+                                   placeholder="{{'fc.common.hierarchy.input.CODE_PLACEHOLDER' | translate:'{item: \''+level.name.toLowerCase()+'\'}'}}"
                                    data-ng-model="level.data.code" data-vt-keyboard
                                    data-ng-required="::vm.validationData.data.code.required"/>
 
@@ -88,20 +89,45 @@
                                   data-ng-class="{'fc-invisible': hierarchyMappingForm.code.$valid || hierarchyMappingForm.code.$pristine}">
                                 <span data-ng-if="::vm.validationData.data.code.required"
                                       data-ng-message="required">
-                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
+                                    <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                          data-translate-values="{field: '{{'fc.input.CODE_LABEL' | translate | lowercase}}'}"></span>
                                 </span>
                                 <span data-ng-if="hierarchyMappingForm.code.$valid || hierarchyMappingForm.code.$pristine">PlaceHolder</span>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group" data-ng-if="vm.formFields.data.description"
+                    <div class="col-sm-6" data-ng-if="level.formFields.location">
+                        <div class="form-group"
+                             data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.location.$valid && !hierarchyMappingForm.location.$pristine}">
+                            <label class="control-label" for="{{'location' + $index}}"
+                                   data-translate="fc.common.hierarchy.input.LOCATION_LABEL"></label>
+                            <input id="{{'location' + $index}}" type="text" name="location"
+                                   class="fc-input-full-width fc-input-empty form-control"
+                                   placeholder="{{'fc.common.hierarchy.input.LOCATION_PLACEHOLDER' | translate:'{item: \''+level.name.toLowerCase()+'\'}'}}"
+                                   data-ng-model="level.data.location" data-vt-keyboard
+                                   data-ng-required="::vm.validationData.data.location.required"/>
+
+                            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                               data-ng-if="!hierarchyMappingForm.location.$valid && !hierarchyMappingForm.location.$pristine"></i>
+                            <span class="help-block" data-ng-messages="hierarchyMappingForm.location.$error"
+                                  data-ng-class="{'fc-invisible': hierarchyMappingForm.location.$valid || hierarchyMappingForm.location.$pristine}">
+                                <span data-ng-if="::vm.validationData.data.location.required"
+                                      data-ng-message="required">
+                                    <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                          data-translate-values="{field: '{{'fc.input.LOCATION_LABEL' | translate | lowercase}}'}"></span>
+                                </span>
+                                <span data-ng-if="hierarchyMappingForm.location.$valid || hierarchyMappingForm.location.$pristine">PlaceHolder</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" data-ng-if="level.formFields.description">
+                        <div class="form-group"
                              data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.description.$valid && !hierarchyMappingForm.description.$pristine}">
                             <label class="control-label" for="{{'description' + $index}}"
                                    data-translate="fc.common.hierarchy.input.DESCRIPTION_LABEL"></label>
                             <input id="{{'description' + $index}}" type="text" name="description"
                                    class="fc-input-full-width fc-input-empty form-control"
-                                   placeholder="{{'fc.common.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate}}"
+                                   placeholder="{{'fc.common.hierarchy.input.DESCRIPTION_PLACEHOLDER' | translate:'{item: \''+level.name.toLowerCase()+'\'}'}}"
                                    data-ng-model="level.data.description" data-vt-keyboard
                                    data-ng-required="::vm.validationData.data.description.required"/>
 
@@ -111,20 +137,21 @@
                                   data-ng-class="{'fc-invisible': hierarchyMappingForm.description.$valid || hierarchyMappingForm.description.$pristine}">
                                 <span data-ng-if="::vm.validationData.data.description.required"
                                       data-ng-message="required">
-                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_DESCRIPTION_VALIDATION_TEXT"></span>
+                                    <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                          data-translate-values="{field: '{{'fc.input.DESCRIPTION_LABEL' | translate | lowercase}}'}"></span>
                                 </span>
                                 <span data-ng-if="hierarchyMappingForm.description.$valid || hierarchyMappingForm.description.$pristine">PlaceHolder</span>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group" data-ng-if="vm.formFields.data.extraInfo"
+                    <div class="col-sm-6" data-ng-if="level.formFields.extraInfo">
+                        <div class="form-group"
                              data-ng-class="{'has-error has-feedback': !hierarchyMappingForm.extraInfo.$valid && !hierarchyMappingForm.extraInfo.$pristine}">
                             <label class="control-label" for="{{'extraInfo' + $index}}"
                                    data-translate="fc.common.hierarchy.input.EXTRA_INFO_LABEL"></label>
                             <input id="{{'extraInfo' + $index}}" type="text" name="extraInfo"
                                    class="fc-input-full-width fc-input-empty form-control"
-                                   placeholder="{{'fc.common.hierarchy.input.EXTRA_INFO_PLACEHOLDER' | translate}}"
+                                   placeholder="{{'fc.common.hierarchy.input.EXTRA_INFO_PLACEHOLDER' | translate:'{item: \''+level.name.toLowerCase()+'\'}'}}"
                                    data-ng-model="level.data.extraInfo" data-vt-keyboard
                                    data-ng-required="::vm.validationData.data.extraInfo.required"/>
 
@@ -134,7 +161,8 @@
                                   data-ng-class="{'fc-invisible': hierarchyMappingForm.extraInfo.$valid || hierarchyMappingForm.extraInfo.$pristine}">
                                 <span data-ng-if="::vm.validationData.data.extraInfo.required"
                                       data-ng-message="required">
-                                    <span data-translate="fc.common.hierarchy.input.REQUIRED_EXTRA_INFO_VALIDATION_TEXT"></span>
+                                    <span data-translate="fc.input.REQUIRED_VALIDATION_TEXT"
+                                          data-translate-values="{field: '{{'fc.input.EXTRA_INFO_LABEL' | translate | lowercase}}'}"></span>
                                 </span>
                                 <span data-ng-if="hierarchyMappingForm.extraInfo.$valid || hierarchyMappingForm.extraInfo.$pristine">PlaceHolder</span>
                             </span>

@@ -17,7 +17,7 @@
         vm.addLevelAfter = addLevelAfter;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
-        vm.formFields = {name: true, data: {code: true, name: true, description: true, extraInfo: true}};
+        vm.formFields = {name: true};
         vm.levels = null;
         vm.removeLevel = removeLevel;
         vm.save = save;
@@ -64,6 +64,7 @@
 
             // Create the level.
             var newLevel = {open: true, data: {}};
+            _setupFormFields(newLevel);
 
             // Find the index of the level in the array and move to the next index.
             var index = vm.levels.indexOf(level);
@@ -100,6 +101,8 @@
                     vm.levels = data;
                     // By default, open the first item.
                     vm.levels[0].open = true;
+
+                    _.map(vm.levels, _setupFormFields);
                 }
 
                 populateData(data);
@@ -133,7 +136,22 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.name && level.data && level.data.name && level.data.code);
+            var vd = vm.validationData;
+            var codeInValid = level.formFields.code && vd.data.code.required && (!level.data || !level.data.code);
+            var descriptionInValid = level.formFields.description && vd.data.description.required && (!level.data || !level.data.description);
+            var extraInfoInValid = level.formFields.extraInfo && vd.data.extraInfo.required && (!level.data || !level.data.extraInfo);
+            var hierNameInValid = vm.formFields.name && vd.name.required && (!level.name);
+            var nameInValid = level.formFields.name && vd.data.name.required && (!level.data || !level.data.name);
+            return !hierNameInValid && !codeInValid && !descriptionInValid && !extraInfoInValid && !nameInValid;
+        }
+
+        function _setupFormFields(level) {
+            level.formFields = {
+                code: true,
+                description: true,
+                extraInfo: true,
+                name: true
+            };
         }
     }
 })();
