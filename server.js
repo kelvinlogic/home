@@ -14,13 +14,17 @@ var _           = require('lodash');
 // Our DB object.
 global.inMemDatabase = {};
 
-var hierarchiesRt = require('./api/org.hierarchies.api.js');
 var menuRt = require('./api/menu.api.js');
+var orgHierarchiesRt = require('./api/org.hierarchies.api.js');
+var prodHierarchiesRt = require('./api/prod.hierarchies.api.js');
+
+// Njuguna's merge
 var supplierRt = require('./api/supplier.api.js');
 var servingRt = require('./api/serving_uom.api.js');
 var reasonsRt = require('./api/reasons.api.js');
 var vatRt = require('./api/vat.master.api.js');
-var salesmanRT= require('./api/salesman.api.js');
+var salesmanRt= require('./api/salesman.api.js');
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +40,16 @@ app.use(morgan("dev"));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', [hierarchiesRt, menuRt,supplierRt,servingRt,reasonsRt,vatRt,salesmanRT]);
+app.use('/api', [
+    menuRt,
+    orgHierarchiesRt,
+    prodHierarchiesRt,
+    supplierRt,
+    servingRt,
+    reasonsRt,
+    vatRt,
+    salesmanRt
+]);
 
 // START THE SERVER
 // =============================================================================

@@ -7,7 +7,13 @@
         "$urlRouterProvider",
         routeConfig
     ]).config([
-        "orgHierarchyDataSvcProvider", "supplierDataSvcProvider","servingDataSvcProvider","reasonDataSvcProvider","vatDataSvcProvider","salesmanDataSvcProvider",
+        "orgHierarchyDataSvcProvider",
+        "prodHierarchyDataSvcProvider",
+        "supplierDataSvcProvider",
+        "servingDataSvcProvider",
+        "reasonDataSvcProvider",
+        "vatDataSvcProvider",
+        "salesmanDataSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -40,7 +46,7 @@
         });
 
         $stateProvider.state('root.hierarchy-master', {
-            url: '/hierarchy-master/:id',
+            url: '/hierarchy-master/{id:int}',
             templateUrl: 'merchandising/org.hierarchy/hierarchy.master.tpl.html'
         });
 
@@ -80,7 +86,7 @@
         });
 
         $stateProvider.state('root.product-hierarchy-master', {
-            url: '/product-hierarchy-master?id',
+            url: '/product-hierarchy-master/{id:int}',
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
         });
 
@@ -114,6 +120,11 @@
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.mapping.tpl.html'
         });
 
+        $stateProvider.state('root.organisational-hierarchy-mapping', {
+            url: '/organisational-hierarchy-mapping',
+            templateUrl: 'merchandising/org.hierarchy/hierarchy.mapping.tpl.html'
+        });
+
         $stateProvider.state('root.product-brand-master', {
             url: '/product-brand-master',
             templateUrl: 'merchandising/product.brand.master.tpl.html'
@@ -135,9 +146,19 @@
         });
     }
 
-    function svcConfig(orgHierarchyDataSvcProvider,supplierDataSvcProvider,servingDataSvcProvider,reasonDataSvcProvider,vatDataSvcProvider,salesmanDataSvcProvider) {
-        orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/hierarchies/{hierarchyId}/data";
-        orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/hierarchies/config";
+    function svcConfig(
+        orgHierarchyDataSvcProvider,
+        prodHierarchyDataSvcProvider,
+        supplierDataSvcProvider,
+        servingDataSvcProvider,
+        reasonDataSvcProvider,
+        vatDataSvcProvider,
+        salesmanDataSvcProvider) {
+        orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/organisational-hierarchies/{hierarchyId}/data";
+        orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/organisational-hierarchies/config";
+
+        prodHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/product-hierarchies/{hierarchyId}/data";
+        prodHierarchyDataSvcProvider.hierarchyConfigUrl = "api/product-hierarchies/config";
         supplierDataSvcProvider.supplierUrl = "api/suppliers";
         servingDataSvcProvider.servingUrl = "api/serving";
         reasonDataSvcProvider.reasonUrl = "api/reasons";
@@ -148,6 +169,25 @@
     function buildMerchandisingConstants() {
         return {
             suggestions: {
+                hierarchy: {
+                    displayKey: "name",
+                    remote: {
+                        url: "api/@{type}-hierarchies/@{hierarchyId}/data?_search=true&_noPage=true&_q=%QUERY",
+                        wildcard: "%QUERY"
+                    },
+                    templates: {
+                        suggestion: function (suggestion) {
+                            var html = "<div class='fc-compound-suggestion'>";
+                            html += "<div class='fc-compound-main'>" + suggestion["name"] + "</div>";
+                            if (suggestion["code"]) {
+                                html += "<span class='fc-compound-hint text-muted'>" + suggestion["code"] + "</span>";
+                            }
+
+                            html += "</div>";
+                            return html;
+                        }
+                    }
+                },
                 products: {
                     displayKey: "name",
                     remote: {

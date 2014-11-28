@@ -27,6 +27,7 @@
                 deactivateHierarchiesData: deactivateHierarchiesData,
                 getHierarchiesData: getHierarchiesData,
                 getHierarchyConfig: getHierarchyConfig,
+                getHierarchyData: getHierarchyData,
                 updateHierarchyData: updateHierarchyData
             };
 
@@ -84,7 +85,7 @@
                 });
             }
 
-            function getHierarchiesData(hierarchyId, page, pageSize, filter, showInactive, replaceRemoved, refresh) {
+            function getHierarchiesData(hierarchyId, page, pageSize, filterOptions, showInactive, replaceRemoved, refresh) {
                 if (!hierarchyId) {
                     return $q.reject("No hierarchy id.");
                 }
@@ -99,15 +100,20 @@
 
                 var config = {
                     params: {
-                        hierarchyId: hierarchyId,
                         page: page,
                         pageSize: pageSize
                     }
                 };
 
-                if (filter) {
-                    if (filter) {
-                        config.params.filter = filter;
+                if (filterOptions._search) {
+                    config.params._search = filterOptions._search;
+
+                    if (filterOptions.fields.length > 0) {
+                        _.forEach(filterOptions.fields, function (field) {
+                            config.params[field] = filterOptions.query;
+                        });
+                    } else {
+                        config.params._all = filterOptions.query;
                     }
                 }
 
@@ -137,7 +143,19 @@
 
             function getHierarchyConfig() {
                 var url = cfg.hierarchyConfigUrl;
-                return $http.put(url).then(function (result) {
+                return $http.get(url).then(function (result) {
+                    return result.data;
+                });
+            }
+
+            function getHierarchyData(hierarchyId, id) {
+                if (!hierarchyId) {
+                    return $q.reject("No hierarchy id.");
+                }
+
+                var url = cfg.hierarchyDataUrlTpl.replace("{hierarchyId}", hierarchyId) + "/" + id;
+
+                return $http.get(url).then(function (result) {
                     return result.data;
                 });
             }

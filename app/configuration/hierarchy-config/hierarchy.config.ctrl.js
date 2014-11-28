@@ -5,10 +5,10 @@
         .module("fc.configuration")
         .controller("HierarchyConfigCtrl", hierarchyConfigCtrl);
 
-    hierarchyConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "hierarchyConfigSvc"];
+    hierarchyConfigCtrl.$inject = ["lodash", "$modal", "$scope", "$state", "appConfig", "hierarchyConfigSvc", "reloadMenuEventValue"];
 
     /* @ngInject */
-    function hierarchyConfigCtrl(_, $modal, $scope, $state, config, hierarchyConfigSvc) {
+    function hierarchyConfigCtrl(_, $modal, $scope, $state, config, hierarchyConfigSvc, reloadMenuEventValue) {
         /* jshint validthis: true */
         var vm = this;
         var maxLevels = 9;
@@ -178,6 +178,7 @@
         function save() {
             hierarchyConfigSvc.createHierarchyConfig(vm.levels).then(function () {
                 // Finished saving...yay!!!
+                $scope.$emit(reloadMenuEventValue);
                 $state.go("root.language-config");
             });
         }
@@ -190,7 +191,7 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.description && level.data && level.data.name && level.data.code);
+            return Boolean(level.name && level.data && level.data.name && level.data.code);
         }
     }
 })();

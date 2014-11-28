@@ -38,8 +38,8 @@
         "RESTORE_ACTION_PAST": "activated",
         "DELETE_ACTION_PRESENT": "deactivate",
         "DELETE_ACTION_PAST": "deactivated",
-        "ACTION_SUCCESS_MESSAGE_TEMPLATE": "Successfully %(action)s %(data)s.",
-        "ACTION_WARNING_MESSAGE_TEMPLATE": "Are you sure you want to %(action)s these %(data)s?",
+        "ACTION_SUCCESS_MESSAGE_TEMPLATE": "%(action)s %(count)s items successfully.",
+        "ACTION_WARNING_MESSAGE_TEMPLATE": "Are you sure you want to %(action)s these %(count)s items?",
 
         "table": {
             "ID_FILTER_TEXT": "Filter Id",
@@ -58,11 +58,7 @@
             "VAT_NUMBER_FILTER_TEXT": "Filter VAT",
             "PIN_FILTER_TEXT": "Filter PIN",
             "FIELD_FILTER_TEXT": "Filter",
-            "FIELD_FILTER_LABEL": "Filter on",
-            "COL_VIS_TEXT": "Show/Hide Columns",
-            "COPY_TOOL_TEXT": "Copy",
-            "PRINT_TOOL_TEXT": "Print",
-            "SAVE_AS_TOOL_TEXT": "Save As"
+            "FIELD_FILTER_LABEL": "Filter on"
         },
 
         "input": {
@@ -79,13 +75,15 @@
             "EMAIL_LABEL": "Email",
             "PIN_LABEL": "PIN",
             "REGISTRATION_LABEL": "Registration",
+            "BRANCH_IS_WAREHOUSE_LABEL": "Branch Is Warehouse?",
             "PACKABLE_LABEL": "Packable",
             "PERCENTAGE_LABEL": "Percentage",
             "VAT_NUMBER_LABEL": "VAT Number",
             "EXTRA_INFO_LABEL": "Extra Information",
+            "REQUIRED_VALIDATION_TEXT": "Please enter the {{field}}.",
+            "PARENT_LABEL": "Parent",
             "SDATE_LABEL": "Start date",
-            "EDATE_LABEL": "End date",
-            "REQUIRED_VALIDATION_TEXT": "Please enter the {{object}} {{field}}."
+            "EDATE_LABEL": "End date"
         }
     }
 }
