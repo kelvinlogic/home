@@ -8,9 +8,9 @@
     /* @ngInject */
     function currencyDataSvcProvider() {
         // Available in config.
-        var cfg = this;
-        cfg.currencyConfigUrl = null;
-        cfg.$get = currencyDataSvc;
+        var me = this;
+        me.currencyConfigUrl = null;
+        me.$get = currencyDataSvc;
 
         currencyDataSvc.$inject = ["$http", "$q"];
 
@@ -27,19 +27,18 @@
             * API
             */
             function createCurrency(data) {
-                var url = cfg.currencyConfigUrl;
+                var url = me.currencyConfigUrl;
                 return $http.post(url, data).then(function (result) {
                     return result.data;
                 });
             }
             function deactivateCurrencies(ids) {
                 // Ensure that the endpoint only gets arrays.
-                console.log(ids)
                 if (!angular.isArray(ids)) {
                     ids = [ids];
                 }
 
-                var url = cfg.currencyConfigUrl;
+                var url = me.currencyConfigUrl;
                 return $http.post(url, ids).then(function (result) {
                     return result.data;
                 });
@@ -50,7 +49,7 @@
                     ids = [ids];
                 }
 
-                var url = cfg.currencyConfigUrl;
+                var url = me.currencyConfigUrl;
                 return $http.post(url, ids).then(function (result) {
                     return result.data;
                 });
@@ -88,13 +87,21 @@
                         config.params.replaceRemoved = replaceRemoved;
                     }
                 }
+                if (refresh) {
+                    if (refresh) {
+                        config.params.refresh = refresh;
+                    }
+                }
 
-                return $http.get(cfg.currencyConfigUrl, config).then(function (result) {
+                return $http.get(me.currencyConfigUrl, config).then(function (result) {
                     return result.data;
                 });
             }
             function updateCurrency(id, currency) {
-                return $http.put(cfg.currencyConfigUrl + "/" + id, currency).then(function (result) {
+                if(!id){
+                    $q.reject("No item id");
+                }
+                return $http.put(me. currencyConfigUrl + "/" + id, currency).then(function (result) {
                     return result.data;
                 });
             }

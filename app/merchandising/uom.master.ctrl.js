@@ -6,9 +6,9 @@
         .controller('UomMasterCtrl', uomMaster)
         .controller('UomDetailCtrl', uomDetail);
 
-    uomMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$stateParams', '$translate', 'uomDataSvc', 'throttleValue'];
+    uomMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$translate', 'uomDataSvc', 'throttleValue'];
     /* @ngInject */
-    function uomMaster(_, Rx, $modal, $scope, $stateParams, $translate, uomDataSvc, throttleValue) {
+    function uomMaster(_, Rx, $modal, $scope, $translate, uomDataSvc, throttleValue) {
         /* jshint valid this: true */
         var vm = this,
             _uomDetailModalOptions = null,
@@ -56,7 +56,6 @@
         /*
          *   functions to perform crud functionality
          */
-
         function activate() {
             _uomDetailModalOptions = {
                 templateUrl: "fc/editModalTpl",

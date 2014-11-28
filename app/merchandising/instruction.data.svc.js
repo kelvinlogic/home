@@ -11,9 +11,9 @@
     /* @ngInject */
     function instructionDataSvcProvider() {
         // Available in config.
-        var cfg = this;
-        cfg.instructionConfigUrl = null;
-        cfg.$get = instructionDataSvc;
+        var me = this;
+        me.instructionConfigUrl = null;
+        me.$get = instructionDataSvc;
 
         instructionDataSvc.$inject = ["$http", "$q"];
 
@@ -23,34 +23,25 @@
                 activateInstructions: activateInstructions,
                 deactivateInstructions: deactivateInstructions,
                 getInstructions: getInstructions,
-                updateInstruction: updateInstruction,
-                searchFilter:searchFilter
+                updateInstruction: updateInstruction
             };
             /*
              * methods to perform server requests that interact with the
              * API
              */
             function createInstruction(data) {
-                var url = cfg.instructionConfigUrl;
+                var url = me.instructionConfigUrl;
                 return $http.post(url, data).then(function (result) {
-                    return result.data;
-                });
-            }
-            function searchFilter(data){
-                console.log(data);
-                var url = cfg.instructionConfigUrl;
-                return $http.get(url, data).then(function (result) {
                     return result.data;
                 });
             }
             function deactivateInstructions(ids) {
                 // Ensure that the endpoint only gets arrays.
-                console.log(ids)
                 if (!angular.isArray(ids)) {
                     ids = [ids];
                 }
 
-                var url = cfg.instructionConfigUrl;
+                var url = me.instructionConfigUrl;
                 return $http.post(url, ids).then(function (result) {
                     return result.data;
                 });
@@ -61,12 +52,12 @@
                     ids = [ids];
                 }
 
-                var url = cfg.instructionConfigUrl;
+                var url = me.instructionConfigUrl;
                 return $http.post(url, ids).then(function (result) {
                     return result.data;
                 });
             }
-            function getInstructions( page, pageSize, filter, showInactive, replaceRemoved, refresh) {
+            function getInstructions( page, pageSize, filter, showInactive, replaceRemoved, refresh){
                 if (!page) {
                     page = 1;
                 }
@@ -99,13 +90,21 @@
                         config.params.replaceRemoved = replaceRemoved;
                     }
                 }
+                if (refresh) {
+                    if (refresh) {
+                        config.params.refresh = refresh;
+                    }
+                }
 
-                return $http.get(cfg.instructionConfigUrl, config).then(function (result) {
+                return $http.get(me.instructionConfigUrl, config).then(function (result) {
                     return result.data;
                 });
             }
             function updateInstruction(id, instruction) {
-                return $http.put(cfg.instructionConfigUrl + "/" + id, instruction).then(function (result) {
+                if(!id){
+                    $q.reject("No item id");
+                }
+                return $http.put(me.instructionConfigUrl + "/" + id, instruction).then(function (result) {
                     return result.data;
                 });
             }

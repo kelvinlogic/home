@@ -10,7 +10,6 @@
 
     /* @ngInject */
     function creditCardSvcProvider() {
-        // Available in config.
         var cfg = this;
         cfg.creditCardConfigUrl = null;
         cfg.$get = creditCardSvc;
@@ -37,7 +36,6 @@
             }
             function deactivateCreditCards(ids) {
                 // Ensure that the endpoint only gets arrays.
-                console.log(ids)
                 if (!angular.isArray(ids)) {
                     ids = [ids];
                 }
@@ -91,12 +89,20 @@
                         config.params.replaceRemoved = replaceRemoved;
                     }
                 }
+                if (refresh) {
+                    if (refresh) {
+                        config.params.refresh = refresh;
+                    }
+                }
 
                 return $http.get(cfg.creditCardConfigUrl, config).then(function (result) {
                     return result.data;
                 });
             }
             function updateCreditCard(id, creditCard) {
+                if(!id){
+                    $q.reject("No item id");
+                }
                 return $http.put(cfg.creditCardConfigUrl + "/" + id, creditCard).then(function (result) {
                     return result.data;
                 });

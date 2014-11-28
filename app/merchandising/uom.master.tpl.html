@@ -208,8 +208,6 @@
 
 <script id="fc/uomFormTpl" type="text/ng-template">
     <form name="uomForm" role="form" data-ng-submit="vm.saveChanges()">
-
-
         <div class="form-group form-group" data-ng-class="{'has-error has-feedback': !uomForm.code.$valid && !uomForm.code.$pristine}">
             <label class="control-label" for="code-1"
                    data-translate="fc.merchandising.uom.table.CODE_HEADER"></label>
@@ -220,13 +218,13 @@
                    data-ng-required="::vm.validationData.code.required"/>
             <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                data-ng-if="!uomForm.code.$valid && !uomForm.code.$pristine"></i>
-                <span class="help-block" data-ng-messages="uomForm.code.$error"
-                      data-ng-show="!uomForm.code.$valid && !uomForm.code.$pristine">
-                    <span data-ng-if="::vm.validationData.code.required"
-                          data-ng-message="required">
-                        <span data-translate="fc.merchandising.uom.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
-                    </span>
+            <span class="help-block" data-ng-messages="uomForm.code.$error"
+                  data-ng-show="!uomForm.code.$valid && !uomForm.code.$pristine">
+                <span data-ng-if="::vm.validationData.code.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.uom.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
                 </span>
+            </span>
         </div>
         <div class="form-group form-group">
             <label class="control-label" for="description-1"
