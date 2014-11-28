@@ -471,7 +471,8 @@
         }
 
         function initTypeahead() {
-            var engineRemote = constants.suggestions.hierarchy.remote;
+            // Extend to prevent changing the constants...fixes issue with fetching incorrect parent.
+            var engineRemote = angular.extend({}, constants.suggestions.hierarchy.remote);
             engineRemote.url = engineRemote.url.replace("@{type}", "organisational").replace("@{hierarchyId}", _parentHierId);
 
             _parentEngine = new Bloodhound({
