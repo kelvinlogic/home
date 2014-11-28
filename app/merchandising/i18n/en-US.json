@@ -1,85 +1,32 @@
 {
     "fc.merchandising": {
-        "entity": {
-            "DETAIL_PAGE_TITLE": "Entity",
-            "MASTER_PAGE_TITLE": "Entities",
-
-            "input": {
-                "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "DESCRIPTION_LABEL": "@:fc.input.DESCRIPTION_LABEL",
-                "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL",
-                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this entity.",
-                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this entity.",
-                "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
-                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this entity."
-            },
-
-            "table": {
-                "ID_HEADER": "@:fc.input.ID_LABEL",
-                "CODE_HEADER": "@:fc.input.CODE_LABEL",
-                "DESCRIPTION_HEADER": "@:fc.input.DESCRIPTION_LABEL",
-                "LOCATION_HEADER": "@:fc.input.LOCATION_LABEL",
-                "NAME_HEADER": "@:fc.input.NAME_LABEL",
-                "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
-                "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "DESCRIPTION_FILTER_TEXT": "@:fc.table.DESCRIPTION_FILTER_TEXT",
-                "LOCATION_FILTER_TEXT": "@:fc.table.LOCATION_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
-                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
-            }
-        },
-
         "hierarchy": {
             "DETAIL_PAGE_TITLE": "Hierarchy",
             "MASTER_PAGE_TITLE": "Hierarchies",
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
+                "DESCRIPTION_LABEL": "@:fc.input.DESCRIPTION_LABEL",
                 "FIELD_LABEL": "@:fc.input.FIELD_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "LOCATION_LABEL": "@:fc.input.LOCATION_LABEL",
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT": "Please enter a code for this hierarchy.",
+                "REQUIRED_NAME_VALIDATION_TEXT": "Please enter a name for this hierarchy.",
+                "REQUIRED_LOCATION_VALIDATION_TEXT": "Please enter a location for this entity.",
+                "REQUIRED_DESCRIPTION_VALIDATION_TEXT": "Please enter a short description for this hierarchy."
             },
 
             "table": {
                 "ID_HEADER": "@:fc.input.ID_LABEL",
                 "CODE_HEADER": "@:fc.input.CODE_LABEL",
                 "FIELD_HEADER": "@:fc.input.FIELD_LABEL",
+                "LOCATION_HEADER": "@:fc.input.LOCATION_LABEL",
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
                 "FIELD_FILTER_TEXT": "@:fc.table.FIELD_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
-            }
-        },
-
-        "branch": {
-            "DETAIL_PAGE_TITLE": "Branch",
-            "MASTER_PAGE_TITLE": "Branches",
-
-            "input": {
-                "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL",
-                "ADDRESS_LABEL": "@:fc.input.ADDRESS_LABEL",
-                "PHONE_LABEL": "@:fc.input.PHONE_LABEL",
-                "FAX_LABEL": "@:fc.input.FAX_LABEL",
-                "EMAIL_LABEL": "@:fc.input.EMAIL_LABEL",
-                "PIN_LABEL": "@:fc.input.PIN_LABEL",
-                "REGISTRATION_LABEL": "@:fc.input.REGISTRATION_LABEL"
-            },
-
-            "table": {
-                "ID_HEADER": "@:fc.input.ID_LABEL",
-                "CODE_HEADER": "@:fc.input.CODE_LABEL",
-                "NAME_HEADER": "@:fc.input.NAME_LABEL",
-                "EMAIL_HEADER": "@:fc.input.EMAIL_LABEL",
-                "PHONE_HEADER": "@:fc.input.PHONE_LABEL",
-                "ADDRESS_HEADER": "@:fc.input.ADDRESS_LABEL",
-                "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
-                "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
                 "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
-                "EMAIL_FILTER_TEXT": "@:fc.table.EMAIL_FILTER_TEXT",
-                "PHONE_FILTER_TEXT": "@:fc.table.PHONE_FILTER_TEXT",
-                "ADDRESS_FILTER_TEXT": "@:fc.table.ADDRESS_FILTER_TEXT"
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
             }
         },
 
@@ -198,7 +145,8 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "UOM_LABEL": "@:fc.input.NAME_LABEL"
             },
 
             "table": {
@@ -217,7 +165,10 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "PRODUCT_LABEL": "Product",
+                "ATTRIBUTE_LABEL": "Attribute",
+                "VALUE_LABEL": "Value"
             },
 
             "table": {
@@ -226,28 +177,6 @@
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
-            }
-        },
-
-        "productHierarchy": {
-            "DETAIL_PAGE_TITLE": "Product Hierarchy",
-            "MASTER_PAGE_TITLE": "Product Hierarchy",
-
-            "input": {
-                "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "EXTRA_INFO_LABEL": "@:fc.input.EXTRA_INFO_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
-            },
-
-            "table": {
-                "ID_HEADER": "@:fc.input.ID_LABEL",
-                "CODE_HEADER": "@:fc.input.CODE_LABEL",
-                "EXTRA_INFO_HEADER": "@:fc.input.EXTRA_INFO_LABEL",
-                "NAME_HEADER": "@:fc.input.NAME_LABEL",
-                "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
-                "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "EXTRA_INFO_FILTER_TEXT": "@:fc.table.EXTRA_INFO_FILTER_TEXT",
                 "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
             }
         },
@@ -341,7 +270,9 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "SDATE_LABEL": "@:fc.input.SDATE_LABEL",
+                "EDATE_LABEL": "@:fc.input.EDATE_LABEL"
             },
 
             "table": {
@@ -380,19 +311,12 @@
 
         "productHierarchyMapping": {
             "PAGE_TITLE": "Product Hierarchy Mapping",
-            "WELCOME_TEXT": "Welcome to the FutureCoRe system. Before you begin, you need to provide us with some information about your business' organizational hierarchy.",
-            "HELP_TEXT": "Please enter the relevant information in the dotted lines to proceed. Once all of the information in a hierarchy level is entered, action buttons will appear at the bottom for adding or removing a level. The button with a PLUS icon is used to add a new level just below the current level. The button with a MINUS icon is used to remove the current level.",
 
             "input": {
                 "NAME_LABEL": "Name",
-                "NAME_PLACEHOLDER": "Name e.g. Company",
+                "NAME_PLACEHOLDER": "Please enter a name.",
                 "CODE_LABEL": "Code",
-                "CODE_PLACEHOLDER": "Code e.g. Co"
-            },
-
-            "item": {
-                "DATA_VALID_TITLE": "@:fc.DATA_VALID_TEXT",
-                "DATA_INVALID_TITLE": "@:fc.DATA_INVALID_TEXT"
+                "CODE_PLACEHOLDER": "Please enter a code."
             }
         },
 

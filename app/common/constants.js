@@ -5,5 +5,6 @@
         .module('fc.common')
         .constant('lodash', _)
         .constant('rx', Rx)
-        .value('throttleValue', 500);
+        .value('throttleValue', 500)
+        .value('reloadMenuEventValue', 'fc.reloadNavMenu');
 })();

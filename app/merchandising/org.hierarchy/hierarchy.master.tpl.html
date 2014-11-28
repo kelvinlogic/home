@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="HierarchyMasterCtrl as vm">
+<section id="widget-grid" data-widget-grid data-ng-controller="OrganisationalHierarchyMasterCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,8 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{vm.titleKey}}" data-ng-if="!vm.title"></h2>
-                    <h2 data-ng-if="vm.title">{{vm.title}}</h2>
+                    <h2 data-ng-bind="vm.title"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -46,13 +45,13 @@
                                         </div>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-success" data-ng-if="vm.selected"
-                                                    data-ng-click="vm.activateHierarchies()"
+                                                    data-ng-click="vm.activateItems()"
                                                     data-tooltip="{{'fc.RESTORE_SELECTED_TEXT' | translate}}"
                                                     data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
                                                 <i class="fa fa-check"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger" data-ng-if="vm.selected"
-                                                    data-ng-click="vm.deactivateHierarchies()"
+                                                    data-ng-click="vm.deactivateItems()"
                                                     data-tooltip="{{'fc.DELETE_SELECTED_TEXT' | translate}}"
                                                     data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
                                                 <i class="fa fa-trash-o"></i>
@@ -76,8 +75,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="btn-group btn-group-justified" data-dropdown>
-                                        <button type="button" class="btn btn-default dropdown-toggle" style="width: 100%">
-                                            <span data-translate="fc.merchandising.hierarchy.table.FIELD_LABEL_TEXT"></span>
+                                        <button type="button" class="btn btn-default" data-dropdown-toggle style="width: 100%">
+                                            <span data-translate="fc.input.FIELD_LABEL"></span>
                                             <span data-ng-if="vm.fields.length <= 0">
                                                 <span data-translate="fc.ALL_FIELDS_TEXT"></span>
                                             </span>
@@ -87,7 +86,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" style="width: 100%">
-                                            <li role="presentation" data-ng-repeat="f in vm.getFields()">
+                                            <li role="presentation" data-ng-repeat="f in vm.allFields">
                                                 <a role="menuitem" tabindex="-1" href=""
                                                    data-ng-click="vm.toggleFilterField(f)">
                                                     <i class="fa fa-fw" data-ng-class="{'fa-check': vm.isFieldSelected(f)}"></i>
@@ -127,7 +126,7 @@
                                                         <div class="row" data-ng-if="hierarchy.code">
                                                             <div class="col-md-4 col-sm-3 col-xs-4">
                                                             <span class="text-muted">
-                                                                <span data-translate="fc.merchandising.hierarchy.table.CODE_HEADER"></span>:
+                                                                <span data-translate="fc.input.CODE_LABEL"></span>:
                                                             </span>
                                                             </div>
                                                             <div class="col-md-8 col-sm-9 col-xs-8">
@@ -137,7 +136,7 @@
                                                         <div class="row" data-ng-if="hierarchy.name">
                                                             <div class="col-md-4 col-sm-3 col-xs-4">
                                                             <span class="text-muted">
-                                                                <span data-translate="fc.merchandising.hierarchy.table.NAME_HEADER"></span>:
+                                                                <span data-translate="fc.input.NAME_LABEL"></span>:
                                                             </span>
                                                             </div>
                                                             <div class="col-md-8 col-sm-9 col-xs-8">
@@ -147,7 +146,7 @@
                                                         <div class="row" data-ng-if="hierarchy.location">
                                                             <div class="col-md-4 col-sm-3 col-xs-4">
                                                             <span class="text-muted">
-                                                                <span data-translate="fc.merchandising.hierarchy.table.LOCATION_HEADER"></span>:
+                                                                <span data-translate="fc.input.LOCATION_LABEL"></span>:
                                                             </span>
                                                             </div>
                                                             <div class="col-md-8 col-sm-9 col-xs-8">
@@ -165,7 +164,7 @@
                                                             <i class="fa fa-fw fa-edit"></i>
                                                         </button>
                                                         <button class="btn btn-success"
-                                                                data-ng-click="$event.stopPropagation(); vm.activateHierarchies(hierarchy)"
+                                                                data-ng-click="$event.stopPropagation(); vm.activateItems(hierarchy)"
                                                                 data-ng-if="!hierarchy.active"
                                                                 data-tooltip="{{'fc.RESTORE_TEXT' | translate}}"
                                                                 data-tooltip-placement="top"
@@ -173,7 +172,7 @@
                                                             <i class="fa fa-fw fa-check"></i>
                                                         </button>
                                                         <button class="btn btn-danger"
-                                                                data-ng-click="$event.stopPropagation(); vm.deactivateHierarchies(hierarchy)"
+                                                                data-ng-click="$event.stopPropagation(); vm.deactivateItems(hierarchy)"
                                                                 data-ng-if="hierarchy.active"
                                                                 data-tooltip="{{'fc.DELETE_TEXT' | translate}}"
                                                                 data-tooltip-placement="top"
@@ -196,7 +195,7 @@
                             </div>
                         </div>
                         <div data-ng-if="vm.hierarchy">
-                            <div data-ng-include="'fc/hierarchyFormTpl'"></div>
+                            <div data-ng-include="'merchandising/templates/form.tpl.html'"></div>
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -210,110 +209,3 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
-
-<script id="fc/editModalTpl" type="text/ng-template">
-    <div class="modal-header">
-        <h3 class="modal-title" data-translate="fc.merchandising.hierarchy.DETAIL_PAGE_TITLE" data-ng-if="!vm.hierarchy.name"></h3>
-        <h3 class="modal-title" data-ng-if="vm.hierarchy.name">{{vm.hierarchy.name}}</h3>
-    </div>
-    <div class="modal-body">
-        <div data-ng-include="'fc/hierarchyFormTpl'"></div>
-    </div>
-</script>
-
-<script id="fc/hierarchyFormTpl" type="text/ng-template">
-    <form name="hierarchyForm" role="form" data-ng-submit="vm.saveChanges()">
-        <div class="form-group" data-ng-class="{'has-error has-feedback': !hierarchyForm.code.$valid && !hierarchyForm.code.$pristine}">
-            <label class="control-label" for="code"
-                   data-translate="fc.merchandising.hierarchy.input.CODE_LABEL"></label>
-            <input id="code" type="text" name="code"
-                   class="fc-input-full-width form-control"
-                   placeholder="{{'fc.merchandising.hierarchy.input.CODE_LABEL' | translate}}"
-                   data-ng-model="vm.hierarchy.code" data-vt-keyboard
-                   data-ng-required="::vm.validationData.code.required"/>
-            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
-               data-ng-if="!hierarchyForm.code.$valid && !hierarchyForm.code.$pristine"></i>
-            <span class="help-block" data-ng-messages="hierarchyForm.code.$error"
-                  data-ng-show="!hierarchyForm.code.$valid && !hierarchyForm.code.$pristine">
-                <span data-ng-if="::vm.validationData.code.required"
-                      data-ng-message="required">
-                    <span data-translate="fc.merchandising.hierarchy.input.REQUIRED_CODE_VALIDATION_TEXT"></span>
-                </span>
-            </span>
-        </div>
-        <div class="form-group" data-ng-class="{'has-error has-feedback': !hierarchyForm.name.$valid && !hierarchyForm.name.$pristine}">
-            <label class="control-label" for="name"
-                   data-translate="fc.merchandising.hierarchy.input.NAME_LABEL"></label>
-            <input id="name" type="text" name="name"
-                   class="fc-input-full-width form-control"
-                   placeholder="{{'fc.merchandising.hierarchy.input.NAME_LABEL' | translate}}"
-                   data-ng-model="vm.hierarchy.name" data-vt-keyboard
-                   data-ng-required="::vm.validationData.name.required"/>
-            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
-               data-ng-if="!hierarchyForm.name.$valid && !hierarchyForm.name.$pristine"></i>
-            <span class="help-block" data-ng-messages="hierarchyForm.name.$error"
-                  data-ng-show="!hierarchyForm.name.$valid && !hierarchyForm.name.$pristine">
-                <span data-ng-if="::vm.validationData.name.required"
-                      data-ng-message="required">
-                    <span data-translate="fc.merchandising.hierarchy.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
-                </span>
-            </span>
-        </div>
-        <div class="form-group" data-ng-if="vm.isEntity()"
-             data-ng-class="{'has-error has-feedback': !hierarchyForm.location.$valid && !hierarchyForm.location.$pristine}">
-            <label class="control-label" for="location"
-                   data-translate="fc.merchandising.hierarchy.input.LOCATION_LABEL"></label>
-            <input id="location" type="text" name="location"
-                   class="fc-input-full-width form-control"
-                   placeholder="{{'fc.merchandising.hierarchy.input.LOCATION_LABEL' | translate}}"
-                   data-ng-model="vm.hierarchy.location" data-vt-keyboard
-                   data-ng-required="::vm.validationData.location.required"/>
-            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
-               data-ng-if="!hierarchyForm.location.$valid && !hierarchyForm.location.$pristine"></i>
-            <span class="help-block" data-ng-messages="hierarchyForm.location.$error"
-                  data-ng-show="!hierarchyForm.location.$valid && !hierarchyForm.location.$pristine">
-                <span data-ng-if="::vm.validationData.location.required"
-                      data-ng-message="required">
-                    <span data-translate="fc.merchandising.hierarchy.input.REQUIRED_LOCATION_VALIDATION_TEXT"></span>
-                </span>
-            </span>
-        </div>
-        <div class="form-group" data-ng-if="vm.isEntity()"
-             data-ng-class="{'has-error has-feedback': !hierarchyForm.description.$valid && !hierarchyForm.description.$pristine}">
-            <label class="control-label" for="description"
-                   data-translate="fc.merchandising.hierarchy.input.DESCRIPTION_LABEL"></label>
-            <input id="description" type="text" name="description"
-                   class="fc-input-full-width form-control"
-                   placeholder="{{'fc.merchandising.hierarchy.input.DESCRIPTION_LABEL' | translate}}"
-                   data-ng-model="vm.hierarchy.description" data-vt-keyboard
-                   data-ng-required="::vm.validationData.description.required"/>
-            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
-               data-ng-if="!hierarchyForm.description.$valid && !hierarchyForm.description.$pristine"></i>
-            <span class="help-block" data-ng-messages="hierarchyForm.description.$error"
-                  data-ng-show="!hierarchyForm.description.$valid && !hierarchyForm.description.$pristine">
-                <span data-ng-if="::vm.validationData.description.required"
-                      data-ng-message="required">
-                    <span data-translate="fc.merchandising.hierarchy.input.REQUIRED_DESCRIPTION_VALIDATION_TEXT"></span>
-                </span>
-            </span>
-        </div>
-        <div class="form-group" data-ng-repeat="(key, value) in vm.hierarchy.fields"
-             data-ng-class="{'has-error has-feedback': !hierarchyForm[key].$valid && !hierarchyForm[key].$pristine}">
-            <label class="control-label col-md-2" for="field_{{$index}}"
-                   data-ng-bind="key | string:'capitalize'"></label>
-            <input id="field_{{$index}}" type="text" name="key"
-                   class="fc-input-full-width form-control"
-                   placeholder="{{key | string: 'capitalize'}}"
-                   data-ng-model="value" data-vt-keyboard />
-        </div>
-        <div class="form-actions">
-            <button class="btn btn-success" type="submit" data-ng-disabled="hierarchyForm.$invalid">
-                <i class="fa fa-save" data-ng-if="!vm.isSaving"></i>
-                <i class="fa fa-spinner fa-spin" data-ng-if="vm.isSaving"></i>
-                <span data-translate="fc.SAVE_TEXT"></span>
-            </button>
-            <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                    data-ng-click="vm.cancelChanges()"></button>
-        </div>
-    </form>
-</script>
