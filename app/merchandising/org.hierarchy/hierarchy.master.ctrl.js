@@ -3,13 +3,22 @@
 
     angular
         .module('fc.merchandising')
-        .controller('HierarchyMasterCtrl', hierarchyMaster)
-        .controller('HierarchyDetailCtrl', hierarchyDetail);
+        .controller('OrganisationalHierarchyMasterCtrl', hierarchyMaster)
+        .controller('OrganisationalHierarchyDetailCtrl', hierarchyDetail);
 
-    hierarchyMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$stateParams', '$translate', 'orgHierarchyDataSvc', 'throttleValue'];
+    hierarchyMaster.$inject = [
+        "lodash",
+        "rx",
+        "$modal",
+        "$scope",
+        "$stateParams",
+        "$translate",
+        "orgHierarchyDataSvc",
+        "throttleValue",
+        "merchandisingConstants"
+    ];
 
-    /* @ngInject */
-    function hierarchyMaster(_, Rx, $modal, $scope, $stateParams, $translate, hierarchyDataSvc, throttleValue) {
+    function hierarchyMaster(_, Rx, $modal, $scope, $stateParams, $translate, hierarchyDataSvc, throttleValue, constants) {
         /* jshint validthis: true */
         var vm = this,
             _hierarchyDetailModalOptions = null,
@@ -18,24 +27,27 @@
             _pageSize = null,
             _pin = null,
             _totalServerItems = null,
-            _hierarchyId = null;
+            _hierarchyId = null,
+            _parentHierId = null,
+            _parentEngine = null;
 
         vm.activate = activate;
-        vm.activateHierarchies = activateHierarchies;
+        vm.activateItems = activateItems;
+        vm.allFields = [];
         vm.cancelChanges = cancelChanges;
         vm.createHierarchy = createHierarchy;
+        vm.customFields = [];
         vm.edit = edit;
-        vm.getFields = getFields;
         vm.getSelectionKey = getSelectionKey;
         vm.filter = null;
         vm.fields = [];
+        vm.formFields = {};
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
-        vm.isBranch = isBranch;
-        vm.isEntity = isEntity;
+        vm.hasParent = hasParent;
         vm.isFieldSelected = isFieldSelected;
         vm.loadNextPage = loadNextPage;
-        vm.deactivateHierarchies = deactivateHierarchies;
+        vm.deactivateItems = deactivateItems;
         vm.saveChanges = saveChanges;
         vm.selectAll = selectAll;
         vm.selected = null;
@@ -43,7 +55,6 @@
         vm.hierarchies = [];
         vm.hierarchy = null;
         vm.title = null;
-        vm.titleKey = 'fc.merchandising.hierarchy.MASTER_PAGE_TITLE';
         vm.toggleFilterField = toggleFilterField;
         vm.toggleSelection = toggleSelection;
         vm.validationData = null;
@@ -54,11 +65,15 @@
 
         function activate() {
             _hierarchyDetailModalOptions = {
-                templateUrl: "fc/editModalTpl",
-                controller: "HierarchyDetailCtrl as vm"
+                templateUrl: "merchandising/templates/modal.tpl.html",
+                controller: "OrganisationalHierarchyDetailCtrl as vm",
+                size: 'lg'
             };
 
             vm.validationData = {
+                parent:{
+                    required: true
+                },
                 code: {
                     required: true
                 },
@@ -70,18 +85,36 @@
                 },
                 name: {
                     required: true
+                },
+                address1: {
+                    required: true
+                },
+                phone1: {
+                    required: true
+                },
+                fax1: {
+                    required: true
+                },
+                email1: {
+                    required: true
+                },
+                pin: {
+                    required: true
+                },
+                registration: {
+                    required: true
                 }
             };
 
             load();
         }
 
-        function activateHierarchies(hierarchy) {
+        function activateItems(item) {
             // NOTE:...................................................
             // If we passed a hierarchy, assume the activation of the single said hierarchy.
             // else, assume the activation of all selected hierarchies.
 
-            changeActivation(hierarchy, true);
+            changeActivation(item, true);
         }
 
         function cancelChanges() {
@@ -95,7 +128,6 @@
             }
 
             var toTranslate = [
-                "fc.merchandising.hierarchy.MASTER_PAGE_TITLE",
                 "fc.ACTION_WARNING_MESSAGE_TEMPLATE",
                 "fc.SUCCESS_ALERT_TITLE",
                 "fc.ACTION_SUCCESS_MESSAGE_TEMPLATE",
@@ -110,8 +142,7 @@
             ];
 
             $translate(toTranslate).then(function (translations) {
-                var pageTitle = translations["fc.merchandising.hierarchy.MASTER_PAGE_TITLE"],
-                    warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
+                var warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
                     successAlertTitle = translations["fc.SUCCESS_ALERT_TITLE"],
                     successTemplate = translations["fc.ACTION_SUCCESS_MESSAGE_TEMPLATE"],
                     failAlertTitle = translations["fc.FAIL_ALERT_TITLE"],
@@ -122,6 +153,8 @@
                     restoreActionPast = translations["fc.RESTORE_ACTION_PAST"],
                     noText = translations["fc.NO_TEXT"],
                     yesText = translations["fc.YES_TEXT"];
+
+                var pageTitle = vm.title;
 
                 var selectedHierarchies = [],
                     actionPast = newStatus ? restoreActionPast : deleteActionPast,
@@ -179,12 +212,7 @@
                     var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
                     if (changedCount > 0) {
-                        var msgData = {action: actionPast};
-                        if (changedCount === 1 && hierarchy) {
-                            msgData.data = hierarchy.name + " " + hierarchy.location;
-                        } else {
-                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
-                        }
+                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
 
                         message = _.string.sprintf(successTemplate, msgData);
 
@@ -256,11 +284,13 @@
                     // Set the messages depending on whether we're restoring a single hierarchy or a selection.
                     if (hierarchy) {
                         title += " <span class='" + textColor + "'><strong>" + hierarchy.name;
-                        title += "</strong> <span>"+ hierarchy.location +"</span></span>?";
+                        if (hierarchy.location) {
+                            title += "</strong> <span>"+ hierarchy.location +"</span></span>?";
+                        }
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            data: pageTitle.toLowerCase()
+                            count: 1
                         });
                     } else {
                         title += " <span class='" + textColor + "'><strong>";
@@ -269,7 +299,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            data: selectedHierarchies.length + " " + pageTitle.toLowerCase()
+                            count: selectedHierarchies.length
                         });
                     }
 
@@ -283,7 +313,7 @@
                         }
                     });
                 } else {
-                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent, count: selectedHierarchies.length || 1});
                     if (confirm(content)) {
                         performChange(hierarchy);
                     }
@@ -295,12 +325,12 @@
             vm.hierarchy = {};
         }
 
-        function deactivateHierarchies(hierarchy) {
+        function deactivateItems(item) {
             // NOTE:...................................................
             // If we passed an hierarchy, assume the deactivation of the single said hierarchy.
             // else, assume the deactivation of all selected hierarchies.
 
-            changeActivation(hierarchy, false);
+            changeActivation(item, false);
         }
 
         function edit(item) {
@@ -311,14 +341,23 @@
             // Use extend to prevent reference copying so we can edit the item in isolation.
             var hierarchy = angular.extend({}, item);
 
+            if (_parentHierId) {
+                hierarchyDataSvc.getHierarchyData(_parentHierId, hierarchy.parentId).then(function (data) {
+                    hierarchy.parent = data;
+                });
+            }
+
             // Setup modal options.
             _hierarchyDetailModalOptions.resolve = {
                 data: function () {
                     return {
+                        customFields: vm.customFields,
+                        formFields: vm.formFields,
+                        hasParent: hasParent,
                         hierarchy: hierarchy,
                         hierarchyId: _hierarchyId,
-                        isBranch: isBranch,
-                        isEntity: isEntity
+                        parentDataset: vm.parentDataset,
+                        validationData: vm.validationData
                     };
                 }
             };
@@ -336,29 +375,81 @@
         }
 
         function fetchHierarchies(page, pageSize, replaceRemoved, refresh) {
-            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, vm.filter, vm.showInactive, replaceRemoved, refresh)
+            var filterOptions = {_search: vm.filter && vm.filter.length > 0, query: vm.filter, fields: vm.fields};
+
+            hierarchyDataSvc.getHierarchiesData(_hierarchyId, page, pageSize, filterOptions, vm.showInactive, replaceRemoved, refresh)
                 .then(function (data) {
                     _currentPage = data.page;
                     _pageSize = data.maxItems;
                     _pin = data.pin;
+                    _parentHierId = data.parentId;
                     _totalServerItems = data.inlineCount;
+                    vm.allFields = [];
 
-                    if (data.description && vm.title !== data.description) {
-                        vm.title = data.description;
+                    vm.customFields = data.customFields;
+
+                    if (data.name && vm.title !== data.name) {
+                        vm.title = data.name;
                     }
 
                     if (refresh) {
                         vm.hierarchies = [];
                     }
 
+                    if (_parentHierId) {
+                        vm.validationData.parent = {required: true};
+                        initTypeahead();
+                    }
+
+                    // Setup dynamic form fields.
+                    vm.formFields.code = true;
+                    vm.formFields.name = true;
+                    vm.allFields.push("code", "name");
+
+                    // Entity fields.
+                    if (_pin === 1) {
+                        vm.formFields.description = true;
+                        vm.formFields.location = true;
+                        vm.allFields.push("location", "description");
+                    }
+
+                    // Middle hierarchy fields
+                    if (!_pin) {
+                        vm.formFields.customFields = data.customFields && data.customFields.length > 0;
+                    }
+
+                    // Fields in hierarchies with parents i.e. with a parentHierId.
+                    vm.formFields.parent = _parentHierId;
+
+                    // Branch fields
+                    if (_pin === 2) {
+                        vm.formFields.address1 = true;
+                        vm.formFields.address2 = true;
+                        vm.formFields.address3 = true;
+                        vm.formFields.address4 = true;
+                        vm.formFields.phone1 = true;
+                        vm.formFields.phone2 = true;
+                        vm.formFields.phone3 = true;
+                        vm.formFields.phone4 = true;
+                        vm.formFields.fax1 = true;
+                        vm.formFields.fax2 = true;
+                        vm.formFields.email1 = true;
+                        vm.formFields.email2 = true;
+                        vm.formFields.branchIsWarehouse = true;
+                        vm.formFields.pin = true;
+                        vm.formFields.registration = true;
+
+                        vm.allFields.push("address1", "address2", "address3", "address4");
+                        vm.allFields.push("phone1", "phone2", "phone3", "phone4");
+                        vm.allFields.push("email1", "email2");
+                        vm.allFields.push("fax1", "fax2");
+                        vm.allFields.push("pin", "registration");
+                    }
+
                     updateHierarchies(data.results);
                 }, function (error) {
 
                 });
-        }
-
-        function getFields() {
-            return ["code", "name", "location", "description"];
         }
 
         function getSelectionKey() {
@@ -370,17 +461,40 @@
         }
 
         function hasNextPage() {
-            var alreadyLoadedItems = ((_currentPage - 1) * _pageSize) + vm.hierarchies.length;
+            var alreadyLoadedItems = (Math.max((_currentPage - 1), 0) * _pageSize) + vm.hierarchies.length;
 
             return alreadyLoadedItems < _totalServerItems;
         }
 
-        function isBranch() {
-            return _pin && _pin === 2;
+        function hasParent() {
+            return _parentHierId;
         }
 
-        function isEntity() {
-            return _pin && _pin === 1;
+        function initTypeahead() {
+            var engineRemote = constants.suggestions.hierarchy.remote;
+            engineRemote.url = engineRemote.url.replace("@{type}", "organisational").replace("@{hierarchyId}", _parentHierId);
+
+            _parentEngine = new Bloodhound({
+                datumTokenizer: function(d) {
+                    return Bloodhound.tokenizers.whitespace(d[constants.suggestions.hierarchy.displayKey]);
+                },
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: engineRemote
+            });
+
+            _parentEngine.initialize();
+
+            vm.typeaheadOptions = {
+                hint: true,
+                highlight: true,
+                minLength: 1
+            };
+            vm.parentDataset = {
+                name: "parent",
+                displayKey: constants.suggestions.hierarchy.displayKey,
+                source: _parentEngine.ttAdapter(),
+                templates: constants.suggestions.hierarchy.templates
+            };
         }
 
         function isFieldSelected(field) {
@@ -388,7 +502,7 @@
         }
 
         function load() {
-            _hierarchyId = _.string.toNumber($stateParams.id);
+            _hierarchyId = $stateParams.id;
             var subject = new Rx.Subject();
             subject.throttle(throttleValue).distinctUntilChanged().subscribe(function () {
                 fetchHierarchies(_currentPage, _pageSize, null, true);
@@ -397,8 +511,12 @@
             $scope.$watch(function () {
                 return vm.filter;
             }, function (newValues) {
-                /* If no field is selected, search on all fields. */
+                subject.onNext(newValues);
+            });
 
+            $scope.$watchCollection(function () {
+                return vm.fields;
+            }, function (newValues) {
                 subject.onNext(newValues);
             });
 
@@ -434,6 +552,12 @@
 
         function saveChanges() {
             vm.isSaving = true;
+
+            if (vm.hierarchy.parent && vm.hierarchy.parent.id) {
+                vm.hierarchy.parentId = vm.hierarchy.parent.id;
+                delete vm.hierarchy.parent;
+            }
+
             hierarchyDataSvc.createHierarchyData(_hierarchyId, vm.hierarchy).then(function (data) {
                 updateHierarchies(data);
                 vm.hierarchy = null;
@@ -510,26 +634,20 @@
             _hierarchyId = data.hierarchyId;
 
         vm.cancelChanges = cancelChanges;
+        vm.customFields = data.customFields;
+        vm.hasParent = data.hasParent;
         vm.hierarchy = data.hierarchy;
-        vm.isBranch = data.isBranch;
-        vm.isEntity = data.isEntity;
+        vm.formFields = data.formFields;
+        vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
-        vm.validationData = null;
+        vm.title = data.hierarchy.name;
+        vm.validationData = data.validationData;
 
         activate();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function activate() {
-            vm.validationData = {
-                code: {
-                    required: true
-                },
-                name: {
-                    required: true
-                }
-            };
-        }
+        function activate() {}
 
         function cancelChanges() {
             $modalInstance.dismiss();
@@ -537,6 +655,12 @@
 
         function saveChanges() {
             vm.isSaving = true;
+
+            if (vm.hierarchy.parent && vm.hierarchy.parent.id) {
+                vm.hierarchy.parentId = vm.hierarchy.parent.id;
+                delete vm.hierarchy.parent;
+            }
+
             hierarchyDataSvc.updateHierarchyData(_hierarchyId, vm.hierarchy.id, vm.hierarchy).then(function (data) {
                 $modalInstance.close(data);
                 vm.hierarchy = null;

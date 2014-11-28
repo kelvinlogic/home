@@ -14,8 +14,18 @@ var _           = require('lodash');
 // Our DB object.
 global.inMemDatabase = {};
 
-var hierarchiesRt = require('./api/org.hierarchies.api.js');
 var menuRt = require('./api/menu.api.js');
+var orgHierarchiesRt = require('./api/org.hierarchies.api.js');
+var prodHierarchiesRt = require('./api/prod.hierarchies.api.js');
+
+// Njuguna's merge
+var supplierRt = require('./api/supplier.api.js');
+var servingRt = require('./api/serving_uom.api.js');
+var reasonsRt = require('./api/reasons.api.js');
+var vatRt = require('./api/vat.master.api.js');
+var salesmanRt= require('./api/salesman.api.js');
+
+// Kelvin's merge
 var currencyRt = require('./api/currency.api.js');
 var instructionRt = require('./api/instruction.api.js');
 var uomRt = require('./api/uom.api.js');
@@ -37,7 +47,21 @@ app.use(morgan("dev"));
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', [hierarchiesRt, menuRt,currencyRt,instructionRt,uomRt,brandRt,creditRt]);
+app.use('/api', [
+    menuRt,
+    orgHierarchiesRt,
+    prodHierarchiesRt,
+    supplierRt,
+    servingRt,
+    reasonsRt,
+    vatRt,
+    salesmanRt,
+    currencyRt,
+    instructionRt,
+    uomRt,
+    brandRt,
+    creditRt
+]);
 
 // START THE SERVER
 // =============================================================================

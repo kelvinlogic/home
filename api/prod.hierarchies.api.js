@@ -8,15 +8,14 @@
 var express     = require('express'); 		// call express
 var _           = require('lodash');
 
-global.inMemDatabase.orgHierarchies = {};
+global.inMemDatabase.prodHierarchies = {};
 
-var db = global.inMemDatabase.orgHierarchies;
+var db = global.inMemDatabase.prodHierarchies;
 
 var params = {
     search: "_search",
     sortField: "orderBy",
-    disablePaging: "_noPage",
-    typeAhead: "_q"
+    disablePaging: "_noPage"
 };
 
 // ROUTES FOR OUR API
@@ -29,10 +28,9 @@ var router = express.Router(); 				// get an instance of the express Router
 // Config.
 
 // Get all hierarchy configurations.
-router.get("/organisational-hierarchies/config", function (req, resp) {
+router.get("/product-hierarchies/config", function (req, resp) {
     var hierarchies = _.values(db);
     var results = [];
-    var fieldRegex = /field_([0-9]+)_label+/i;
     _.forEach(hierarchies, function (hierarchy) {
         var h = _.extend({}, hierarchy);
         var firstId = _(h.items).keys().first();
@@ -42,27 +40,6 @@ router.get("/organisational-hierarchies/config", function (req, resp) {
         }
 
         h.data = (firstId && firstId.length && firstId.length > 0) ? h.items[firstId] : {};
-        var customFields = [];
-
-        var key1 = _.keys(h).join(",");
-        var match = fieldRegex.exec(key1);
-        if (match) {
-            var fieldName = match[0];
-            var key2 = _.keys(h.data).join(",");
-            var valueRegex = new RegExp("field_" + match[1] + "_value", "i");
-            var match2 = valueRegex.exec(key2);
-            var customField = {};
-            customField.name = h[fieldName];
-
-            if (match2) {
-                var match2Val = match2[0];
-                customField.value = h.data[match2Val]
-            }
-
-            customFields.push(customField);
-        }
-
-        h.data.customFields = customFields;
 
         delete h.items;
 
@@ -72,8 +49,7 @@ router.get("/organisational-hierarchies/config", function (req, resp) {
     // Return default configuration.
     if (!_.any(results)){
         results = [
-            {pin: 1, active: true, name: "Entity"},
-            {pin: 2, active: true, name: "Branch"}
+            {active: true}
         ]
     }
 
@@ -81,15 +57,15 @@ router.get("/organisational-hierarchies/config", function (req, resp) {
 });
 
 // Get a specific configuration.
-router.get("/organisational-hierarchies/config/:id", function (req, resp) {
+router.get("/product-hierarchies/config/:id", function (req, resp) {
     var id = req.params.id;
     var hierarchy = db[id];
     resp.json(hierarchy);
 });
 
 // Create a hierarchy configuration.
-router.post("/organisational-hierarchies/config", function (req, resp) {
-    var maxLevels = 9;
+router.post("/product-hierarchies/config", function (req, resp) {
+    var maxLevels = 5;
     var hierarchies = req.body; // This is an array...
 
     // If many levels, return a bad request response.
@@ -120,12 +96,6 @@ router.post("/organisational-hierarchies/config", function (req, resp) {
             data = config.data;
         }
 
-        if (config.pin === 1) {
-            config.name = "Entity";
-        } else if (config.pin === 2) {
-            config.name = "Branch"
-        }
-
         delete config.data;
         db[id] = config;
 
@@ -134,7 +104,6 @@ router.post("/organisational-hierarchies/config", function (req, resp) {
         if (data) {
             var lastDat = _.findLast(hierData);
             var datId = (lastDat ? lastDat.id : 0) + 1;
-            var fieldCount = 0;
 
             data.id = datId;
             data.active = true;
@@ -147,20 +116,6 @@ router.post("/organisational-hierarchies/config", function (req, resp) {
                 }
             }
 
-            if (data.customFields) {
-                _.forEach(data.customFields, function (field) {
-                    fieldCount++;
-
-                    config["field_" + fieldCount + "_Active"] = true;
-                    config["field_" + fieldCount + "_Mandatory"] = false;
-                    config["field_" + fieldCount + "_Label"] = field.name;
-
-                    data["field_" + fieldCount + "_Value"] = field.value;
-                });
-
-                delete data.customFields;
-            }
-
             hierData[datId] = data;
         }
 
@@ -170,7 +125,7 @@ router.post("/organisational-hierarchies/config", function (req, resp) {
     resp.json(_.values(db));
 });
 
-router.put("/organisational-hierarchies/config/:id", function (req, resp) {
+router.put("/product-hierarchies/config/:id", function (req, resp) {
     var newData = req.body;
     var id = req.params.id;
     var hierarchy = db[id];
@@ -184,16 +139,9 @@ router.put("/organisational-hierarchies/config/:id", function (req, resp) {
 });
 
 // Data.
-router.get("/organisational-hierarchies/:hierarchyId/data", function (req, resp) {
+router.get("/product-hierarchies/:hierarchyId/data", function (req, resp) {
     var fields = [params.typeAhead];
-    fields.push("code", "description", "location", "name");
-    fields.push("address1", "address2", "address3", "address4");
-    fields.push("phone1", "phone2", "phone3", "phone4");
-    fields.push("email1", "email2");
-    fields.push("fax1", "fax2");
-    fields.push("pin", "registration");
-
-    var fieldRegex = /field_([0-9]+)_label+/i;
+    fields.push("code", "description", "extraInfo");
 
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
@@ -245,7 +193,7 @@ router.get("/organisational-hierarchies/:hierarchyId/data", function (req, resp)
 
             if (isTypeAhead) {
                 // Search on code and name fields.
-                var searchable = ["code", "name"];
+                var searchable = ["code", "description"];
                 hierarchies = hierarchies.filter(function (hierarchy) {
                     return _.any(searchable, function (field) {
                         var regex = new RegExp(req.query[params.typeAhead], "i");
@@ -303,29 +251,8 @@ router.get("/organisational-hierarchies/:hierarchyId/data", function (req, resp)
         getFirst = replaceRemoved;
     }
 
-    var customFields = [];
-
-    function applyCustomFields(h) {
-        var key1 = _.keys(hier).join(",");
-        var match = fieldRegex.exec(key1);
-        if (match) {
-            var fieldName = match[0];
-            var fieldValueProp = "field_" + match[1] + "_Value";
-            var fieldLabel = hier[fieldName];
-
-            var customField = {name: fieldValueProp, label: fieldLabel};
-
-            if (!_.any(customFields, {name: fieldValueProp})) {
-                customFields.push(customField);
-            }
-        }
-
-        return h;
-    }
-
     if (isTrueRegEx.test(req.query[params.disablePaging])) {
-        var res = hierarchies.first(maxItems).map(applyCustomFields).value();
-
+        var res = hierarchies.first(maxItems).value();
         resp.json(res);
     } else {
         getFirst = Math.min((inlineCount - ((page - 1) * maxItems)), getFirst);
@@ -333,21 +260,19 @@ router.get("/organisational-hierarchies/:hierarchyId/data", function (req, resp)
         hierarchies = hierarchies.rest(skip).first(getFirst);
 
         var pagedResult = {
-            customFields: customFields,
             name: hier.name,
             inlineCount: inlineCount,
             maxItems: maxItems,
             page: page,
             parentId: hier.parentId,
-            pin: hier.pin,
-            results: hierarchies.map(applyCustomFields).value()
+            results: hierarchies.value()
         };
 
         resp.json(pagedResult);
     }
 });
 
-router.get("/organisational-hierarchies/:hierarchyId/data/:id", function (req, resp) {
+router.get("/product-hierarchies/:hierarchyId/data/:id", function (req, resp) {
     var id = req.params.id;
 
     var hierarchyId = parseInt(req.params.hierarchyId);
@@ -363,7 +288,7 @@ router.get("/organisational-hierarchies/:hierarchyId/data/:id", function (req, r
     resp.json(hierarchy);
 });
 
-router.post("/organisational-hierarchies/:hierarchyId/data", function (req, resp) {
+router.post("/product-hierarchies/:hierarchyId/data", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
@@ -389,7 +314,7 @@ router.post("/organisational-hierarchies/:hierarchyId/data", function (req, resp
     resp.json(hierarchy);
 });
 
-router.put("/organisational-hierarchies/:hierarchyId/data/:id", function (req, resp) {
+router.put("/product-hierarchies/:hierarchyId/data/:id", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
@@ -411,7 +336,7 @@ router.put("/organisational-hierarchies/:hierarchyId/data/:id", function (req, r
     resp.json(hierData[id]);
 });
 
-router.post("/organisational-hierarchies/:hierarchyId/data/activate", function (req, resp) {
+router.post("/product-hierarchies/:hierarchyId/data/activate", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
@@ -438,7 +363,7 @@ router.post("/organisational-hierarchies/:hierarchyId/data/activate", function (
     resp.json(activated);
 });
 
-router.post("/organisational-hierarchies/:hierarchyId/data/deactivate", function (req, resp) {
+router.post("/product-hierarchies/:hierarchyId/data/deactivate", function (req, resp) {
     var hierarchyId = parseInt(req.params.hierarchyId);
     var hier = db[hierarchyId];
     if (!hier) {
