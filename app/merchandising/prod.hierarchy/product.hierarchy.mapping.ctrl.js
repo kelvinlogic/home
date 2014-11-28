@@ -17,7 +17,6 @@
         vm.addLevelAfter = addLevelAfter;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
-        vm.formFields = {name: true};
         vm.levels = null;
         vm.removeLevel = removeLevel;
         vm.save = save;
@@ -120,12 +119,14 @@
 
         function save() {
             vm.isSaving = true;
-            hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
-                // Finished saving...yay!!!
-                vm.isSaving = false;
-                load();
-                $scope.$emit(reloadMenuEventValue);
-            });
+            if (!_.any(vm.levels, "id")) {
+                hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
+                    // Finished saving...yay!!!
+                    vm.isSaving = false;
+                    load();
+                    $scope.$emit(reloadMenuEventValue);
+                });
+            }
         }
 
         function validate() {
@@ -147,10 +148,12 @@
 
         function _setupFormFields(level) {
             level.formFields = {
-                code: true,
-                description: true,
-                extraInfo: true,
-                name: true
+                name: true,
+                data: {
+                    code: true,
+                    description: true,
+                    extraInfo: true
+                }
             };
         }
     }

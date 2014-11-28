@@ -20,7 +20,6 @@
         vm.canAddCustomField = canAddCustomField;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
-        vm.formFields = {name: true};
         vm.levels = null;
         vm.removeField = removeField;
         vm.removeLevel = removeLevel;
@@ -45,10 +44,31 @@
                     code: {
                         required: true
                     },
+                    description: {
+                        required: false
+                    },
+                    location: {
+                        required: true
+                    },
                     name: {
                         required: true
                     },
-                    location: {
+                    address1: {
+                        required: true
+                    },
+                    phone1: {
+                        required: true
+                    },
+                    fax1: {
+                        required: true
+                    },
+                    email1: {
+                        required: true
+                    },
+                    pin: {
+                        required: true
+                    },
+                    registration: {
                         required: true
                     }
                 }
@@ -168,12 +188,14 @@
 
         function save() {
             vm.isSaving = true;
-            hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
-                // Finished saving...yay!!!
-                vm.isSaving = false;
-                load();
-                $scope.$emit(reloadMenuEventValue);
-            });
+            if (!_.any(vm.levels, "id")) {
+                hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
+                    // Finished saving...yay!!!
+                    vm.isSaving = false;
+                    load();
+                    $scope.$emit(reloadMenuEventValue);
+                });
+            }
         }
 
         function validate() {
@@ -185,20 +207,65 @@
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
             var vd = vm.validationData;
-            var codeInValid = level.formFields.code && vd.data.code.required && (!level.data || !level.data.code);
-            var hierNameInValid = vm.formFields.name && vd.name.required && (!level.name);
-            var locationInValid = level.formFields.location && vd.data.location.required && (!level.data || !level.data.location);
-            var nameInValid = level.formFields.name && vd.data.name.required && (!level.data || !level.data.name);
-            return !hierNameInValid && !codeInValid && !locationInValid && !nameInValid;
+            var hierNameInValid = level.formFields.name && vd.name.required && (!level.name);
+            var codeInValid = level.formFields.data.code && vd.data.code.required && (!level.data || !level.data.code);
+
+            var locationInValid = level.formFields.data.location && vd.data.location.required &&
+                (!level.data || !level.data.location);
+
+            var nameInValid = level.formFields.data.name && vd.data.name.required && (!level.data || !level.data.name);
+
+            var descriptionInValid = level.formFields.data.description && vd.data.description.required &&
+                (!level.data || !level.data.description);
+
+            var address1InValid = level.formFields.data.address1 && vd.data.address1.required &&
+                (!level.data || !level.data.address1);
+
+            var phone1InValid = level.formFields.data.phone1 && vd.data.phone1.required &&
+                (!level.data || !level.data.phone1);
+
+            var fax1InValid = level.formFields.data.fax1 && vd.data.fax1.required && (!level.data || !level.data.fax1);
+
+            var email1InValid = level.formFields.data.email1 && vd.data.email1.required &&
+                (!level.data || !level.data.email1);
+
+            var pinInValid = level.formFields.data.pin && vd.data.pin.required && (!level.data || !level.data.pin);
+
+            var registrationInValid = level.formFields.data.registration && vd.data.registration.required &&
+                (!level.data || !level.data.registration);
+
+            return !hierNameInValid && !codeInValid && !locationInValid && !nameInValid && !descriptionInValid &&
+                !address1InValid && !phone1InValid && !fax1InValid && !email1InValid && !pinInValid &&
+                !registrationInValid;
         }
 
         function _setupFormFields(level) {
             level.formFields = {
-                code: true,
                 name: true,
-                location: level.pin === 1,
-                customFields: !level.pin
+                data: {
+                    code: true,
+                    name: true
+                }
             };
+
+            if (level.pin === 1) {
+                level.formFields.data.description = true;
+                level.formFields.data.location = true;
+            }
+
+            if (!level.pin) {
+                level.formFields.data.customFields = true;
+            }
+
+            if (level.pin === 2) {
+                level.formFields.data.address1 = true;
+                level.formFields.data.phone1 = true;
+                level.formFields.data.fax1 = true;
+                level.formFields.data.email1 = true;
+                level.formFields.data.branchIsWarehouse = true;
+                level.formFields.data.pin = true;
+                level.formFields.data.registration = true;
+            }
         }
     }
 })();
