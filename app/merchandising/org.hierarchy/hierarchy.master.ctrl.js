@@ -284,7 +284,9 @@
                     // Set the messages depending on whether we're restoring a single hierarchy or a selection.
                     if (hierarchy) {
                         title += " <span class='" + textColor + "'><strong>" + hierarchy.name;
-                        title += "</strong> <span>"+ hierarchy.location +"</span></span>?";
+                        if (hierarchy.location) {
+                            title += "</strong> <span>"+ hierarchy.location +"</span></span>?";
+                        }
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
