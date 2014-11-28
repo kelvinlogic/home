@@ -27,11 +27,8 @@ var router = express.Router(); 				// get an instance of the express Router
 
 // Routes for our API will be specified here
 
-// Currencies api
-// Config.
-
-// Get all currency.
-
+// units of measure api
+// Get all uoms.
 router.get("/uoms", function (req, resp) {
     var fields = ["id","code","description","status","packagable"];
     var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
@@ -100,13 +97,13 @@ router.get("/uoms", function (req, resp) {
 
     resp.json(pagedResult);
 });
-// Get a specific currency.
+// Get a specific uom.
 router.get("/uoms/:id", function (req, resp) {
     var id = req.params.id;
     var currency = db[id];
     resp.json(currency);
 });
-// Create a currency
+// Create a uom
 router.post("/uoms", function (req, resp) {
     var currency = req.body;
     var last = _.findLast(db);
@@ -117,7 +114,7 @@ router.post("/uoms", function (req, resp) {
     db[id.toString()] = currency;
     resp.json(currency);
 });
-
+// edit a specific uom
 router.put("/uoms/:id", function (req, resp) {
     var newData = req.body;
     var id = req.params.id;
@@ -130,7 +127,7 @@ router.put("/uoms/:id", function (req, resp) {
     _.extend(db[id], newData);
     resp.json(db[id]);
 });
-
+// activate uoms
 router.post("/uoms/activate", function (req, resp) {
     var ids = req.body;
     var activated = [];
@@ -148,6 +145,7 @@ router.post("/uoms/activate", function (req, resp) {
 
     resp.json(activated);
 });
+// deactivate uoms
 router.post("/uoms/deactivate", function (req, resp) {
     var ids = req.body;
     var deactivated = [];

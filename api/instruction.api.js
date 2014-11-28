@@ -23,12 +23,9 @@ var params = {
 var router = express.Router(); 				// get an instance of the express Router
 
 // Routes for our API will be specified here
+// instructions api
 
-// Currencies api
-// Config.
-
-// Get all currency.
-
+// Get all instructions.
 router.get("/instructions", function (req, resp) {
     var fields = ["id","code","description","status"];
     var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
@@ -97,13 +94,13 @@ router.get("/instructions", function (req, resp) {
 
     resp.json(pagedResult);
 });
-// Get a specific currency.
+// Get a specific instruction.
 router.get("/instructions/:id", function (req, resp) {
     var id = req.params.id;
     var currency = db[id];
     resp.json(currency);
 });
-// Create a currency
+// Create an instruction
 router.post("/instructions", function (req, resp) {
     var currency = req.body;
     var last = _.findLast(db);
@@ -114,7 +111,7 @@ router.post("/instructions", function (req, resp) {
     db[id.toString()] = currency;
     resp.json(currency);
 });
-
+// edit a specific instruction
 router.put("/instructions/:id", function (req, resp) {
     var newData = req.body;
     var id = req.params.id;
@@ -127,7 +124,7 @@ router.put("/instructions/:id", function (req, resp) {
     _.extend(db[id], newData);
     resp.json(db[id]);
 });
-
+//activate instructions
 router.post("/instructions/activate", function (req, resp) {
     var ids = req.body;
     var activated = [];
@@ -145,6 +142,7 @@ router.post("/instructions/activate", function (req, resp) {
 
     resp.json(activated);
 });
+//deactivate instructions
 router.post("/instructions/deactivate", function (req, resp) {
     var ids = req.body;
     var deactivated = [];

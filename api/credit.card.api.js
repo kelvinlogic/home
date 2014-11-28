@@ -24,11 +24,8 @@ var router = express.Router(); 				// get an instance of the express Router
 
 // Routes for our API will be specified here
 
-// Currencies api
-// Config.
-
-// Get all currency.
-
+// credit card api
+//get all credits
 router.get("/credits", function (req, resp) {
     var fields = ["id","code","description","status"];
     var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
@@ -97,13 +94,13 @@ router.get("/credits", function (req, resp) {
 
     resp.json(pagedResult);
 });
-// Get a specific currency.
+//Get a specific credit.
 router.get("/credits/:id", function (req, resp) {
     var id = req.params.id;
     var currency = db[id];
     resp.json(currency);
 });
-// Create a currency
+//Create a credit
 router.post("/credits", function (req, resp) {
     var currency = req.body;
     var last = _.findLast(db);
@@ -114,7 +111,7 @@ router.post("/credits", function (req, resp) {
     db[id.toString()] = currency;
     resp.json(currency);
 });
-
+//edit currency
 router.put("/credits/:id", function (req, resp) {
     var newData = req.body;
     var id = req.params.id;
@@ -127,7 +124,7 @@ router.put("/credits/:id", function (req, resp) {
     _.extend(db[id], newData);
     resp.json(db[id]);
 });
-
+//activate a credit
 router.post("/credits/activate", function (req, resp) {
     var ids = req.body;
     var activated = [];
@@ -145,6 +142,7 @@ router.post("/credits/activate", function (req, resp) {
 
     resp.json(activated);
 });
+//deactivate a credit
 router.post("/credits/deactivate", function (req, resp) {
     var ids = req.body;
     var deactivated = [];

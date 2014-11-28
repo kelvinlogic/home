@@ -24,11 +24,9 @@ var router = express.Router(); 				// get an instance of the express Router
 
 // Routes for our API will be specified here
 
-// Currencies api
-// Config.
+// product brand api
 
-// Get all currency.
-
+// Get all brands.
 router.get("/brands", function (req, resp) {
     var fields = ["id","code","description","status"];
     var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
@@ -97,13 +95,13 @@ router.get("/brands", function (req, resp) {
 
     resp.json(pagedResult);
 });
-// Get a specific currency.
+// Get a specific product brand.
 router.get("/brands/:id", function (req, resp) {
     var id = req.params.id;
     var currency = db[id];
     resp.json(currency);
 });
-// Create a currency
+// Create a product brand
 router.post("/brands", function (req, resp) {
     var currency = req.body;
     var last = _.findLast(db);
@@ -114,7 +112,7 @@ router.post("/brands", function (req, resp) {
     db[id.toString()] = currency;
     resp.json(currency);
 });
-
+//edit a product brand
 router.put("/brands/:id", function (req, resp) {
     var newData = req.body;
     var id = req.params.id;
@@ -127,7 +125,7 @@ router.put("/brands/:id", function (req, resp) {
     _.extend(db[id], newData);
     resp.json(db[id]);
 });
-
+//activate product brand
 router.post("/brands/activate", function (req, resp) {
     var ids = req.body;
     var activated = [];
@@ -145,6 +143,7 @@ router.post("/brands/activate", function (req, resp) {
 
     resp.json(activated);
 });
+//deactivate product brand
 router.post("/brands/deactivate", function (req, resp) {
     var ids = req.body;
     var deactivated = [];

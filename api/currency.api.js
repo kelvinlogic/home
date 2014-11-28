@@ -24,10 +24,8 @@ var router = express.Router(); 				// get an instance of the express Router
 // Routes for our API will be specified here
 
 // Currencies api
-// Config.
 
 // Get all currency.
-
 router.get("/currencies", function (req, resp) {
     var fields = ["id","symbol","precision","scale","symbol_before_amount","display_symbol","order","name", "unit", "sub_unit"];
     var maxItems = (isNaN(parseInt(req.query.pageSize)) ? 10 : parseInt(req.query.pageSize));
