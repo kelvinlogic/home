@@ -194,7 +194,10 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "PRODUCT_LABEL": "Product",
+                "ATTRIBUTE_LABEL": "Attribute",
+                "VALUE_LABEL": "Value"
             },
 
             "table": {
