@@ -382,6 +382,7 @@
                     _pin = data.pin;
                     _parentHierId = data.parentId;
                     _totalServerItems = data.inlineCount;
+                    vm.allFields = [];
 
                     vm.customFields = data.customFields;
 
