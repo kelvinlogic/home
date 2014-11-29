@@ -8,9 +8,9 @@
                 <input id="parent" type="text" class="fc-input-full-width form-control"
                        name="parent"
                        placeholder="{{'fc.input.PARENT_LABEL' | translate}}"
-                       data-ng-disabled="vm.hierarchy.parentId && !vm.hierarchy.parent"
+                       data-ng-disabled="vm[vm.modelName].parentId && !vm[vm.modelName].parent"
                        data-ng-required="::vm.validationData.parent.required"
-                       data-ng-model="vm.hierarchy.parent" data-sf-typeahead
+                       data-ng-model="vm[vm.modelName].parent" data-sf-typeahead
                        data-options="vm.typeaheadOptions"
                        data-datasets="vm.parentDataset" />
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
@@ -38,7 +38,7 @@
                 <input id="code" type="text" name="code"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.CODE_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.code" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].code" data-vt-keyboard
                        data-ng-required="::vm.validationData.code.required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl.code.$valid && !formTpl.code.$pristine"></i>
@@ -62,7 +62,7 @@
                 <input id="name" type="text" name="name"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.NAME_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.name" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].name" data-vt-keyboard
                        data-ng-required="::vm.validationData.name.required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl.name.$valid && !formTpl.name.$pristine"></i>
@@ -87,7 +87,7 @@
                 <input id="pin" type="text" name="pin"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.PIN_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.pin" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].pin" data-vt-keyboard
                        data-ng-required="::vm.validationData.pin.required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl.pin.$valid && !formTpl.pin.$pristine"></i>
@@ -112,7 +112,7 @@
                 <input id="registration" type="text" name="registration"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.REGISTRATION_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.registration" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].registration" data-vt-keyboard
                        data-ng-required="::vm.validationData.registration.required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl.registration.$valid && !formTpl.registration.$pristine"></i>
@@ -137,7 +137,7 @@
                 <input id="location" type="text" name="location"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.LOCATION_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.location" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].location" data-vt-keyboard
                        data-ng-required="::vm.validationData.location.required"/>
 
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
@@ -165,7 +165,7 @@
                 <input id="description" type="text" name="description"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.DESCRIPTION_LABEL' | translate}}"
-                       data-ng-model="vm.hierarchy.description" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName].description" data-vt-keyboard
                        data-ng-required="::vm.validationData.description.required"/>
 
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
@@ -195,7 +195,7 @@
                 <input id="address{{num}}" type="text" name="address{{num}}"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.ADDRESS_LABEL' | translate}} {{num}}"
-                       data-ng-model="vm.hierarchy['address'+ num]" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName]['address'+ num]" data-vt-keyboard
                        data-ng-required="::vm.validationData['address'+num].required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl['address'+ num].$valid && !formTpl['address'+ num].$pristine"></i>
@@ -221,7 +221,7 @@
                 <input id="phone{{num}}" type="text" name="phone{{num}}"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.PHONE_LABEL' | translate}} {{num}}"
-                       data-ng-model="vm.hierarchy['phone'+ num]" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName]['phone'+ num]" data-vt-keyboard
                        data-ng-required="::vm.validationData['phone'+num].required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl['phone'+ num].$valid && !formTpl['phone'+ num].$pristine"></i>
@@ -247,7 +247,7 @@
                 <input id="email{{num}}" type="text" name="email{{num}}"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.EMAIL_LABEL' | translate}} {{num}}"
-                       data-ng-model="vm.hierarchy['email'+ num]" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName]['email'+ num]" data-vt-keyboard
                        data-ng-required="::vm.validationData['email'+num].required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl['email'+ num].$valid && !formTpl['email'+ num].$pristine"></i>
@@ -273,7 +273,7 @@
                 <input id="fax{{num}}" type="text" name="fax{{num}}"
                        class="fc-input-full-width form-control"
                        placeholder="{{'fc.input.FAX_LABEL' | translate}} {{num}}"
-                       data-ng-model="vm.hierarchy['fax'+ num]" data-vt-keyboard
+                       data-ng-model="vm[vm.modelName]['fax'+ num]" data-vt-keyboard
                        data-ng-required="::vm.validationData['fax'+num].required"/>
                 <i class="fa fa-times animated fadeInRight fast form-control-feedback"
                    data-ng-if="!formTpl['fax'+ num].$valid && !formTpl['fax'+ num].$pristine"></i>
@@ -300,7 +300,7 @@
                 <input id="field_{{$index}}" type="text" name="{{custField.name}}"
                        class="fc-input-full-width form-control"
                        placeholder="{{custField.label | string: 'humanize'}}"
-                       data-ng-model="vm.hierarchy[custField.name]" data-vt-keyboard />
+                       data-ng-model="vm[vm.modelName][custField.name]" data-vt-keyboard />
             </div>
         </div>
     </div>
@@ -312,7 +312,7 @@
                 <div class="checkbox">
                     <label class="control-label" for="branchIsWarehouse">
                         <input id="branchIsWarehouse" type="checkbox" name="branchIsWarehouse"
-                               data-ng-model="vm.hierarchy.branchIsWarehouse"
+                               data-ng-model="vm[vm.modelName].branchIsWarehouse"
                                data-ng-required="::vm.validationData.branchIsWarehouse.required"/>
                         <span data-translate="fc.input.BRANCH_IS_WAREHOUSE_LABEL"></span>
                     </label>

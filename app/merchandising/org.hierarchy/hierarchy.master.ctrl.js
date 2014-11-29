@@ -47,6 +47,7 @@
         vm.hasParent = hasParent;
         vm.isFieldSelected = isFieldSelected;
         vm.loadNextPage = loadNextPage;
+        vm.modelName = "hierarchy";
         vm.deactivateItems = deactivateItems;
         vm.saveChanges = saveChanges;
         vm.selectAll = selectAll;
@@ -638,6 +639,7 @@
         vm.customFields = data.customFields;
         vm.hasParent = data.hasParent;
         vm.hierarchy = data.hierarchy;
+        vm.modelName = "hierarchy";
         vm.formFields = data.formFields;
         vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
