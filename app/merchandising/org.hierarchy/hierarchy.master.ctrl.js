@@ -105,7 +105,6 @@
                     required: true
                 }
             };
-
             load();
         }
 
@@ -155,7 +154,6 @@
                     yesText = translations["fc.YES_TEXT"];
 
                 var pageTitle = vm.title;
-
                 var selectedHierarchies = [],
                     actionPast = newStatus ? restoreActionPast : deleteActionPast,
                     actionPresent = newStatus ? restoreActionPresent : deleteActionPresent;

@@ -30,7 +30,7 @@ var salesmanRt= require('./api/salesman.api.js');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = 4000;
+var port = 3000;
 
 // Enable serving static files.
 app.use(express.static(__dirname + '/app'));

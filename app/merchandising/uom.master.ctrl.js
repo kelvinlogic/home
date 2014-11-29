@@ -3,179 +3,551 @@
 
     angular
         .module('fc.merchandising')
-        .controller('UomMasterCtrl', uomMaster);
+        .controller('UomMasterCtrl', uomMaster)
+        .controller('UomDetailCtrl', uomDetail);
 
-    uomMaster.$inject = ['lodash', '$scope', '$translate', 'DTOptionsBuilder'];
-
+    uomMaster.$inject = [
+        'lodash',
+        "rx",
+        '$modal',
+        '$scope',
+        '$translate',
+        'uomDataSvc',
+        'throttleValue'
+    ];
     /* @ngInject */
-    function uomMaster(_, $scope, $translate, DTOptionsBuilder) {
-        /* jshint validthis: true */
-        var vm = this;
+    function uomMaster(_, Rx, $modal, $scope, $translate, uomDataSvc, throttleValue) {
+        /* jshint valid this: true */
+        var vm = this,
+            _uomDetailModalOptions = null,
+            _selectionEnum = {"none": 0, "some": 1, "all": 2},
+            _currentPage = null,
+            _pageSize = null,
+            _totalServerItems = null,
+            _uomId = null;
 
         vm.activate = activate;
+        vm.activateUoms = activateUoms;
         vm.cancelChanges = cancelChanges;
+        vm.createUom = createUom;
         vm.edit = edit;
-        vm.filters = {};
-        vm.gridOptions = {};
-        vm.pageChanged = pageChanged;
-        vm.pagination = {};
+        vm.getFields = getFields;
+        vm.getSelectionKey = getSelectionKey;
+
+        vm.newUom = newUom;
         vm.saveChanges = saveChanges;
-        vm.selectedAll = false;
-        vm.selectedUoms = [];
-        vm.selectedUom = null;
+        vm.fetchUoms  = fetchUoms ;
+
+        vm.filter = null;
+        vm.fields = [];
+        vm.getStatusToggleKey = getStatusToggleKey;
+        vm.hasNextPage = hasNextPage;
+        vm.isBranch = isBranch;
+        vm.isEntity = isEntity;
+        vm.isFieldSelected = isFieldSelected;
+        vm.loadNextPage = loadNextPage;
+        vm.deactivateUoms = deactivateUoms;
+
+        vm.selectAll = selectAll;
+        vm.selected = null;
+        vm.showInactive = false;
+        vm.uoms = [];
         vm.uom = null;
-        vm.uoms = null;
+        vm.title = null;
         vm.titleKey = 'fc.merchandising.uom.MASTER_PAGE_TITLE';
+        vm.toggleFilterField = toggleFilterField;
         vm.toggleSelection = toggleSelection;
+        vm.validationData = null;
 
         activate();
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        /*
+         *   functions to perform crud functionality
+         */
         function activate() {
-            // Set up grid.
-            setupGrid();
-            // Set up pagination.
-            setupPagination();
+            _uomDetailModalOptions = {
+                templateUrl: "fc/editModalTpl",
+                controller: "UomDetailCtrl as vm"
+            };
 
-            // TODO: Load user data here.
+            vm.validationData = {
+                //validation for the local fields
+                status: {
+                    required: true
+                },
+                packagable:{
+                    required: true
+                },
+                code: {
+                    required: true
+                },
+                description: {
+                    required: false
+                }
+            };
+
             load();
+        }
+
+        function activateUoms(uom) {
+            // NOTE:...................................................
+            // If we passed a uom, assume the activation of the single said uom.
+            // else, assume the activation of all selected uoms.
+
+            changeActivation(uom, true);
         }
 
         function cancelChanges() {
             vm.uom = null;
         }
 
-        function edit() {
-            // Use extend to prevent reference copying.
-            vm.uom = angular.extend({}, vm.selectedUom);
-
-            // Clear table selection
-            delete vm.selectedUom.isSelected;
-            vm.selectedUoms = [];
-            vm.selectedUom = null;
+        function newUom() {
+            vm.uom = {};
         }
 
-        function load() {
-            vm.uoms = [
-                {id: 1, code: "CLL", name: "Compulynx Limited", packable: true},
-                {id: 2, code: "CLL", name: "Compulynx Limited"},
-                {id: 3, code: "CLL", name: "Compulynx Limited"},
-                {id: 4, code: "CLL", name: "Compulynx Limited"}
+        function changeActivation(uom, newStatus) {
+            // We need a status specified.
+            if (newStatus !== true && newStatus !== false) {
+                return;
+            }
+
+            var toTranslate = [
+                "fc.merchandising.uom.MASTER_PAGE_TITLE",
+                "fc.ACTION_WARNING_MESSAGE_TEMPLATE",
+                "fc.SUCCESS_ALERT_TITLE",
+                "fc.ACTION_SUCCESS_MESSAGE_TEMPLATE",
+                "fc.FAIL_ALERT_TITLE",
+                "fc.ACTION_FAIL_MESSAGE_TEMPLATE",
+                "fc.DELETE_ACTION_PRESENT",
+                "fc.DELETE_ACTION_PAST",
+                "fc.RESTORE_ACTION_PRESENT",
+                "fc.RESTORE_ACTION_PAST",
+                "fc.NO_TEXT",
+                "fc.YES_TEXT"
             ];
 
-            $scope.$watchCollection(function () {
-                return vm.filters;
-            }, function (newCollection) {
-                if (newCollection.all) {
-                    // Search on all fields.
+            $translate(toTranslate).then(function (translations) {
+                var pageTitle = translations["fc.merchandising.uom.MASTER_PAGE_TITLE"],
+                    warningTemplate = translations["fc.ACTION_WARNING_MESSAGE_TEMPLATE"],
+                    successAlertTitle = translations["fc.SUCCESS_ALERT_TITLE"],
+                    successTemplate = translations["fc.ACTION_SUCCESS_MESSAGE_TEMPLATE"],
+                    failAlertTitle = translations["fc.FAIL_ALERT_TITLE"],
+                    failTemplate = translations["fc.ACTION_FAIL_MESSAGE_TEMPLATE"],
+                    deleteActionPresent = translations["fc.DELETE_ACTION_PRESENT"],
+                    deleteActionPast = translations["fc.DELETE_ACTION_PAST"],
+                    restoreActionPresent = translations["fc.RESTORE_ACTION_PRESENT"],
+                    restoreActionPast = translations["fc.RESTORE_ACTION_PAST"],
+                    noText = translations["fc.NO_TEXT"],
+                    yesText = translations["fc.YES_TEXT"];
+
+                var selectedUoms = [],
+                    actionPast = newStatus ? restoreActionPast : deleteActionPast,
+                    actionPresent = newStatus ? restoreActionPresent : deleteActionPresent;
+
+                if (!uom) {
+                    selectedUoms = _.filter(vm.uoms, function (ent) {
+                        // Deselect items that won't be changed.
+                        if (ent.active === newStatus) {
+                            ent.isSelected = false;
+                        }
+
+                        return ent.isSelected;
+                    });
+
+                    // Can't change the state.
+                    if (selectedUoms.length < 1) {
+                        refreshSelection();
+                        return;
+                    }
+
+                    refreshSelection();
                 }
 
-                if (newCollection.id) {
-                    // Search on id field.
-                }
+                var performChange = function (uom) {
+                    // If we get an uom, change it else change all selected uoms.
+                    var toChange = null;
 
-                if (newCollection.code) {
-                    // Search on code field.
-                }
+                    if (uom) {
+                        toChange = uom.id;
+                    } else {
+                        // Do nothing if there was no selection.
+                        if (vm.selected === _selectionEnum.none) {
+                            return;
+                        }
 
-                if (newCollection.name) {
-                    // Search on name field.
-                }
+                        // Fetch the selected uoms.
+                        toChange = _.map(selectedUoms, function (uom) {
+                            return uom.id;
+                        });
+                    }
 
-                if (newCollection.packable) {
-                    // Search on name field.
+                    if (newStatus === true) {
+                        uomDataSvc.activateUoms(toChange).then(afterChangeCb);
+                    } else {
+                        uomDataSvc.deactivateUoms(toChange).then(afterChangeCb);
+                    }
+                };
+
+                var afterChangeCb = function(response) {
+                    var changedCount = response.length;
+                    var message = null;
+                    var title = changedCount > 0 ? successAlertTitle : failAlertTitle;
+                    var color = changedCount > 0 ? "#659265" : "#C46A69";
+                    var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
+
+                    if (changedCount > 0) {
+                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
+
+                        message = _.string.sprintf(successTemplate, msgData);
+
+                        var updateItem = function (ent) {
+                            // If we are not showing inactive items, add the newly activated item.
+                            if (!vm.showInactive) {
+                                updateUoms(ent, !newStatus);
+                            } else {
+                                var idx = vm.uoms.indexOf(ent);
+
+                                // Replace with new from data store.
+                                if (idx >= 0) {
+                                    var match = _(response).filter(function (resp) {
+                                        return resp.id === ent.id;
+                                    }).first();
+
+                                    // Damn...we can't use splice here...
+                                    angular.extend(vm.uoms[idx], match);
+                                }
+                            }
+                        };
+
+                        if (changedCount === 1 && uom) {
+                            updateItem(uom);
+                        } else {
+                            _(selectedUoms).filter(function (uom) {
+                                return _.any(response, {id: uom.id});
+                            }).forEach(function (uom) {
+                                updateItem(uom);
+                            });
+                        }
+
+                        if (!vm.showInactive) {
+                            if (newStatus) {
+                                // If we are not showing inactive, remove extra items.
+                                var startIndex = vm.uoms.length - (1 + changedCount);
+                                vm.uoms.splice(startIndex, changedCount);
+                            } else {
+                                // If we are not showing inactive, load extra items to fill up the remaining slots.
+                                fetchUoms(_currentPage, _pageSize, changedCount);
+                            }
+                        }
+                    } else {
+                        message = _.string.sprintf(failTemplate, {action: actionPresent, data: pageTitle.toLowerCase()});
+                    }
+
+
+                    if ($.smallBox) {
+                        $.smallBox({
+                            title : title,
+                            content : "<i>" + message + "</i>",
+                            color : color,
+                            iconSmall : icon,
+                            timeout : 4000
+                        });
+                    } else {
+                        alert(message);
+                    }
+                };
+
+                var content = null;
+
+                // Show message box.
+                if ($.SmartMessageBox) {
+                    var textColor = newStatus ? "txt-color-green" : "txt-color-red";
+                    var title = "<i class='fa fa-trash-o " + textColor + "'></i> ";
+                    title += _.string.humanize(actionPresent);
+
+                    // Set the messages depending on whether we're restoring a single uom or a selection.
+                    if (uom) {
+                        title += " <span class='" + textColor + "'><strong>" + uom.code;
+                        title += "</strong> <span>"+ uom.packagable +"</span></span>?";
+
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            count: 1
+                        });
+                    } else {
+                        title += " <span class='" + textColor + "'><strong>";
+                        title += selectedUoms.length;
+                        title += "</strong> <span>"+ pageTitle.toLowerCase() +"</span></span>?";
+
+                        content = _.string.sprintf(warningTemplate, {
+                            action: actionPresent,
+                            count: selectedUoms.length
+                        });
+                    }
+
+                    $.SmartMessageBox({
+                        title : title,
+                        content : content,
+                        buttons : '[' + noText + '][' + yesText + ']'
+                    }, function(button) {
+                        if (button === yesText) {
+                            performChange(uom);
+                        }
+                    });
+                } else {
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent, count: selectedUoms.length || 1});
+                    if (confirm(content)) {
+                        performChange(uom);
+                    }
                 }
             });
         }
 
-        function pageChanged() {
-            // TODO: Enter page change logic.
-            var currentPage = vm.pagination.page;
+        function createUom() {
+            vm.uom = {};
+        }
+
+        function deactivateUoms(uom) {
+            // NOTE:...................................................
+            // If we passed an uom, assume the deactivation of the single said uom.
+            // else, assume the deactivation of all selected uoms.
+
+            changeActivation(uom, false);
+        }
+
+        function edit(item) {
+            if (!item) {
+                return;
+            }
+
+            // Use extend to prevent reference copying so we can edit the item in isolation.
+            var uom = angular.extend({}, item);
+
+            // Setup modal options.
+            _uomDetailModalOptions.resolve = {
+                data: function () {
+                    return {
+                        uom: uom,
+                        uomId: _uomId,
+                        isBranch: isBranch,
+                        isEntity: isEntity
+                    };
+                }
+            };
+
+            // Open modal popup.
+            var modalInstance = $modal.open(_uomDetailModalOptions);
+
+            modalInstance.result.then(function (editedEntity) {
+                // We selected ok...
+                angular.extend(item, editedEntity);
+            }, function () {
+                // We cancelled the search...
+                // Do nothing...
+            });
+        }
+
+        function fetchUoms(page, pageSize, replaceRemoved, refresh) {
+            uomDataSvc.getUoms(page, pageSize, vm.filter, vm.showInactive, replaceRemoved).then(function (data) {
+                _currentPage = data.page;
+                _pageSize = data.maxItems;
+                _totalServerItems = data.inlineCount;
+
+                if (refresh) {
+                    vm.uoms = [];
+                }
+                updateUoms(data.results);
+            }, function (error) {
+
+            });
+        }
+
+        function getFields() {
+            return ["code", "description"];
+
+        }
+
+        function getSelectionKey() {
+            return vm.selected ? "fc.CLEAR_SELECTION_TEXT" : "fc.SELECT_ALL_TEXT";
+        }
+
+        function getStatusToggleKey() {
+            return vm.showInactive ? 'fc.HIDE_INACTIVE_TEXT' : 'fc.SHOW_INACTIVE_TEXT';
+        }
+
+        function hasNextPage() {
+            var alreadyLoadedItems = ((_currentPage - 1) * _pageSize) + vm.uoms.length;
+
+            return alreadyLoadedItems < _totalServerItems;
+        }
+
+        function isBranch() {
+            return _pin && _pin === 2;
+        }
+
+        function isEntity() {
+            return _pin && _pin === 1;
+        }
+
+        function isFieldSelected(field) {
+            return _.contains(vm.fields, field);
+        }
+
+        function load() {
+            var subject = new Rx.Subject();
+            subject.throttle(throttleValue).distinctUntilChanged().subscribe(function () {
+                fetchUoms(_currentPage, _pageSize, null, true);
+            });
+
+            $scope.$watch(function () {
+                return vm.filter;
+            }, function (newValues) {
+                /* TODO: Filter on all the properties in vm.fields.
+                 ** If no field is selected, search on all fields.
+                 */
+
+                subject.onNext(newValues);
+
+            });
+
+            $scope.$watch(function() {
+                return vm.showInactive;
+            }, function () {
+                fetchUoms(_currentPage, _pageSize, null, true);
+            });
+        }
+
+        function loadNextPage() {
+            fetchUoms(_currentPage + 1, _pageSize);
+        }
+
+        function refreshSelection() {
+            // Use _.pluck style callback shorthand...
+            var someSelected = _.any(vm.uoms, "isSelected");
+
+            // NOTE: lodash always returns true when all is an empty array. Bug or by design?
+            var allSelected = someSelected && _.all(vm.uoms, "isSelected");
+            if (allSelected) {
+                vm.selected = _selectionEnum.all;
+            } else if (someSelected) {
+                vm.selected = _selectionEnum.some;
+            } else {
+                vm.selected = _selectionEnum.none;
+            }
+        }
+
+        function saveChanges() {
+            vm.isSaving = true;
+            uomDataSvc.createUom(vm.uom).then(function (data) {
+                updateUoms(data);
+                vm.uom = null;
+                vm.isSaving = false;
+
+            });
+
+        }
+
+        function selectAll() {
+            if (!vm.selected || vm.selected === _selectionEnum.none) {
+                _.forEach(vm.uoms, function(uom) {
+                    uom.isSelected = true;
+                });
+            } else {
+                _.forEach(vm.uoms, function(uom) {
+                    uom.isSelected = false;
+                });
+            }
+
+            refreshSelection();
+        }
+
+        function toggleFilterField(field) {
+            var index = vm.fields.indexOf(field);
+
+            if (index >= 0) {
+                vm.fields.splice(index, 1)
+            } else {
+                vm.fields.push(field);
+            }
+        }
+
+        function toggleSelection(item) {
+            item.isSelected = !item.isSelected;
+
+            refreshSelection();
+        }
+
+        function updateUoms(data, remove) {
+            if (!_.isArray(vm.uoms)) {
+                vm.uoms = [];
+            }
+
+            var index = -1;
+
+            var updateSingle = function (item) {
+                if (remove) {
+                    index = vm.uoms.indexOf(item);
+
+                    if (index >= 0) {
+                        vm.uoms.splice(index, 1);
+                    }
+                } else {
+                    vm.uoms.push(item);
+                }
+            };
+
+
+            if (_.isArray(data)) {
+                _.forEach(data, function (item) {
+                    updateSingle(item);
+                });
+            } else {
+                updateSingle(data);
+            }
+
+            refreshSelection();
+        }
+    }
+
+    uomDetail.$inject = ["$modalInstance", "uomDataSvc", "data"];
+
+    function uomDetail($modalInstance, uomDataSvc, data) {
+        var vm = this;
+
+        vm.cancelChanges = cancelChanges;
+        vm.uom = data.uom;
+        vm.saveChanges = saveChanges;
+        vm.validationData = null;
+
+        activate();
+
+        function activate() {
+            vm.validationData = {
+                //validation for the local fields
+                status: {
+                    required: true
+                },
+                code: {
+                    required: true
+                },
+                description: {
+                    required: false
+                }
+            };
+        }
+
+        function cancelChanges() {
+            $modalInstance.dismiss();
         }
 
         function saveChanges() {
             // TODO: Enter save logic
-            vm.uom = null;
-        }
-
-        function setupGrid() {
-            var sDom = "<'dt-toolbar'<'col-xs-12 col-sm-6'T><'col-sm-6 col-xs-6 hidden-xs'C>r>"+
-                "t"+
-                "<'dt-toolbar-footer'<'col-sm-12 col-xs-12'i>>";
-
-            // ColVis specified in sDom as 'C'. Don't need withColVis option.
-            vm.gridOptions = DTOptionsBuilder
-                .newOptions()
-                .withDOM(sDom)
-                .withBootstrap()
-                .withOption("paging", false)
-                .withOption("autoWidth", true)
-                .withOption('responsive', true);
-
-            $translate([
-                "fc.table.COL_VIS_TEXT",
-                "fc.table.COPY_TOOL_TEXT",
-                "fc.table.PRINT_TOOL_TEXT",
-                "fc.table.SAVE_AS_TOOL_TEXT"
-            ]).then(function (translations) {
-                var colVisText = translations["fc.table.COL_VIS_TEXT"];
-                vm.gridOptions.withColVisOption("buttonText", colVisText);
-
-                var ttBtnCfg = [
-                    {
-                        "sExtends": "copy",
-                        "sButtonText": translations["fc.table.COPY_TOOL_TEXT"]
-                    },
-                    {
-                        "sExtends": "print",
-                        "sButtonText": translations["fc.table.PRINT_TOOL_TEXT"]
-                    },
-                    {
-                        "sExtends": "collection",
-                        "sButtonText": translations["fc.table.SAVE_AS_TOOL_TEXT"],
-                        "aButtons": [
-                            "csv",
-                            "xls",
-                            "pdf"
-                        ]
-                    }
-                ];
-
-                vm.gridOptions.withTableToolsOption("sSwfPath", "theme/SmartAdmin/js/plugin/datatables/swf/copy_csv_xls_pdf.swf");
-                vm.gridOptions.withTableToolsButtons(ttBtnCfg);
+            vm.isSaving = true;
+            uomDataSvc.updateUom(vm.uom.id, vm.uom).then(function (data) {
+                $modalInstance.close(data);
+                vm.uom = null;
+                vm.isSaving = false;
             });
-
-            // TODO: Add external filtering and sorting.
-        }
-
-        function setupPagination() {
-            vm.pagination.page = 1;
-            vm.pagination.total = 100;
-            vm.pagination.maxSize = 5;
-        }
-
-        function toggleSelection(item) {
-            var index = vm.selectedUoms.indexOf(item);
-            item.isSelected = !item.isSelected;
-
-            if (item.isSelected) {
-                vm.selectedUom = item;
-
-                // If item isn't in the selected items array...
-                if (index < 0) {
-                    // add it.
-                    vm.selectedUoms.push(item);
-                }
-            } else {
-                // If item isn't in the selected items array...
-                if (index > -1) {
-                    // remove it.
-                    vm.selectedUoms.splice(index, 1);
-                }
-
-                vm.selectedUom = _.last(vm.selectedUoms);
-            }
         }
     }
 })();
