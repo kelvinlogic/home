@@ -357,6 +357,7 @@
                         hasParent: hasParent,
                         hierarchy: hierarchy,
                         hierarchyId: _hierarchyId,
+                        modelName: vm.modelName,
                         parentDataset: vm.parentDataset,
                         validationData: vm.validationData
                     };
@@ -638,8 +639,7 @@
         vm.cancelChanges = cancelChanges;
         vm.customFields = data.customFields;
         vm.hasParent = data.hasParent;
-        vm.hierarchy = data.hierarchy;
-        vm.modelName = "hierarchy";
+        vm.modelName = data.modelName;
         vm.formFields = data.formFields;
         vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
@@ -650,7 +650,10 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function activate() {}
+        function activate() {
+            // Set the model...
+            vm[vm.modelName] = data[vm.modelName]
+        }
 
         function cancelChanges() {
             $modalInstance.dismiss();
