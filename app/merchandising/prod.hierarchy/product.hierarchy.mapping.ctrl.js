@@ -141,7 +141,7 @@
             var codeInValid = level.formFields.code && vd.data.code.required && (!level.data || !level.data.code);
             var descriptionInValid = level.formFields.description && vd.data.description.required && (!level.data || !level.data.description);
             var extraInfoInValid = level.formFields.extraInfo && vd.data.extraInfo.required && (!level.data || !level.data.extraInfo);
-            var hierNameInValid = vm.formFields.name && vd.name.required && (!level.name);
+            var hierNameInValid = level.formFields.name && vd.name.required && (!level.name);
             var nameInValid = level.formFields.name && vd.data.name.required && (!level.data || !level.data.name);
             return !hierNameInValid && !codeInValid && !descriptionInValid && !extraInfoInValid && !nameInValid;
         }
