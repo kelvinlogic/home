@@ -1,11 +1,14 @@
 /**
- * Created by Caleb on 9/25/2014.
+ * Created by kelvin on 3/12/2014.
  */
 (function () {
     angular.module('fc.login').config([
         '$stateProvider',
         '$urlRouterProvider',
         routeConfig
+    ]).config([
+        "authSvcProvider",
+        svcConfig
     ]);
 
     function routeConfig($stateProvider, $urlRouterProvider) {
@@ -23,4 +26,8 @@
             }
         });
     }
+    function svcConfig(loginSvcProvider){
+        loginSvcProvider.loginUrl = "api/login";
+
+    };
 })();
