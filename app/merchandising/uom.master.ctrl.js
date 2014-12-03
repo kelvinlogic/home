@@ -6,15 +6,7 @@
         .controller('UomMasterCtrl', uomMaster)
         .controller('UomDetailCtrl', uomDetail);
 
-    uomMaster.$inject = [
-        'lodash',
-        "rx",
-        '$modal',
-        '$scope',
-        '$translate',
-        'uomDataSvc',
-        'throttleValue'
-    ];
+    uomMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$translate', 'uomDataSvc', 'throttleValue'];
     /* @ngInject */
     function uomMaster(_, Rx, $modal, $scope, $translate, uomDataSvc, throttleValue) {
         /* jshint valid this: true */
@@ -196,7 +188,12 @@
                     var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
                     if (changedCount > 0) {
-                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
+                        var msgData = {action: actionPast};
+                        if (changedCount === 1 && uom) {
+                            msgData.data = uom.code + " " + uom.packagable;
+                        } else {
+                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
+                        }
 
                         message = _.string.sprintf(successTemplate, msgData);
 
@@ -272,7 +269,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            count: 1
+                            data: pageTitle.toLowerCase()
                         });
                     } else {
                         title += " <span class='" + textColor + "'><strong>";
@@ -281,7 +278,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            count: selectedUoms.length
+                            data: selectedUoms.length + " " + pageTitle.toLowerCase()
                         });
                     }
 
@@ -295,7 +292,7 @@
                         }
                     });
                 } else {
-                    content = _.string.sprintf(warningTemplate, {action: actionPresent, count: selectedUoms.length || 1});
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
                     if (confirm(content)) {
                         performChange(uom);
                     }

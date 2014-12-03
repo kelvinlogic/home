@@ -92,7 +92,8 @@
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
                 "NAME_LABEL": "@:fc.input.NAME_LABEL",
-                "PACKABLE_LABEL": "@:fc.input.PACKABLE_LABEL"
+                "PACKABLE_LABEL": "@:fc.input.PACKABLE_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT":"Required field"
             },
 
             "table": {
@@ -103,7 +104,12 @@
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
                 "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
-                "PACKABLE_FILTER_TEXT": "@:fc.table.PACKABLE_FILTER_TEXT"
+                "PACKABLE_FILTER_TEXT": "@:fc.table.PACKABLE_FILTER_TEXT",
+
+                "DESCRIPTION":"Description",
+                "STATUS":"@:fc.table.ACTIVATE_LABEL",
+                "PACKABLE_TEXT": "Packagable",
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
             }
         },
 
@@ -155,7 +161,13 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+
+                "SYMBOL":"Symbol",
+                "UNIT":"Unit",
+                "SUB_UNIT":"Sub unit",
+                "CURRENCY":"Currency",
+                "REQUIRED_NAME_VALIDATION_TEXT":"Required"
             },
 
             "table": {
@@ -164,7 +176,20 @@
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+
+                "SYMBOL":"Symbol",
+                "UNIT":"Unit",
+                "SUB_UNIT":"Sub unit",
+                "CURRENCY":"Currency",
+                "PRECISION":"Precision",
+                "SCALE":"Scale",
+                "ORDER":"Order",
+                "SYMBOL_BEFORE_AMOUNT":"Symbol before amount",
+                "DISPLAY_SYMBOL":"Display symbol",
+                "STATUS":"@:fc.table.ACTIVATE_LABEL",
+                "ABBREVIATION":"Abbreviation",
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL"
             }
         },
 
@@ -174,7 +199,8 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT":"Required field"
             },
 
             "table": {
@@ -183,7 +209,11 @@
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+
+                "STATUS":"@:fc.table.ACTIVATE_LABEL",
+                "CODE":"Code",
+                "DESCRIPTION":"Description"
             }
         },
 
@@ -233,7 +263,8 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT":"Required field"
             },
 
             "table": {
@@ -242,7 +273,11 @@
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+                "STATUS":"@:fc.table.ACTIVATE_LABEL",
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL",
+                "CODE":"Code",
+                "DESCRIPTION":"Description"
             }
         },
 
@@ -263,7 +298,8 @@
 
             "input": {
                 "CODE_LABEL": "@:fc.input.CODE_LABEL",
-                "NAME_LABEL": "@:fc.input.NAME_LABEL"
+                "NAME_LABEL": "@:fc.input.NAME_LABEL",
+                "REQUIRED_CODE_VALIDATION_TEXT":"Required field"
             },
 
             "table": {
@@ -272,7 +308,12 @@
                 "NAME_HEADER": "@:fc.input.NAME_LABEL",
                 "ID_FILTER_TEXT": "@:fc.table.ID_FILTER_TEXT",
                 "CODE_FILTER_TEXT": "@:fc.table.CODE_FILTER_TEXT",
-                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT"
+                "NAME_FILTER_TEXT": "@:fc.table.NAME_FILTER_TEXT",
+
+                "FIELD_LABEL_TEXT": "@:fc.table.FIELD_FILTER_LABEL",
+                "STATUS":"@:fc.table.ACTIVATE_LABEL",
+                "CODE":"Code",
+                "DESCRIPTION":"Description"
             }
         },
 

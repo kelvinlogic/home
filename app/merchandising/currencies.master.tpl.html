@@ -1,5 +1,5 @@
 <!-- widget grid -->
-<section id="widget-grid" data-widget-grid data-ng-controller="CurrencyMasterCtrl as currencyCtrl">
+<section id="widget-grid" data-widget-grid data-ng-controller="CurrencyMasterCtrl as vm">
     <!-- row -->
     <div class="row">
         <!-- NEW WIDGET START -->
@@ -7,7 +7,7 @@
             <!-- Widget ID (each widget will need unique ID)-->
             <div id="hc-wid-0" data-widget data-widget-editbutton data-widget-deletebutton data-widget-sortable>
                 <header>
-                    <h2 data-translate="{{::currencyCtrl.titleKey}}"></h2>
+                    <h2 data-translate="{{::vm.titleKey}}"></h2>
                 </header>
 
                 <!-- widget div-->
@@ -15,119 +15,185 @@
                     <!-- widget content -->
                     <div data-widget-content>
                         <!-- List View -->
-                        <div data-ng-if="!currencyCtrl.currency">
+                        <div data-ng-if="!vm.currency">
+                            <!-- Button bar -->
                             <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <input type="search" class="form-control"
-                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
-                                               data-ng-model="currencyCtrl.filters.all" data-vt-keyboard />
-                                    </div>
-                                    <hr class="visible-xs"/>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary">
-                                            <i class="fa fa-plus"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.NEW_TEXT"></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button class="btn btn-primary" data-ng-click="currencyCtrl.edit()"
-                                                data-ng-disabled="!currencyCtrl.selectedCurrency || currencyCtrl.selectedCurrencies.length > 1">
-                                            <i class="fa fa-edit"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.EDIT_TEXT"></span>
-                                        </button>
-                                        <button class="btn btn-danger" data-ng-disabled="!currencyCtrl.selectedCurrency">
-                                            <i class="fa fa-trash-o"></i>
-                                            <span class="hidden-sm hidden-xs" data-translate="fc.DELETE_TEXT"></span>
-                                        </button>
+                                <div class="col-md-12">
+                                    <!-- NOTE: Tooltips don't work without trigger & placements specified. -->
+                                    <div class="btn-toolbar">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary col-xs-12"
+                                                    data-ng-click="vm.newCurrency()">
+                                                <i class="fa fa-plus"></i>
+                                                <span data-translate="fc.NEW_TEXT"></span>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" data-ng-click="vm.selectAll()"
+                                                    data-tooltip="{{vm.getSelectionKey() | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa" data-ng-class="{'fa-check-square-o': vm.selected === 2, 'fa-minus-square-o': vm.selected === 1, 'fa-square-o': !vm.selected}"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default" data-ng-click="vm.showInactive = !vm.showInactive"
+                                                    data-tooltip="{{vm.getStatusToggleKey() | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa" data-ng-class="{'fa-eye': vm.showInactive, 'fa-eye-slash': !vm.showInactive}"></i>
+                                            </button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success" data-ng-if="vm.selected"
+                                                    data-ng-click="vm.activateCurrencies()"
+                                                    data-tooltip="{{'fc.RESTORE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-ng-if="vm.selected"
+                                                    data-ng-click="vm.deactivateCurrencies()"
+                                                    data-tooltip="{{'fc.DELETE_SELECTED_TEXT' | translate}}"
+                                                    data-tooltip-trigger="mouseenter" data-tooltip-placement="bottom">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                             <hr/>
 
                             <div class="row">
-                                <div class="col-md-12">
-                                    <table id="table" class="table table-striped table-bordered table-hover"
-                                           data-datatable="ng"
-                                           data-dt-options="currencyCtrl.gridOptions">
-                                        <thead>
-                                        <tr>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.currency.table.ID_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="currencyCtrl.filters.id" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.currency.table.CODE_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="currencyCtrl.filters.code" />
-                                            </td>
-                                            <td class="hasinput">
-                                                <input type="text" class="form-control fc-input-full-width fc-force"
-                                                       placeholder="{{'fc.merchandising.currency.table.NAME_FILTER_TEXT' | translate}}"
-                                                       data-ng-model="currencyCtrl.filters.name" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th data-translate="fc.merchandising.currency.table.ID_HEADER"></th>
-                                            <th data-translate="fc.merchandising.currency.table.CODE_HEADER"></th>
-                                            <th data-translate="fc.merchandising.currency.table.NAME_HEADER"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr data-ng-repeat="currency in currencyCtrl.currencies"
-                                            data-ng-click="currencyCtrl.toggleSelection(currency)"
-                                            data-ng-class="{'fc-selected': currency.isSelected}">
-                                            <td>{{currency.id}}</td>
-                                            <td>{{currency.code}}</td>
-                                            <td>{{currency.name}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control"
+                                               placeholder="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                               data-ng-keyup="vm.searchFilter()"
+                                               data-ng-model="vm.filter" data-vt-keyboard
+                                               data-tooltip="{{'fc.SEARCH_PLACEHOLDER_TEXT' | translate}}"
+                                               data-tooltip-placement="top-left" data-tooltip-trigger="focus" />
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="btn-group btn-group-justified" data-dropdown>
+                                        <button type="button" class="btn btn-default dropdown-toggle" style="width: 100%">
+                                            <span data-translate="fc.merchandising.currency.table.FIELD_LABEL_TEXT"></span>
+                                            <span data-ng-if="vm.fields.length <= 0">
+                                                <span data-translate="fc.ALL_FIELDS_TEXT"></span>
+                                            </span>
+                                            <span data-ng-if="vm.fields.length > 0">
+                                                {{vm.fields.join(', ') | string: 'titleize'}}
+                                            </span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" style="width: 100%">
+                                            <li role="presentation" data-ng-repeat="f in vm.getFields()">
+                                                <a role="menuitem" tabindex="-1" href=""
+                                                   data-ng-click="vm.toggleFilterField(f)">
+                                                    <i class="fa fa-fw" data-ng-class="{'fa-check': vm.isFieldSelected(f)}"></i>
+                                                    {{f | string: 'humanize'}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination-sm pull-right" data-ng-model="currencyCtrl.pagination.page"
-                                         data-ng-change="currencyCtrl.pageChanged()" data-pagination
-                                         data-total-items="currencyCtrl.pagination.total"
-                                         data-max-size="currencyCtrl.pagination.maxSize"></div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <!-- If we have an image in the card, we should set 'data-load-images' to true. -->
+                                    <ul class="fc-card-container" data-masonry data-item-selector=".fc-card-wrapper"
+                                        data-load-images="false" data-reload-on-show
+                                        data-masonry-options="{columnWidth: '.fc-sizer', itemSelector: 'li'}">
+                                        <li class="fc-sizer w-lg-3x w-md-4x w-sm-6x w-xs-12x"></li>
+                                        <li class="fc-card-wrapper w-lg-3x w-md-4x w-sm-6x w-xs-12x"
+                                            data-ng-repeat="currency in vm.currencies" data-masonry-brick>
+                                            <div class="fc-card"
+                                                 data-ng-click="vm.toggleSelection(currency)"
+                                                 data-ng-class="{'fc-selected': currency.isSelected, 'fc-inactive': !currency.active}">
+                                                <div class="fc-content-wrapper">
+                                                    <!-- We can put an image here. e.g. a logo. I thank Paul for that -->
+                                                    <!-- idea... -->
+                                                    <!--<div class="fc-card-image">-->
+                                                    <!--<img src="http://tympanus.net/Blueprints/GridGallery/img/thumb/1.png"-->
+                                                    <!--alt=""/>-->
+                                                    <!--</div>-->
+                                                    <div class="fc-card-title">
+                                                        <span>
+                                                            {{currency.name}}
+                                                        </span>
+                                                    </div>
+                                                    <!--card to display the information to the user-->
+                                                    <div class="fc-card-body">
+                                                        <div class="row" data-ng-if="currency.unit">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                            <span class="text-muted">
+                                                                <span data-translate="fc.merchandising.currency.table.UNIT"></span>:
+                                                            </span>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <span>{{currency.unit}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" data-ng-if="currency.sub_unit">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                            <span class="text-muted">
+                                                                <span data-translate="fc.merchandising.currency.table.SUB_UNIT"></span>:
+                                                            </span>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <span>{{currency.sub_unit}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" data-ng-if="currency.symbol">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                            <span class="text-muted">
+                                                                <span data-translate="fc.merchandising.currency.table.SYMBOL"></span>:
+                                                            </span>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <span>{{currency.symbol}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fc-card-actions">
+                                                        <button class="btn btn-default"
+                                                                data-ng-click="$event.stopPropagation(); vm.edit(currency)"
+                                                                data-tooltip="{{'fc.EDIT_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-success"
+                                                                data-ng-click="$event.stopPropagation(); vm.activateCurrencies(currency)"
+                                                                data-ng-if="!currency.active"
+                                                                data-tooltip="{{'fc.RESTORE_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-check"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger"
+                                                                data-ng-click="$event.stopPropagation(); vm.deactivateCurrencies(currency)"
+                                                                data-ng-if="currency.active"
+                                                                data-tooltip="{{'fc.DELETE_TEXT' | translate}}"
+                                                                data-tooltip-placement="top"
+                                                                data-tooltip-trigger="mouseover">
+                                                            <i class="fa fa-fw fa-trash-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-12 fc-block" data-ng-if="vm.hasNextPage()">
+                                    <div class="fc-centered">
+                                        <button class="btn btn-default btn-sm" data-translate="fc.LOAD_MORE_TEXT"
+                                                data-ng-click="vm.loadNextPage()"></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div data-ng-if="currencyCtrl.currency">
-                            <form class="form-horizontal" name="currencyForm" data-ng-submit="currencyCtrl.saveChanges()">
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="code"
-                                           data-translate="fc.merchandising.currency.input.CODE_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="code" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.currency.input.CODE_LABEL' | translate}}"
-                                               data-ng-model="currencyCtrl.currency.code" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2" for="name"
-                                           data-translate="fc.merchandising.currency.input.NAME_LABEL"></label>
-                                    <div class="col-md-10">
-                                        <input id="name" type="text"
-                                               class="fc-input-full-width form-control"
-                                               placeholder="{{'fc.merchandising.currency.input.NAME_LABEL' | translate}}"
-                                               data-ng-model="currencyCtrl.currency.name" data-vt-keyboard/>
-                                    </div>
-                                </div>
-                                <div class="form-actions">
-                                    <button class="btn btn-success" type="submit"
-                                            data-translate="fc.SAVE_TEXT"></button>
-                                    <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
-                                            data-ng-click="currencyCtrl.cancelChanges()"></button>
-                                </div>
-                            </form>
+                        <div data-ng-if="vm.currency">
+                            <div data-ng-include="'fc/currencyFormTpl'"></div>
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -141,3 +207,222 @@
     <!-- end row -->
 </section>
 <!-- end widget grid -->
+<script id="fc/editModalTpl" type="text/ng-template">
+    <div class="modal-header">
+        <h3 class="modal-title" data-translate="fc.merchandising.currency.DETAIL_PAGE_TITLE"></h3>
+    </div>
+    <div class="modal-body">
+        <div data-ng-include="'fc/currencyFormTpl'"></div>
+    </div>
+</script>
+
+<script id="fc/currencyFormTpl" type="text/ng-template">
+    <form name="currencyForm" role="form" data-ng-submit="vm.saveChanges()">
+        <div class="form-group" data-ng-class="{'has-error has-feedback': !currencyForm.symbol.$valid && !currencyForm.symbol.$pristine}">
+            <label class="control-label" for="symbol-1"
+                   data-translate="fc.merchandising.currency.table.SYMBOL"></label>
+            <input id="symbol-1" type="text" name="symbol"
+                   class="fc-input-full-width form-control"
+                   placeholder="{{'fc.merchandising.currency.table.SYMBOL' | translate}}"
+                   data-ng-model="vm.currency.symbol" data-vt-keyboard
+                   data-ng-required="::vm.validationData.symbol.required"/>
+            <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+               data-ng-if="!currencyForm.symbol.$valid && !currencyForm.symbol.$pristine"></i>
+            <span class="help-block" data-ng-messages="currencyForm.symbol.$error"
+                  data-ng-show="!currencyForm.symbol.$valid && !currencyForm.symbol.$pristine">
+                <span data-ng-if="::vm.validationData.symbol.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.precision.$valid && !currencyForm.precision.$pristine}">
+                <label class="control-label" for="precision-1"
+                       data-translate="fc.merchandising.currency.table.PRECISION"></label>
+                <input id="precision-1" type="number" name="precision"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.PRECISION' | translate}}"
+                       data-ng-model="vm.currency.precision" data-vt-keyboard
+                       data-ng-required="::vm.validationData.precision.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.precision.$valid && !currencyForm.precision.$pristine"></i>
+                <span class="help-block" data-ng-messages="currencyForm.precision.$error"
+                      data-ng-show="!currencyForm.precision.$valid && !currencyForm.precision.$pristine">
+                    <span data-ng-if="::vm.validationData.precision.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.scale.$valid && !currencyForm.scale.$pristine}">
+                <label class="control-label" for="scale-1"
+                       data-translate="fc.merchandising.currency.table.SCALE"></label>
+                <input id="scale-1" type="number" name="scale"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.SCALE' | translate}}"
+                       data-ng-model="vm.currency.scale" data-vt-keyboard
+                       data-ng-required="::vm.validationData.scale.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.scale.$valid && !currencyForm.scale.$pristine"></i>
+                <span class="help-block" data-ng-messages="currencyForm.scale.$error"
+                      data-ng-show="!currencyForm.scale.$valid && !currencyForm.precision.$pristine">
+                    <span data-ng-if="::vm.validationData.scale.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.order.$valid && !currencyForm.order.$pristine}">
+                <label class="control-label" for="order-1"
+                       data-translate="fc.merchandising.currency.table.ORDER"></label>
+                <input id="order-1" type="number" name="order"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.ORDER' | translate}}"
+                       data-ng-model="vm.currency.order" data-vt-keyboard
+                       data-ng-required="::vm.validationData.order.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.order.$valid && !currencyForm.order.$pristine"></i>
+                <span class="help-block" data-ng-messages="currencyForm.order.$error"
+                      data-ng-show="!currencyForm.order.$valid && !currencyForm.precision.$pristine">
+                    <span data-ng-if="::vm.validationData.order.required"
+                          data-ng-message="required">
+                        <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                    </span>
+                </span>
+            </div>
+        </div><!-- end of the precision, scale, order  div -->
+        <div class="row form-group">
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.abbreviation.$valid && !currencyForm.abbreviation.$pristine}">
+                <label class="control-label" for="abbreviation-1"
+                       data-translate="fc.merchandising.currency.table.ABBREVIATION"></label>
+                <input id="abbreviation-1" type="text" name="abbreviation"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.ABBREVIATION' | translate}}"
+                       data-ng-model="vm.currency.abbreviation" data-vt-keyboard
+                       data-ng-required="::vm.validationData.abbreviation.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.abbreviation.$valid && !currencyForm.abbreviation.$pristine"></i>
+            <span class="help-block" data-ng-messages="currencyForm.abbreviation.$error"
+                  data-ng-show="!currencyForm.abbreviation.$valid && !currencyForm.abbreviation.$pristine">
+                <span data-ng-if="::vm.validationData.abbreviation.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+            </div>
+            <div class="col-lg-8 col-md-8" data-ng-class="{'has-error has-feedback': !currencyForm.name.$valid && !currencyForm.name.$pristine}">
+                <label class="control-label" for="name-1"
+                       data-translate="fc.merchandising.currency.table.NAME_HEADER"></label>
+                <input id="name-1" type="text" name="name"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.NAME_HEADER' | translate}}"
+                       data-ng-model="vm.currency.name" data-vt-keyboard
+                       data-ng-required="::vm.validationData.name.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.name.$valid && !currencyForm.name.$pristine"></i>
+            <span class="help-block" data-ng-messages="currencyForm.name.$error"
+                  data-ng-show="!currencyForm.name.$valid && !currencyForm.name.$pristine">
+                <span data-ng-if="::vm.validationData.name.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+            </div>
+        </div><!-- end of abbreviation and currency name form -->
+        <div class="row form-group">
+            <div class="col-lg-6 col-md-6" data-ng-class="{'has-error has-feedback': !currencyForm.unit.$valid && !currencyForm.unit.$pristine}">
+                <label class="control-label" for="unit-1"
+                       data-translate="fc.merchandising.currency.table.UNIT"></label>
+                <input id="unit-1" type="text" name="unit"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.UNIT' | translate}}"
+                       data-ng-model="vm.currency.unit" data-vt-keyboard
+                       data-ng-required="::vm.validationData.unit.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.unit.$valid && !currencyForm.unit.$pristine"></i>
+            <span class="help-block" data-ng-messages="currencyForm.unit.$error"
+                  data-ng-show="!currencyForm.unit.$valid && !currencyForm.unit.$pristine">
+                <span data-ng-if="::vm.validationData.unit.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+            </div>
+            <div class="col-lg-6 col-md-6" data-ng-class="{'has-error has-feedback': !currencyForm.sub_unit.$valid && !currencyForm.sub_unit.$pristine}">
+                <label class="control-label" for="sub_unit-1"
+                       data-translate="fc.merchandising.currency.table.SUB_UNIT"></label>
+                <input id="sub_unit-1" type="text" name="sub_unit"
+                       class="fc-input-full-width form-control"
+                       placeholder="{{'fc.merchandising.currency.table.SUB_UNIT' | translate}}"
+                       data-ng-model="vm.currency.sub_unit" data-vt-keyboard
+                       data-ng-required="::vm.validationData.sub_unit.required"/>
+                <i class="fa fa-times animated fadeInRight fast form-control-feedback"
+                   data-ng-if="!currencyForm.sub_unit.$valid && !currencyForm.sub_unit.$pristine"></i>
+            <span class="help-block" data-ng-messages="currencyForm.sub_unit.$error"
+                  data-ng-show="!currencyForm.sub_unit.$valid && !currencyForm.sub_unit.$pristine">
+                <span data-ng-if="::vm.validationData.sub_unit.required"
+                      data-ng-message="required">
+                    <span data-translate="fc.merchandising.currency.input.REQUIRED_NAME_VALIDATION_TEXT"></span>
+                </span>
+            </span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-4 col-md-4 " data-ng-class="{'has-error has-feedback': !currencyForm.symbol_before_amount.$valid && !currencyForm.symbol_before_amount.$pristine}">
+                <label class="control-label" for="symbol_before_amount-1"
+                       data-translate="fc.merchandising.currency.table.SYMBOL_BEFORE_AMOUNT"></label><br/>
+                <span class="onoffswitch">
+                    <input type="checkbox" name="symbol_before_amount"
+                           class="onoffswitch-checkbox" id="symbol_before_amount-1"
+                           data-ng-model="vm.currency.symbol_before_amount" />
+                    <label class="onoffswitch-label" for="symbol_before_amount-1">
+                        <span class="onoffswitch-inner"
+                              data-swchon-text="{{'fc.YES_TEXT' | translate}}"
+                              data-swchoff-text="{{'fc.NO_TEXT' | translate}}"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </span>
+            </div>
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.display_symbol.$valid && !currencyForm.display_symbol.$pristine}">
+                <label class="control-label" for="display_symbol-1"
+                       data-translate="fc.merchandising.currency.table.DISPLAY_SYMBOL"></label><br/>
+                <span class="onoffswitch">
+                    <input type="checkbox" name="display_symbol"
+                           class="onoffswitch-checkbox" id="display_symbol-1"
+                           data-ng-model="vm.currency.display_symbol" />
+                    <label class="onoffswitch-label" for="display_symbol-1">
+                        <span class="onoffswitch-inner"
+                              data-swchon-text="{{'fc.YES_TEXT' | translate}}"
+                              data-swchoff-text="{{'fc.NO_TEXT' | translate}}"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </span>
+            </div>
+            <div class="col-lg-4 col-md-4" data-ng-class="{'has-error has-feedback': !currencyForm.status.$valid && !currencyForm.status.$pristine}">
+                <label class="control-label" for="status-1"
+                       data-translate="fc.merchandising.currency.table.STATUS"></label><br/>
+                <span class="onoffswitch">
+                    <input type="checkbox" name="status"
+                           class="onoffswitch-checkbox" id="status-1"
+                           data-ng-model="vm.currency.status" />
+                    <label class="onoffswitch-label" for="status-1">
+                        <span class="onoffswitch-inner"
+                              data-swchon-text="{{'fc.ACTIVE_TEXT' | translate}}"
+                              data-swchoff-text="{{'fc.INACTIVE_TEXT' | translate}}"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </span>
+            </div>
+        </div><!-- end of the amount before, display symbol, status div -->
+        <div class="form-actions">
+            <button class="btn btn-success" type="submit" data-ng-disabled="currencyForm.$invalid">
+                <i class="fa fa-save" data-ng-if="!vm.isSaving"></i>
+                <i class="fa fa-spinner fa-spin" data-ng-if="vm.isSaving"></i>
+                <span data-translate="fc.SAVE_TEXT"></span>
+            </button>
+            <button class="btn btn-danger" type="reset" data-translate="fc.CANCEL_TEXT"
+                    data-ng-click="vm.cancelChanges()"></button>
+        </div>
+    </form>
+</script>

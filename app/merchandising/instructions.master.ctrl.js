@@ -6,16 +6,7 @@
         .controller('InstructionMasterCtrl', instructionMaster)
         .controller('InstructionDetailCtrl', instructionDetail);
 
-    instructionMaster.$inject = [
-        'lodash',
-        "rx",
-        '$modal',
-        '$scope',
-        '$stateParams',
-        '$translate',
-        'instructionDataSvc',
-        'throttleValue'
-    ];
+    instructionMaster.$inject = ['lodash', "rx", '$modal', '$scope', '$stateParams', '$translate', 'instructionDataSvc', 'throttleValue'];
     /* @ngInject */
     function instructionMaster(_, Rx, $modal, $scope, $stateParams, $translate, instructionDataSvc, throttleValue) {
         /* jshint valid this: true */
@@ -24,7 +15,6 @@
             _selectionEnum = {"none": 0, "some": 1, "all": 2},
             _currentPage = null,
             _pageSize = null,
-            _pin = null,
             _totalServerItems = null,
             _instructionId = null;
 
@@ -41,6 +31,7 @@
         vm.fetchInstructions  = fetchInstructions ;
 
         vm.filter = null;
+        vm.searchFilter = searchFilter;
         vm.fields = [];
         vm.getStatusToggleKey = getStatusToggleKey;
         vm.hasNextPage = hasNextPage;
@@ -66,6 +57,21 @@
         /*
          *   functions to perform crud functionality
          */
+        function searchFilter(){
+            var filter = vm.filter,
+                fields = vm.fields;
+
+            if(filter != null){
+                var search = {
+                    search:filter,
+                    searchFields: fields
+                };
+
+                instructionDataSvc.searchFilter(search).then(function (data) {
+                    updateInstructions(data);
+                });
+            }
+        }
 
         function activate() {
             _instructionDetailModalOptions = {
@@ -196,7 +202,12 @@
                     var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
                     if (changedCount > 0) {
-                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
+                        var msgData = {action: actionPast};
+                        if (changedCount === 1 && instruction) {
+                            msgData.data = instruction.code + " " + instruction.status;
+                        } else {
+                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
+                        }
 
                         message = _.string.sprintf(successTemplate, msgData);
 
@@ -272,7 +283,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            count: 1
+                            data: pageTitle.toLowerCase()
                         });
                     } else {
                         title += " <span class='" + textColor + "'><strong>";
@@ -281,7 +292,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            count: selectedInstructions.length
+                            data: selectedInstructions.length + " " + pageTitle.toLowerCase()
                         });
                     }
 

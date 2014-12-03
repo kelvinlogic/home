@@ -25,6 +25,13 @@ var reasonsRt = require('./api/reasons.api.js');
 var vatRt = require('./api/vat.master.api.js');
 var salesmanRt= require('./api/salesman.api.js');
 
+// Kelvin's merge
+var currencyRt = require('./api/currency.api.js');
+var instructionRt = require('./api/instruction.api.js');
+var uomRt = require('./api/uom.api.js');
+var brandRt = require('./api/brand.api.js');
+var creditRt = require('./api/credit.card.api.js');
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,7 +55,12 @@ app.use('/api', [
     servingRt,
     reasonsRt,
     vatRt,
-    salesmanRt
+    salesmanRt,
+    currencyRt,
+    instructionRt,
+    uomRt,
+    brandRt,
+    creditRt
 ]);
 
 // START THE SERVER

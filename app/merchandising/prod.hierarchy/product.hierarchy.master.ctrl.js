@@ -47,6 +47,7 @@
         vm.hasParent = hasParent;
         vm.isFieldSelected = isFieldSelected;
         vm.loadNextPage = loadNextPage;
+        vm.modelName = "hierarchy";
         vm.deactivateItems = deactivateItems;
         vm.saveChanges = saveChanges;
         vm.selectAll = selectAll;
@@ -335,6 +336,7 @@
                         hasParent: hasParent,
                         hierarchy: hierarchy,
                         hierarchyId: _hierarchyId,
+                        modelName: vm.modelName,
                         parentDataset: vm.parentDataset,
                         validationData: vm.validationData
                     };
@@ -414,7 +416,8 @@
         }
 
         function initTypeahead() {
-            var engineRemote = constants.suggestions.hierarchy.remote;
+            // Extend to prevent changing the constants...fixes issue with fetching incorrect parent.
+            var engineRemote = angular.extend({}, constants.suggestions.hierarchy.remote);
             engineRemote.url = engineRemote.url.replace("@{type}", "product").replace("@{hierarchyId}", _parentHierId);
 
             _parentEngine = new Bloodhound({
@@ -579,7 +582,7 @@
         vm.cancelChanges = cancelChanges;
         vm.customFields = data.customFields;
         vm.hasParent = data.hasParent;
-        vm.hierarchy = data.hierarchy;
+        vm.modelName = data.modelName;
         vm.formFields = data.formFields;
         vm.parentDataset = data.parentDataset;
         vm.saveChanges = saveChanges;
@@ -590,7 +593,10 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function activate() {}
+        function activate() {
+            // Set the model...
+            vm[vm.modelName] = data[vm.modelName]
+        }
 
         function cancelChanges() {
             $modalInstance.dismiss();

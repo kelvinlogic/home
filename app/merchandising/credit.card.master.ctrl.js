@@ -185,7 +185,12 @@
                     var icon = "fa fa-2x fadeInRight animated " + (changedCount > 0 ? "fa-check" : "fa-times");
 
                     if (changedCount > 0) {
-                        var msgData = {action: _.string.humanize(actionPast), count: changedCount};
+                        var msgData = {action: actionPast};
+                        if (changedCount === 1 && creditCard) {
+                            msgData.data = creditCard.code + " " + creditCard.status;
+                        } else {
+                            msgData.data = changedCount + " " + pageTitle.toLowerCase();
+                        }
 
                         message = _.string.sprintf(successTemplate, msgData);
 
@@ -261,7 +266,7 @@
 
                         content = _.string.sprintf(warningTemplate, {
                             action: actionPresent,
-                            count: 1
+                            data: pageTitle.toLowerCase()
                         });
                     } else {
                         title += " <span class='" + textColor + "'><strong>";
@@ -284,7 +289,7 @@
                         }
                     });
                 } else {
-                    content = _.string.sprintf(warningTemplate, {action: actionPresent,  count: selectedCreditCards.length || 1});
+                    content = _.string.sprintf(warningTemplate, {action: actionPresent});
                     if (confirm(content)) {
                         performChange(creditCard);
                     }

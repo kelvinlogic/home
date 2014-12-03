@@ -27,6 +27,7 @@
         vm.titleKey = "fc.configuration.hierarchy.PAGE_TITLE";
         vm.validate = validate;
         vm.validLevel = validLevel;
+        vm.validationData = null;
 
         activate();
 
@@ -35,6 +36,44 @@
         function activate() {
             // Register an event listener for language changes.
             // This event helps us know what language is in use.
+            vm.validationData = {
+                name: {
+                    required: true
+                },
+                data: {
+                    code: {
+                        required: true
+                    },
+                    description: {
+                        required: false
+                    },
+                    location: {
+                        required: true
+                    },
+                    name: {
+                        required: true
+                    },
+                    address1: {
+                        required: true
+                    },
+                    phone1: {
+                        required: true
+                    },
+                    fax1: {
+                        required: true
+                    },
+                    email1: {
+                        required: true
+                    },
+                    pin: {
+                        required: true
+                    },
+                    registration: {
+                        required: true
+                    }
+                }
+            };
+
             load();
             $scope.$on(config.languageChanged, load);
         }
@@ -54,6 +93,7 @@
 
             // Create the level.
             var newLevel = {open: true, data: {customFields: []}};
+            _setupFormFields(newLevel);
 
             // Find the index of the level in the array and move to the next index.
             var index = vm.levels.indexOf(level);
@@ -120,6 +160,8 @@
                     vm.levels = data;
                     // By default, open the first item.
                     vm.levels[0].open = true;
+
+                    _.map(vm.levels, _setupFormFields);
                 }
 
                 // If it has been done, show a modal to ask whether to modify the existing configuration.
@@ -176,11 +218,16 @@
         }
 
         function save() {
-            hierarchyConfigSvc.createHierarchyConfig(vm.levels).then(function () {
-                // Finished saving...yay!!!
-                $scope.$emit(reloadMenuEventValue);
-                $state.go("root.language-config");
-            });
+            vm.isSaving = true;
+            if (!_.any(vm.levels, "id")) {
+                hierarchyConfigSvc.createHierarchyConfig(vm.levels).then(function () {
+                    // Finished saving...yay!!!
+                    vm.isSaving = false;
+                    load();
+                    $scope.$emit(reloadMenuEventValue);
+                    $state.go("root.language-config");
+                });
+            }
         }
 
         function validate() {
@@ -191,7 +238,66 @@
 
         function validLevel(level) {
             // Check that we have filled in all the required information on a level.
-            return Boolean(level.name && level.data && level.data.name && level.data.code);
+            var vd = vm.validationData;
+            var hierNameInValid = level.formFields.name && vd.name.required && (!level.name);
+            var codeInValid = level.formFields.data.code && vd.data.code.required && (!level.data || !level.data.code);
+
+            var locationInValid = level.formFields.data.location && vd.data.location.required &&
+                (!level.data || !level.data.location);
+
+            var nameInValid = level.formFields.data.name && vd.data.name.required && (!level.data || !level.data.name);
+
+            var descriptionInValid = level.formFields.data.description && vd.data.description.required &&
+                (!level.data || !level.data.description);
+
+            var address1InValid = level.formFields.data.address1 && vd.data.address1.required &&
+                (!level.data || !level.data.address1);
+
+            var phone1InValid = level.formFields.data.phone1 && vd.data.phone1.required &&
+                (!level.data || !level.data.phone1);
+
+            var fax1InValid = level.formFields.data.fax1 && vd.data.fax1.required && (!level.data || !level.data.fax1);
+
+            var email1InValid = level.formFields.data.email1 && vd.data.email1.required &&
+                (!level.data || !level.data.email1);
+
+            var pinInValid = level.formFields.data.pin && vd.data.pin.required && (!level.data || !level.data.pin);
+
+            var registrationInValid = level.formFields.data.registration && vd.data.registration.required &&
+                (!level.data || !level.data.registration);
+
+            return !hierNameInValid && !codeInValid && !locationInValid && !nameInValid && !descriptionInValid &&
+                !address1InValid && !phone1InValid && !fax1InValid && !email1InValid && !pinInValid &&
+                !registrationInValid;
+        }
+
+        function _setupFormFields(level) {
+            level.formFields = {
+                name: true,
+                data: {
+                    code: true,
+                    name: true
+                }
+            };
+
+            if (level.pin === 1) {
+                level.formFields.data.description = true;
+                level.formFields.data.location = true;
+            }
+
+            if (!level.pin) {
+                level.formFields.data.customFields = true;
+            }
+
+            if (level.pin === 2) {
+                level.formFields.data.address1 = true;
+                level.formFields.data.phone1 = true;
+                level.formFields.data.fax1 = true;
+                level.formFields.data.email1 = true;
+                level.formFields.data.branchIsWarehouse = true;
+                level.formFields.data.pin = true;
+                level.formFields.data.registration = true;
+            }
         }
     }
 })();

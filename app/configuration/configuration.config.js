@@ -65,6 +65,6 @@
     }
 
     function svcConfig(hierarchyConfigSvcProvider) {
-        hierarchyConfigSvcProvider.hierarchyConfigUrl = "api/hierarchies/config"
+        hierarchyConfigSvcProvider.hierarchyConfigUrl = "api/organisational-hierarchies/config"
     }
 })();

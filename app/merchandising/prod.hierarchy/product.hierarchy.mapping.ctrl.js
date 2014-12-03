@@ -17,7 +17,6 @@
         vm.addLevelAfter = addLevelAfter;
         vm.canAddLevelAfter = canAddLevelAfter;
         vm.canRemoveLevel = canRemoveLevel;
-        vm.formFields = {name: true};
         vm.levels = null;
         vm.removeLevel = removeLevel;
         vm.save = save;
@@ -120,12 +119,14 @@
 
         function save() {
             vm.isSaving = true;
-            hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
-                // Finished saving...yay!!!
-                vm.isSaving = false;
-                load();
-                $scope.$emit(reloadMenuEventValue);
-            });
+            if (!_.any(vm.levels, "id")) {
+                hierarchyDataSvc.createHierarchyConfig(vm.levels).then(function () {
+                    // Finished saving...yay!!!
+                    vm.isSaving = false;
+                    load();
+                    $scope.$emit(reloadMenuEventValue);
+                });
+            }
         }
 
         function validate() {
@@ -140,17 +141,19 @@
             var codeInValid = level.formFields.code && vd.data.code.required && (!level.data || !level.data.code);
             var descriptionInValid = level.formFields.description && vd.data.description.required && (!level.data || !level.data.description);
             var extraInfoInValid = level.formFields.extraInfo && vd.data.extraInfo.required && (!level.data || !level.data.extraInfo);
-            var hierNameInValid = vm.formFields.name && vd.name.required && (!level.name);
+            var hierNameInValid = level.formFields.name && vd.name.required && (!level.name);
             var nameInValid = level.formFields.name && vd.data.name.required && (!level.data || !level.data.name);
             return !hierNameInValid && !codeInValid && !descriptionInValid && !extraInfoInValid && !nameInValid;
         }
 
         function _setupFormFields(level) {
             level.formFields = {
-                code: true,
-                description: true,
-                extraInfo: true,
-                name: true
+                name: true,
+                data: {
+                    code: true,
+                    description: true,
+                    extraInfo: true
+                }
             };
         }
     }

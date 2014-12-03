@@ -14,6 +14,11 @@
         "reasonDataSvcProvider",
         "vatDataSvcProvider",
         "salesmanDataSvcProvider",
+        "currencyDataSvcProvider",
+        "instructionDataSvcProvider",
+        "uomDataSvcProvider",
+        "brandDataSvcProvider",
+        "creditCardSvcProvider",
         svcConfig
     ]).constant("merchandisingConstants", buildMerchandisingConstants());
 
@@ -90,8 +95,8 @@
             templateUrl: 'merchandising/prod.hierarchy/product.hierarchy.master.tpl.html'
         });
 
-        $stateProvider.state('root.currencies-master', {
-            url: '/currencies-master',
+        $stateProvider.state('root.currency-master', {
+            url: '/currency-master',
             templateUrl: 'merchandising/currencies.master.tpl.html'
         });
 
@@ -153,7 +158,12 @@
         servingDataSvcProvider,
         reasonDataSvcProvider,
         vatDataSvcProvider,
-        salesmanDataSvcProvider) {
+        salesmanDataSvcProvider,
+        currencyDataSvcProvider,
+        instructionDataSvcProvider,
+        uomDataSvcProvider,
+        brandDataSvcProvider,
+        creditCardSvcProvider) {
         orgHierarchyDataSvcProvider.hierarchyDataUrlTpl = "api/organisational-hierarchies/{hierarchyId}/data";
         orgHierarchyDataSvcProvider.hierarchyConfigUrl = "api/organisational-hierarchies/config";
 
@@ -164,6 +174,13 @@
         reasonDataSvcProvider.reasonUrl = "api/reasons";
         vatDataSvcProvider.vatUrl = "api/vat";
         salesmanDataSvcProvider.salesmanUrl = "api/salesman";
+        
+        // Kelvin
+        currencyDataSvcProvider.currencyConfigUrl = "api/currencies";
+        instructionDataSvcProvider.instructionConfigUrl = "api/instructions";
+        uomDataSvcProvider.uomConfigUrl = "api/uoms";
+        brandDataSvcProvider.brandConfigUrl = "api/brands";
+        creditCardSvcProvider.creditCardConfigUrl = "api/credits";
     }
 
     function buildMerchandisingConstants() {
